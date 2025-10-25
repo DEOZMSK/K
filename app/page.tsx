@@ -41,7 +41,7 @@ export default function HomePage() {
   const hasFlowContent = Boolean(flowTitle || flowDescription || flowSteps.length > 0);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#f9f9f7] via-[#f2f2f0] to-[#e8e8e6] text-neutral-900">
+    <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#fdf6e8] via-[#f8e6c9] to-[#f3d9aa] text-neutral-900">
       {/* Фон с цифровой глубиной */}
       <div className="pointer-events-none absolute inset-0">
         <div
@@ -49,7 +49,7 @@ export default function HomePage() {
           className="absolute inset-0 -z-20"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 18% 22%, rgba(0,0,0,0.12), transparent 60%), radial-gradient(circle at 78% 18%, rgba(0,0,0,0.08), transparent 64%), radial-gradient(circle at 48% 80%, rgba(0,0,0,0.05), transparent 66%)"
+              "radial-gradient(circle at 18% 22%, rgba(213,170,84,0.32), transparent 60%), radial-gradient(circle at 78% 18%, rgba(207,153,63,0.24), transparent 64%), radial-gradient(circle at 48% 80%, rgba(226,187,110,0.2), transparent 66%)"
           }}
         />
         <div
@@ -57,7 +57,7 @@ export default function HomePage() {
           className="absolute inset-0 -z-10 opacity-[0.14]"
           style={{
             backgroundImage:
-              "linear-gradient(0deg, rgba(0,0,0,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px)",
+              "linear-gradient(0deg, rgba(215,174,92,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(215,174,92,0.2) 1px, transparent 1px)",
             backgroundSize: "80px 80px"
           }}
         />
@@ -66,17 +66,17 @@ export default function HomePage() {
           className="absolute inset-0 -z-10"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 12% 78%, rgba(0,0,0,0.09) 0, rgba(0,0,0,0) 58%), radial-gradient(circle at 88% 82%, rgba(0,0,0,0.06) 0, rgba(0,0,0,0) 60%)"
+              "radial-gradient(circle at 12% 78%, rgba(210,160,70,0.28) 0, rgba(210,160,70,0) 58%), radial-gradient(circle at 88% 82%, rgba(200,144,55,0.2) 0, rgba(200,144,55,0) 60%)"
           }}
         />
-        <div className="absolute -left-24 top-16 h-80 w-80 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.08),transparent_72%)] blur-3xl animate-float" />
-        <div className="absolute bottom-[-6rem] right-[-4rem] h-80 w-80 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.1),transparent_78%)] blur-3xl animate-soft-pulse" />
-        <div className="absolute left-1/2 top-24 h-64 w-64 -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.12),transparent_74%)] blur-[120px] animate-soft-pulse" />
+        <div className="absolute -left-24 top-16 h-80 w-80 rounded-full bg-[radial-gradient(circle_at_center,rgba(212,165,78,0.28),transparent_72%)] blur-3xl animate-float" />
+        <div className="absolute bottom-[-6rem] right-[-4rem] h-80 w-80 rounded-full bg-[radial-gradient(circle_at_center,rgba(201,149,58,0.3),transparent_78%)] blur-3xl animate-soft-pulse" />
+        <div className="absolute left-1/2 top-24 h-64 w-64 -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(193,138,46,0.34),transparent_74%)] blur-[120px] animate-soft-pulse" />
         <div
           aria-hidden
           className="absolute inset-0 -z-10 opacity-60"
           style={{
-            backgroundImage: "radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(rgba(225,190,112,0.22) 1px, transparent 1px)",
             backgroundSize: "120px 120px"
           }}
         />
@@ -86,7 +86,7 @@ export default function HomePage() {
         <header className="relative flex min-h-screen flex-col justify-end overflow-visible pb-12 pt-24 sm:min-h-[660px] sm:justify-center sm:pb-24 sm:pt-12">
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-6 -z-10 h-[520px] w-[min(95vw,600px)] -translate-x-1/2 rounded-[55%] bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.12),transparent_76%)] blur-3xl"
+            className="pointer-events-none absolute left-1/2 top-6 -z-10 h-[520px] w-[min(95vw,600px)] -translate-x-1/2 rounded-[55%] bg-[radial-gradient(circle_at_top,rgba(204,152,59,0.3),transparent_76%)] blur-3xl"
           />
 
           <div
@@ -105,20 +105,20 @@ export default function HomePage() {
 
           <div className="relative z-10 flex w-full flex-col gap-5 sm:gap-10 md:grid md:grid-cols-[1.02fr_1fr] md:items-center">
             <div className="relative flex flex-col items-center text-center md:items-start md:text-left">
-              <div className="pointer-events-none absolute inset-x-[-1.5rem] bottom-[-4rem] top-[-5rem] -z-10 rounded-[36px] bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.16),transparent_70%)] backdrop-blur-[2px] md:hidden" aria-hidden />
-              <span className="inline-flex items-center gap-2 rounded-full border border-neutral-900/10 bg-white/80 px-4 py-1 text-xs uppercase tracking-[0.32em] text-neutral-600">
+              <div className="pointer-events-none absolute inset-x-[-1.5rem] bottom-[-4rem] top-[-5rem] -z-10 rounded-[36px] bg-[radial-gradient(circle_at_top,rgba(209,158,71,0.34),transparent_70%)] backdrop-blur-[2px] md:hidden" aria-hidden />
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#c59a58]/30 bg-[#fff4df]/80 px-4 py-1 text-xs uppercase tracking-[0.32em] text-neutral-600">
                 {hero.eyebrow}
               </span>
 
-              <div className="mt-3 max-w-xl drop-shadow-[0_12px_32px_rgba(0,0,0,0.18)] sm:mt-6">
+              <div className="mt-3 max-w-xl drop-shadow-[0_12px_32px_rgba(125,84,25,0.24)] sm:mt-6">
                 <h1 className="text-3xl font-semibold leading-tight tracking-tight text-neutral-900 md:text-[2.85rem] lg:text-[3.15rem] lg:leading-[1.08]">
                   <span className="relative inline-flex">
-                    <span className="animate-hero-shimmer bg-[linear-gradient(120deg,#080808,#757575,#f5f5f5,#757575,#080808)] bg-[length:220%_220%] bg-clip-text text-transparent drop-shadow-[0_8px_22px_rgba(0,0,0,0.4)]">
+                    <span className="animate-hero-shimmer bg-[linear-gradient(120deg,#3c260c,#9c6c2f,#f6e0ad,#9c6c2f,#3c260c)] bg-[length:220%_220%] bg-clip-text text-transparent drop-shadow-[0_8px_22px_rgba(110,75,31,0.35)]">
                       {hero.headline}
                     </span>
                     <span
                       aria-hidden
-                      className="pointer-events-none absolute inset-0 -z-10 rounded-[28px] bg-[radial-gradient(circle,#2f2f2f55,transparent_68%)] blur-[22px]"
+                      className="pointer-events-none absolute inset-0 -z-10 rounded-[28px] bg-[radial-gradient(circle,rgba(148,102,34,0.45),transparent_68%)] blur-[22px]"
                     />
                   </span>
                 </h1>
@@ -133,7 +133,7 @@ export default function HomePage() {
                 <CTAButton
                   href={heroTelegramLink}
                   variant="glow"
-                  className="px-8 py-3.5 text-lg shadow-[0_22px_70px_rgba(0,0,0,0.18)]"
+                  className="px-8 py-3.5 text-lg shadow-[0_22px_70px_rgba(125,84,25,0.22)]"
                 >
                   {hero.ctaLabel}
                 </CTAButton>
@@ -166,10 +166,10 @@ export default function HomePage() {
               {features.map((feature) => (
                 <article
                   key={feature.title}
-                  className="group relative flex h-full flex-col gap-3 overflow-hidden rounded-3xl border border-black/5 bg-white/80 p-5 shadow-[0_18px_46px_rgba(0,0,0,0.08)] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-black/10 hover:bg-white"
+                  className="group relative flex h-full flex-col gap-3 overflow-hidden rounded-3xl border border-[#cda15e]/30 bg-[#fff4de]/80 p-5 shadow-[0_18px_46px_rgba(125,84,25,0.14)] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-[#b78945]/40 hover:bg-[#fde7c9]"
                 >
                   <div className="absolute inset-0 -z-10 opacity-0 transition duration-300 group-hover:opacity-100" aria-hidden>
-                    <div className="h-full w-full bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.16),transparent_70%)] animate-soft-pulse" />
+                    <div className="h-full w-full bg-[radial-gradient(circle_at_top,rgba(204,152,59,0.34),transparent_70%)] animate-soft-pulse" />
                   </div>
                   <div className="flex items-start gap-4">
                     <span className="text-3xl md:text-4xl">{feature.icon}</span>
@@ -183,14 +183,14 @@ export default function HomePage() {
                 </article>
               ))}
             </div>
-            <aside className="relative overflow-hidden rounded-3xl border border-black/5 bg-white/90 p-6 shadow-[0_24px_64px_rgba(0,0,0,0.08)] backdrop-blur-sm">
+            <aside className="relative overflow-hidden rounded-3xl border border-[#cda15e]/30 bg-[#fff3dc]/90 p-6 shadow-[0_24px_64px_rgba(125,84,25,0.14)] backdrop-blur-sm">
               <div className="pointer-events-none absolute inset-0 opacity-80" aria-hidden>
-                <div className="absolute -top-24 right-0 h-44 w-44 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.08),transparent_68%)] blur-3xl" />
-                <div className="absolute bottom-[-4rem] left-[-3rem] h-56 w-56 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.1),transparent_72%)] blur-3xl" />
+                <div className="absolute -top-24 right-0 h-44 w-44 rounded-full bg-[radial-gradient(circle_at_center,rgba(205,151,60,0.28),transparent_68%)] blur-3xl" />
+                <div className="absolute bottom-[-4rem] left-[-3rem] h-56 w-56 rounded-full bg-[radial-gradient(circle_at_center,rgba(196,140,44,0.32),transparent_72%)] blur-3xl" />
               </div>
               <div className="relative z-10 flex h-full flex-col gap-4">
                 <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-neutral-600">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-neutral-900" />
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
                   {chatPreview.title}
                 </div>
                 <div className="flex flex-1 flex-col gap-3 text-sm">
@@ -200,10 +200,10 @@ export default function HomePage() {
                       className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
                     >
                       <div
-                        className={`max-w-[17rem] rounded-2xl border px-4 py-3 shadow-[0_14px_38px_rgba(0,0,0,0.08)] backdrop-blur-sm ${
+                        className={`max-w-[17rem] rounded-2xl border px-4 py-3 shadow-[0_14px_38px_rgba(125,84,25,0.12)] backdrop-blur-sm ${
                           message.sender === "user"
-                            ? "border-neutral-900/10 bg-neutral-900 text-white"
-                            : "border-neutral-900/10 bg-white text-neutral-800"
+                            ? "border-accent/40 bg-accent text-white"
+                            : "border-[#cda15e]/30 bg-[#fff3dc] text-neutral-800"
                         }`}
                       >
                         {message.text}
@@ -217,11 +217,11 @@ export default function HomePage() {
         </section>
 
         {hasFlowContent && (
-          <section className="relative overflow-hidden rounded-[32px] border border-black/5 bg-gradient-to-br from-white via-[#f5f5f5] to-[#ededed] px-6 py-10 shadow-[0_28px_78px_rgba(0,0,0,0.1)] backdrop-blur-sm sm:px-10">
+          <section className="relative overflow-hidden rounded-[32px] border border-[#cda15e]/30 bg-gradient-to-br from-[#fff6e7] via-[#f6e3c4] to-[#efd49e] px-6 py-10 shadow-[0_28px_78px_rgba(125,84,25,0.16)] backdrop-blur-sm sm:px-10">
             <div className="pointer-events-none absolute inset-0">
-              <div className="absolute -top-32 right-6 h-52 w-52 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.1),transparent_60%)] opacity-70 blur-3xl animate-soft-pulse" />
-              <div className="absolute bottom-[-3rem] left-1/2 h-60 w-60 -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.12),transparent_68%)] opacity-65 blur-3xl animate-float" />
-              <div className="absolute inset-0 bg-[linear-gradient(130deg,rgba(0,0,0,0.06),transparent_60%)] opacity-45" />
+              <div className="absolute -top-32 right-6 h-52 w-52 rounded-full bg-[radial-gradient(circle_at_center,rgba(206,150,57,0.3),transparent_60%)] opacity-70 blur-3xl animate-soft-pulse" />
+              <div className="absolute bottom-[-3rem] left-1/2 h-60 w-60 -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(198,143,48,0.32),transparent_68%)] opacity-65 blur-3xl animate-float" />
+              <div className="absolute inset-0 bg-[linear-gradient(130deg,rgba(209,160,71,0.24),transparent_60%)] opacity-45" />
             </div>
 
             <div className="relative z-10 space-y-6">
@@ -239,7 +239,7 @@ export default function HomePage() {
                 <ol className="space-y-4">
                   {flowSteps.map((step, index) => (
                     <li key={`${step}-${index}`} className="flex items-start gap-4">
-                      <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-neutral-900/10 bg-neutral-900 text-base font-medium text-white">
+                      <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-accent/40 bg-accent text-base font-medium text-white">
                         {index + 1}
                       </span>
                       <p className="text-base text-neutral-600 md:text-lg">{step}</p>
@@ -252,7 +252,7 @@ export default function HomePage() {
         )}
 
         {closingNote && (
-          <footer className="border-t border-black/5 pt-6 text-center text-sm text-neutral-500">
+          <footer className="border-t border-[#cda15e]/30 pt-6 text-center text-sm text-neutral-500">
             {closingNote}
           </footer>
         )}
