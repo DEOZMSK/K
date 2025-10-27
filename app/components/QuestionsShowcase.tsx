@@ -7,14 +7,18 @@ import { questionGroups } from "../../content/question-groups";
 const gradientBackground =
   "bg-gradient-to-br from-[#fff9ef]/95 via-[#fdeacd]/90 to-[#f5d99f]/95";
 
-export function QuestionsShowcase() {
+interface QuestionsShowcaseProps {
+  className?: string;
+}
+
+export function QuestionsShowcase({ className = "" }: QuestionsShowcaseProps) {
   const groups = questionGroups;
   const [activeTitle, setActiveTitle] = useState(groups[0]?.title ?? "");
   const activeGroup = groups.find((group) => group.title === activeTitle) ?? groups[0];
 
   return (
     <section
-      className={`relative mt-12 overflow-hidden rounded-[32px] border border-[#cda15e]/30 ${gradientBackground} px-6 py-10 shadow-[0_28px_80px_rgba(125,84,25,0.16)] backdrop-blur-sm sm:px-10`}
+      className={`relative overflow-hidden rounded-[32px] border border-[#cda15e]/30 ${gradientBackground} px-6 py-10 shadow-[0_28px_80px_rgba(125,84,25,0.16)] backdrop-blur-sm sm:px-10 ${className}`.trim()}
     >
       <div className="pointer-events-none absolute inset-0 opacity-70" aria-hidden>
         <div className="absolute -top-32 left-[10%] h-52 w-52 rounded-full bg-[radial-gradient(circle_at_center,rgba(204,152,59,0.32),transparent_68%)] blur-3xl" />
