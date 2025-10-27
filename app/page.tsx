@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { CTAButton } from "./components/CTAButton";
+import { QuestionsShowcase } from "./components/QuestionsShowcase";
 import { siteConfig } from "../content/site-config";
 
 export const metadata: Metadata = {
@@ -250,6 +251,8 @@ export default function HomePage() {
             </div>
           </section>
         )}
+
+        <QuestionsShowcase />
 
         {closingNote && (
           <footer className="border-t border-[#cda15e]/30 pt-6 text-center text-sm text-neutral-500">
