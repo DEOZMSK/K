@@ -211,6 +211,17 @@ export default function HomePage() {
                     </div>
                   ))}
                 </div>
+                <div className="mt-6 flex justify-center md:justify-start">
+                  <CTAButton
+                    href="/questions"
+                    variant="secondary"
+                    newTab={false}
+                    analyticsEvent="click_questions"
+                    className="px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] sm:text-base"
+                  >
+                    Что можно спросить?
+                  </CTAButton>
+                </div>
               </div>
             </aside>
           </div>
