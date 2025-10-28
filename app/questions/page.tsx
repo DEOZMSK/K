@@ -224,7 +224,7 @@ export default async function QuestionsPage() {
 
         <div className="pb-14 text-center text-sm text-neutral-600 sm:text-base">
           <p className="mx-auto max-w-2xl leading-relaxed text-neutral-600">
-            Если не готов пока общаться лично — можешь попробовать бота. Бот не хранит данные, и я не вижу, что ты туда вводишь.
+            Если пока не чувствуешь, что время для личного общения пришло — можешь попробовать бота. Бот не хранит данные, и я не вижу, что ты туда вводишь.
           </p>
           <div className="mt-6 flex flex-col items-center gap-4">
             <CTAButton
