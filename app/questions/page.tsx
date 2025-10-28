@@ -15,7 +15,46 @@ const CATEGORY_ORDER: QuestionCategory["name"][] = [
   "О себе"
 ];
 
+const CATEGORY_DESCRIPTIONS: { name: QuestionCategory["name"]; description: string }[] = [
+  {
+    name: "Быт",
+    description:
+      "повседневная жизнь, привычки, одежда, ароматы, праздники, удача, переезд, домашние животные, мотивация, самочувствие, планы на день, выбор времени и цвета"
+  },
+  {
+    name: "Работа",
+    description:
+      "поиск и смена работы, собеседования, карьерный рост, отношения с коллегами и руководством, выбор профессии, уверенность, повышение, увольнение"
+  },
+  {
+    name: "Деньги",
+    description:
+      "кредиты, накопления, финансовая независимость, расходы, подарки, распределение бюджета, доход, наследство, инвестиции, ссоры из-за денег"
+  },
+  {
+    name: "Бизнес",
+    description:
+      "начало или развитие дела, партнёрство, клиенты, кризисы, инвестиции, расширение, налоги, конкуренты, стратегия, мотивация персонала"
+  },
+  {
+    name: "Отношения",
+    description:
+      "любовь, верность, брак, развод, доверие, знакомства, чувства, дети, свадьба, совместимость, расставания, ревность"
+  },
+  {
+    name: "Образование",
+    description:
+      "поступление, экзамены, университет, преподаватели, отношения с одноклассниками, выбор специальности, стажировки, оценки, стипендии"
+  },
+  {
+    name: "О себе",
+    description:
+      "личность, предназначение, уверенность, духовность, проклятия, миссия, цель жизни, здоровье, внутренние состояния, мотивация, кристаллы, числа удачи"
+  }
+];
+
 const CATEGORY_MARKERS: Record<string, QuestionCategory["name"]> = {
+  'Вот все вопросы из группы "Быт":': "Быт",
   'Вот все вопросы из группы "Работа":': "Работа",
   'Вот все вопросы из группы "Деньги":': "Деньги",
   'Вот все вопросы из группы "Бизнес":': "Бизнес",
@@ -48,6 +87,8 @@ async function getQuestionCategories(): Promise<QuestionCategory[]> {
     buffer = [];
   };
 
+  let processingStarted = false;
+
   rawContent.split(/\r?\n/).forEach((line) => {
     const trimmed = line.trim();
 
@@ -60,6 +101,11 @@ async function getQuestionCategories(): Promise<QuestionCategory[]> {
     if (markerCategory) {
       flushBuffer();
       currentCategory = markerCategory;
+      processingStarted = true;
+      return;
+    }
+
+    if (!processingStarted) {
       return;
     }
 
@@ -133,6 +179,17 @@ export default async function QuestionsPage() {
             <p className="mt-3 text-base text-neutral-600 sm:text-lg">
               Подборка живых вопросов, с которыми чаще всего приходят: выбери категорию, чтобы увидеть идеи для старта разговора.
             </p>
+            <div className="mt-6 grid gap-4 text-sm text-neutral-600 sm:grid-cols-2 sm:gap-5 sm:text-base">
+              {CATEGORY_DESCRIPTIONS.map(({ name, description }) => (
+                <div
+                  key={name}
+                  className="rounded-2xl border border-[#d9b16f]/35 bg-white/60 p-4 shadow-[0_10px_24px_rgba(125,84,25,0.08)]"
+                >
+                  <div className="text-base font-semibold text-neutral-900 sm:text-lg">{name}</div>
+                  <p className="mt-2 leading-relaxed">{description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
