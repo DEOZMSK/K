@@ -1,9 +1,28 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import path from "path";
 import { promises as fs } from "fs";
 
 import { CTAButton } from "../components/CTAButton";
 import { QuestionsAccordion, QuestionCategory } from "./QuestionsAccordion";
+import { siteConfig } from "../../content/site-config";
+
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap"
+});
+
+const createTelegramLinkWithText = (baseLink: string, text: string) => {
+  try {
+    const url = new URL(baseLink);
+    url.searchParams.set("text", text);
+    return url.toString();
+  } catch (error) {
+    const separator = baseLink.includes("?") ? "&" : "?";
+    return `${baseLink}${separator}text=${encodeURIComponent(text)}`;
+  }
+};
 
 const CATEGORY_ORDER: QuestionCategory["name"][] = [
   "Быт",
@@ -132,9 +151,17 @@ export const metadata: Metadata = {
 
 export default async function QuestionsPage() {
   const categories = await getQuestionCategories();
+  const defaultTelegramMessage = "Привет! А какие ресурсы у вас есть?";
+  const heroTelegramLink = createTelegramLinkWithText(
+    siteConfig.telegramLink,
+    defaultTelegramMessage
+  );
+  const heroCtaLabel = siteConfig.hero.ctaLabel?.trim() || "Написать мне";
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#fdf6e8] via-[#f8e6c9] to-[#f3d9aa] text-neutral-900">
+    <main
+      className={`${inter.className} relative min-h-screen overflow-hidden bg-gradient-to-br from-[#fdf6e8] via-[#f8e6c9] to-[#f3d9aa] text-neutral-900`}
+    >
       <div className="pointer-events-none absolute inset-0">
         <div
           aria-hidden
@@ -195,8 +222,30 @@ export default async function QuestionsPage() {
 
         <QuestionsAccordion categories={categories} />
 
-        <div className="pb-10 text-center text-sm text-neutral-500 sm:text-base">
-          Наш диалог всегда можно начать с простого «привет» — дальше мы разберёмся вместе.
+        <div className="pb-14 text-center text-sm text-neutral-600 sm:text-base">
+          <p className="mx-auto max-w-2xl leading-relaxed text-neutral-600">
+            Если не готов пока общаться лично — можешь попробовать бота. Бот не хранит данные, и я не вижу, что ты туда вводишь.
+          </p>
+          <div className="mt-6 flex flex-col items-center gap-4">
+            <CTAButton
+              href="https://t.me/artemiy_ksoros_bot"
+              variant="glow"
+              analyticsEvent="click_questions_bot"
+              className="px-8 py-3.5 text-base shadow-[0_22px_70px_rgba(125,84,25,0.22)] sm:text-lg"
+            >
+              Попробовать бота
+            </CTAButton>
+            <div className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-400 sm:text-sm">
+              или напиши мне
+            </div>
+            <CTAButton
+              href={heroTelegramLink}
+              variant="glow"
+              className="px-8 py-3.5 text-lg shadow-[0_22px_70px_rgba(125,84,25,0.22)]"
+            >
+              {heroCtaLabel}
+            </CTAButton>
+          </div>
         </div>
       </div>
     </main>
