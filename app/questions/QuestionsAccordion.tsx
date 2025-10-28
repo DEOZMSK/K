@@ -12,9 +12,7 @@ interface QuestionsAccordionProps {
 }
 
 export function QuestionsAccordion({ categories }: QuestionsAccordionProps) {
-  const [openCategory, setOpenCategory] = useState<string | null>(
-    categories[0]?.name ?? null
-  );
+  const [openCategory, setOpenCategory] = useState<string | null>(null);
 
   const handleToggle = (name: string) => {
     setOpenCategory((current) => (current === name ? null : name));
