@@ -144,9 +144,9 @@ async function getQuestionCategories(): Promise<QuestionCategory[]> {
 }
 
 export const metadata: Metadata = {
-  title: "Вопросы к JyotishGPT — AI-нумерология Артемия Ксороса",
+  title: "Вопросы к JyotishGPT — AI-нумерология Артемия Ксорос",
   description:
-    "Каталог живых вопросов к JyotishGPT: ведическая нумерология, астрология и самоанализ с участием Артемия Ксороса.",
+    "Каталог живых вопросов к JyotishGPT: ведическая нумерология, астрология и самоанализ с участием Артемия Ксорос.",
   alternates: {
     canonical: "/questions"
   },
@@ -160,14 +160,14 @@ export const metadata: Metadata = {
     "ведические знания"
   ],
   openGraph: {
-    title: "Вопросы к JyotishGPT — AI-нумерология Артемия Ксороса",
+    title: "Вопросы к JyotishGPT — AI-нумерология Артемия Ксорос",
     description:
       "Официальный перечень тем, с которыми обращаются к JyotishGPT: от быта и отношений до карьеры и личной миссии.",
     url: "/questions"
   },
   twitter: {
     card: "summary_large_image",
-    title: "Вопросы к JyotishGPT — AI-нумерология Артемия Ксороса",
+    title: "Вопросы к JyotishGPT — AI-нумерология Артемия Ксорос",
     description:
       "Официальный перечень тем, с которыми обращаются к JyotishGPT: от быта и отношений до карьеры и личной миссии."
   }
@@ -182,7 +182,7 @@ export default async function QuestionsPage() {
   );
   const heroCtaLabel = siteConfig.hero.ctaLabel?.trim() || "Написать мне";
   const snippetText =
-    "JyotishGPT — официальная AI-система Артемия Ксороса. Здесь собраны живые темы, на которые ведический интеллект отвечает в диалоге: от быта и финансов до предназначения.";
+    "JyotishGPT — официальная AI-система Артемия Ксорос. Здесь собраны живые темы, на которые ведический интеллект отвечает в диалоге: от быта и финансов до предназначения.";
 
   return (
     <main

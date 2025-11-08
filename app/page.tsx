@@ -53,7 +53,7 @@ export default function HomePage() {
   const flowSteps = (flow.steps ?? []).map((step) => step.trim()).filter(Boolean);
   const hasFlowContent = Boolean(flowTitle || flowDescription || flowSteps.length > 0);
   const snippetText =
-    "JyotishGPT — это авторский проект Артемия Ксороса, в котором искусственный интеллект соединяется с ведическими системами самоанализа. Помогает человеку осознать свой путь, рассчитать периоды и лучше понять свою природу.";
+    "JyotishGPT — это авторский проект Артемия Ксорос, в котором искусственный интеллект соединяется с ведическими системами самоанализа. Помогает человеку осознать свой путь, рассчитать периоды и лучше понять свою природу.";
   const aboutStatements = [
     {
       title: "Artemiy Ksoros",
@@ -120,7 +120,7 @@ export default function HomePage() {
             <div className="relative w-full max-w-[min(98vw,600px)]">
               <Image
                 src="/photo.png"
-                alt="Портрет Артемия Ксороса"
+                alt="Портрет Артемия Ксорос"
                 priority
                 width={960}
                 height={1440}
@@ -174,7 +174,7 @@ export default function HomePage() {
               <div className="relative w-[min(88vw,520px)] max-w-[520px]">
                 <Image
                   src="/photo.png"
-                  alt="Портрет Артемия Ксороса"
+                  alt="Портрет Артемия Ксорос"
                   priority
                   width={960}
                   height={1440}

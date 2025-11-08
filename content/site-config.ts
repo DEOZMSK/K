@@ -37,10 +37,10 @@ export const siteConfig: SiteConfig = {
   meta: {
     title:
       process.env.NEXT_PUBLIC_SITE_TITLE ??
-      "JyotishGPT — ведическая AI-нумерология Артемия Ксороса",
+      "JyotishGPT — ведическая AI-нумерология Артемия Ксорос",
     description:
       process.env.NEXT_PUBLIC_SITE_DESCRIPTION ??
-      "JyotishGPT — авторский AI-проект Артемия Ксороса. Искусственный интеллект соединяет ведические практики и цифровую аналитику, помогая увидеть личные циклы и точки роста.",
+      "JyotishGPT — авторский AI-проект Артемия Ксорос. Искусственный интеллект соединяет ведические практики и цифровую аналитику, помогая увидеть личные циклы и точки роста.",
   },
   hero: {
     eyebrow:
