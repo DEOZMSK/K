@@ -7,21 +7,15 @@ import { siteConfig } from "../content/site-config";
 
 const canonicalUrl = "/";
 
+const siteAuthor = "Artemiy Ksoros";
+
 export const metadata: Metadata = {
   title: siteConfig.meta.title,
-  description: siteConfig.meta.description,
   alternates: {
     canonical: canonicalUrl
   },
-  keywords: [
-    "JyotishGPT",
-    "Артемий Ксорос",
-    "ведическая нумерология",
-    "AI-нумерология",
-    "ведический искусственный интеллект",
-    "самоанализ",
-    "ведические знания"
-  ]
+  authors: [{ name: siteAuthor, url: "https://jyotishgpt.ru" }],
+  creator: siteAuthor
 };
 
 const createTelegramLinkWithText = (baseLink: string, text: string) => {
@@ -45,7 +39,7 @@ export default function HomePage() {
   const flowSteps = (flow.steps ?? []).map((step) => step.trim()).filter(Boolean);
   const hasFlowContent = Boolean(flowTitle || flowDescription || flowSteps.length > 0);
   const snippetText =
-    "JyotishGPT — это авторский проект Артемия Ксорос, в котором искусственный интеллект соединяется с ведическими системами самоанализа. Помогает человеку осознать свой путь, рассчитать периоды и лучше понять свою природу.";
+    "JyotishGPT — это авторский проект Артемия Ксорос, в котором искусственный интеллект соединяется с ведическими системами самоанализа. Это ведический AI-движок, обученный на авторских методиках Артемия Ксороса, помогает человеку осознать свой путь, рассчитать периоды и лучше понять свою природу.";
   const aboutStatements = [
     {
       title: "Artemiy Ksoros",
