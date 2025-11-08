@@ -20,9 +20,9 @@ const unbounded = Unbounded({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jyotishgpt.ru";
 const defaultTitle = "JyotishGPT — ведическая AI-нумерология Артемия Ксорос";
 const defaultDescription =
-  "JyotishGPT — AI-система, созданная Артемием Ксорос. Соединяет древние ведические методы и современные технологии, помогая людям познавать себя через нумерологию и сознание времени.";
+  "JyotishGPT — AI-система, созданная Артемием Ксорос. Это ведический AI-движок, обученный на авторских методиках Артемия Ксороса, соединяет древние ведические методы и современные технологии, помогая людям познавать себя через нумерологию и сознание времени.";
 const snippetDescription =
-  "JyotishGPT — это авторский проект Артемия Ксорос, в котором искусственный интеллект соединяется с ведическими системами самоанализа. Помогает человеку осознать свой путь, рассчитать периоды и лучше понять свою природу.";
+  "JyotishGPT — это авторский проект Артемия Ксорос, в котором искусственный интеллект соединяется с ведическими системами самоанализа. Это ведический AI-движок, обученный на авторских методиках Артемия Ксороса, помогает человеку осознать свой путь, рассчитать периоды и лучше понять свою природу.";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -52,6 +52,19 @@ const structuredData = {
       founder: { "@id": `${siteUrl}/#person` },
       slogan: "AI-нумерология для осознанного пути",
       image: `${siteUrl}/kcopoc.jpeg`,
+      sameAs: [
+        `${siteUrl}/`,
+        "https://t.me/jyotishgpt"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "JyotishGPT",
+      description: defaultDescription,
+      url: `${siteUrl}/`,
+      founder: { "@id": `${siteUrl}/#person` },
+      brand: { "@id": `${siteUrl}/#brand` },
       sameAs: [
         `${siteUrl}/`,
         "https://t.me/jyotishgpt"
@@ -131,7 +144,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
-    images: [`${siteUrl}/kcopoc.jpeg`]
+    images: [
+      {
+        url: `${siteUrl}/kcopoc.jpeg`,
+        alt: "Портрет Артемия Ксорос"
+      }
+    ]
   },
   robots: {
     index: true,
