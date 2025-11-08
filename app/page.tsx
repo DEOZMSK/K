@@ -110,14 +110,14 @@ export default function HomePage() {
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-between gap-6 px-6 pb-8 pt-0 sm:gap-16 sm:px-10 sm:py-16 lg:px-12">
-        <header className="relative flex min-h-screen flex-col justify-center overflow-visible pb-12 pt-24 sm:min-h-[660px] sm:justify-center sm:pb-24 sm:pt-12">
+        <header className="relative flex min-h-screen flex-col justify-center overflow-visible pb-12 pt-10 sm:min-h-[660px] sm:justify-center sm:pb-24 sm:pt-12">
           <div
             aria-hidden
             className="pointer-events-none absolute left-1/2 top-6 -z-10 h-[520px] w-[min(95vw,600px)] -translate-x-1/2 rounded-[55%] bg-[radial-gradient(circle_at_top,rgba(204,152,59,0.3),transparent_76%)] blur-3xl"
           />
 
-          <div className="relative -mx-6 flex justify-center pb-8 md:hidden">
-            <div className="relative w-full max-w-[min(92vw,560px)]">
+          <div className="relative -mx-6 -mt-6 flex justify-center pb-8 md:hidden">
+            <div className="relative w-full max-w-[min(98vw,600px)]">
               <Image
                 src="/photo.png"
                 alt="Портрет Артемия Ксороса"
@@ -130,7 +130,7 @@ export default function HomePage() {
           </div>
 
           <div className="relative z-10 flex w-full flex-col gap-5 sm:gap-10 md:grid md:grid-cols-[1.02fr_1fr] md:items-center">
-            <div className="relative -mt-16 flex flex-col items-center text-center md:mt-0 md:items-start md:text-left">
+            <div className="relative -mt-12 flex flex-col items-center text-center md:mt-0 md:items-start md:text-left">
               <div className="pointer-events-none absolute inset-x-[-1.5rem] bottom-[-4rem] top-[-5rem] -z-10 rounded-[36px] bg-[radial-gradient(circle_at_top,rgba(209,158,71,0.34),transparent_70%)] backdrop-blur-[2px] md:hidden" aria-hidden />
               <span className="inline-flex items-center gap-2 rounded-full border border-[#c59a58]/30 bg-[#fff4df]/80 px-4 py-1 text-xs uppercase tracking-[0.32em] text-neutral-600">
                 {hero.eyebrow}
