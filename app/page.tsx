@@ -117,8 +117,8 @@ export default function HomePage() {
           />
 
           <div
-            className="pointer-events-none absolute left-1/2 top-0 -z-10 flex w-screen -translate-x-1/2 -translate-y-12 justify-center md:hidden"
-            style={{ height: "min(100vh, calc(100vw * 1.5))" }}
+            className="pointer-events-none absolute left-1/2 top-0 -z-10 flex w-screen -translate-x-1/2 -translate-y-20 justify-center md:hidden"
+            style={{ height: "min(92vh, calc(100vw * 1.4))" }}
           >
             <Image
               src="/photo.png"
