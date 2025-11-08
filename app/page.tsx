@@ -8,9 +8,22 @@ import { siteConfig } from "../content/site-config";
 export const metadata: Metadata = {
   title: siteConfig.meta.title,
   description: siteConfig.meta.description,
+  alternates: {
+    canonical: "/"
+  },
+  keywords: [
+    "JyotishGPT",
+    "Артемий Ксорос",
+    "ведическая нумерология",
+    "AI-нумерология",
+    "ведический искусственный интеллект",
+    "самоанализ",
+    "ведические знания"
+  ],
   openGraph: {
     title: siteConfig.meta.title,
-    description: siteConfig.meta.description
+    description: siteConfig.meta.description,
+    url: "/"
   },
   twitter: {
     card: "summary_large_image",
@@ -39,6 +52,20 @@ export default function HomePage() {
   const flowDescription = flow.description.trim();
   const flowSteps = (flow.steps ?? []).map((step) => step.trim()).filter(Boolean);
   const hasFlowContent = Boolean(flowTitle || flowDescription || flowSteps.length > 0);
+  const snippetText =
+    "JyotishGPT — это авторский проект Артемия Ксороса, в котором искусственный интеллект соединяется с ведическими системами самоанализа. Помогает человеку осознать свой путь, рассчитать периоды и лучше понять свою природу.";
+  const aboutStatements = [
+    {
+      title: "Artemiy Ksoros",
+      description:
+        "Artemiy Ksoros — исследователь ведической астрологии и цифровых технологий. Создатель JyotishGPT — проекта, соединяющего древние знания и искусственный интеллект."
+    },
+    {
+      title: "О проекте JyotishGPT",
+      description:
+        "JyotishGPT — AI-помощник для самоанализа и осознанного развития. Система совмещает нумерологию, ведическую астрологию и аналитические модели, чтобы поддерживать человека в реальных жизненных решениях."
+    }
+  ];
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#fdf6e8] via-[#f8e6c9] to-[#f3d9aa] text-neutral-900">
@@ -224,6 +251,26 @@ export default function HomePage() {
                 </div>
               </div>
             </aside>
+          </div>
+        </section>
+
+        <section className="space-y-4 rounded-[32px] border border-[#cda15e]/30 bg-[#fff3dc]/80 px-6 py-8 shadow-[0_24px_64px_rgba(125,84,25,0.14)] backdrop-blur-sm sm:px-10">
+          <h2 className="text-2xl font-semibold text-neutral-900 md:text-[2rem]">Официальное описание JyotishGPT</h2>
+          <p className="text-base leading-relaxed text-neutral-700 md:text-lg">{snippetText}</p>
+        </section>
+
+        <section className="space-y-6 rounded-[32px] border border-[#cda15e]/30 bg-[#fff7e8]/80 px-6 py-8 shadow-[0_24px_64px_rgba(125,84,25,0.12)] backdrop-blur-sm sm:px-10">
+          <h2 className="text-2xl font-semibold text-neutral-900 md:text-[2rem]">О JyotishGPT и создателе</h2>
+          <div className="grid gap-6 md:grid-cols-2">
+            {aboutStatements.map((item) => (
+              <article
+                key={item.title}
+                className="space-y-3 rounded-3xl border border-[#cda15e]/25 bg-white/70 p-6 shadow-[0_18px_48px_rgba(125,84,25,0.1)]"
+              >
+                <h3 className="text-xl font-semibold text-neutral-900">{item.title}</h3>
+                <p className="text-base leading-relaxed text-neutral-700">{item.description}</p>
+              </article>
+            ))}
           </div>
         </section>
 

@@ -1,14 +1,41 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata = {
-  title: "Политика конфиденциальности",
-  description: "Как mr.Kcopoc использует и хранит персональные данные посетителей."
+export const metadata: Metadata = {
+  title: "Политика конфиденциальности JyotishGPT",
+  description:
+    "Как JyotishGPT и Артемий Ксорос обрабатывают персональные данные: правила хранения, защита и запросы на удаление.",
+  alternates: {
+    canonical: "/privacy"
+  },
+  keywords: [
+    "JyotishGPT",
+    "политика конфиденциальности",
+    "Артемий Ксорос",
+    "AI-нумерология",
+    "персональные данные"
+  ],
+  openGraph: {
+    title: "Политика конфиденциальности JyotishGPT",
+    description:
+      "Узнайте, как JyotishGPT защищает данные пользователей и организует хранение сведений, необходимых для консультаций.",
+    url: "/privacy"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Политика конфиденциальности JyotishGPT",
+    description:
+      "Узнайте, как JyotishGPT защищает данные пользователей и организует хранение сведений, необходимых для консультаций."
+  }
 };
 
 export default function PrivacyPage() {
   return (
-    <main className="mx-auto max-w-content space-y-6 px-4 py-16 text-sm text-muted sm:px-6">
-      <h1 className="text-3xl font-semibold text-neutral-900">Политика конфиденциальности</h1>
+    <main className="mx-auto max-w-content space-y-6 px-4 py-16 text-sm text-neutral-600 sm:px-6">
+      <h1 className="text-3xl font-semibold text-neutral-900">Политика конфиденциальности JyotishGPT</h1>
+      <p className="text-base leading-relaxed text-neutral-700">
+        JyotishGPT — авторская AI-система Артемия Ксороса. Мы аккуратно относимся к персональным данным и используем их только для подготовки консультаций и поддержки в диалоге.
+      </p>
       <p>
         Для печатной версии откройте статическую страницу{" "}
         <Link href="/privacy.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-accent-hover">
@@ -27,9 +54,9 @@ export default function PrivacyPage() {
       <section className="space-y-4 rounded-3xl border border-outline/60 bg-surface/60 p-6 shadow-lg">
         <h2 className="text-xl font-semibold text-neutral-900">Как используем</h2>
         <ul className="list-disc space-y-2 pl-6">
-          <li>Подготовка консультаций и персональных предложений.</li>
-          <li>Отправка лид-магнитов по email и в Telegram-бота.</li>
-          <li>Сегментация и аналитика во внутренних отчётах и Google Sheets.</li>
+          <li>Подготовка консультаций и персональных рекомендаций от JyotishGPT и Артемия Ксороса.</li>
+          <li>Отправка материалов и напоминаний в email и Telegram при вашем согласии.</li>
+          <li>Аналитика обращений во внутренних отчётах, чтобы улучшать ответы искусственного интеллекта.</li>
         </ul>
       </section>
       <section className="space-y-4 rounded-3xl border border-outline/60 bg-surface/60 p-6 shadow-lg">
@@ -37,8 +64,8 @@ export default function PrivacyPage() {
         <p>
           Ответы попадают в Google Sheets (Google Workspace). Доступ ограничен владельцем проекта. Запрос на удаление можно
           отправить на{" "}
-          <a href="mailto:hi@example.com" className="text-accent hover:text-accent-hover" rel="noopener noreferrer">
-            hi@example.com
+          <a href="mailto:care@jyotishgpt.ru" className="text-accent hover:text-accent-hover" rel="noopener noreferrer">
+            care@jyotishgpt.ru
           </a>
           .
         </p>
