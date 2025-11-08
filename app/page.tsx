@@ -110,14 +110,14 @@ export default function HomePage() {
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-between gap-6 px-6 pb-8 pt-0 sm:gap-16 sm:px-10 sm:py-16 lg:px-12">
-        <header className="relative flex min-h-screen flex-col justify-end overflow-visible pb-12 pt-24 sm:min-h-[660px] sm:justify-center sm:pb-24 sm:pt-12">
+        <header className="relative flex min-h-screen flex-col justify-center overflow-visible pb-12 pt-24 sm:min-h-[660px] sm:justify-center sm:pb-24 sm:pt-12">
           <div
             aria-hidden
             className="pointer-events-none absolute left-1/2 top-6 -z-10 h-[520px] w-[min(95vw,600px)] -translate-x-1/2 rounded-[55%] bg-[radial-gradient(circle_at_top,rgba(204,152,59,0.3),transparent_76%)] blur-3xl"
           />
 
           <div
-            className="pointer-events-none absolute left-1/2 -top-2 -z-10 flex w-screen -translate-x-1/2 justify-center md:hidden"
+            className="pointer-events-none absolute left-1/2 top-0 -z-10 flex w-screen -translate-x-1/2 -translate-y-12 justify-center md:hidden"
             style={{ height: "min(100vh, calc(100vw * 1.5))" }}
           >
             <Image
