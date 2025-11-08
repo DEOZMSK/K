@@ -5,11 +5,13 @@ import Image from "next/image";
 import { CTAButton } from "./components/CTAButton";
 import { siteConfig } from "../content/site-config";
 
+const canonicalUrl = "/";
+
 export const metadata: Metadata = {
   title: siteConfig.meta.title,
   description: siteConfig.meta.description,
   alternates: {
-    canonical: "/"
+    canonical: canonicalUrl
   },
   keywords: [
     "JyotishGPT",
@@ -19,17 +21,7 @@ export const metadata: Metadata = {
     "ведический искусственный интеллект",
     "самоанализ",
     "ведические знания"
-  ],
-  openGraph: {
-    title: siteConfig.meta.title,
-    description: siteConfig.meta.description,
-    url: "/"
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.meta.title,
-    description: siteConfig.meta.description
-  }
+  ]
 };
 
 const createTelegramLinkWithText = (baseLink: string, text: string) => {
