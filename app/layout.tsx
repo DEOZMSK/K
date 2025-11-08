@@ -36,7 +36,7 @@ const structuredData = {
         "Artemiy Ksoros — исследователь ведической астрологии и цифровых технологий. Создатель JyotishGPT — проекта, соединяющего древние знания и искусственный интеллект.",
       jobTitle: "Создатель JyotishGPT",
       url: `${siteUrl}/`,
-      image: `${siteUrl}/photo.png`,
+      image: `${siteUrl}/kcopoc.jpeg`,
       sameAs: [
         `${siteUrl}/`,
         "https://t.me/jyotishgpt"
@@ -51,7 +51,7 @@ const structuredData = {
       url: `${siteUrl}/`,
       founder: { "@id": `${siteUrl}/#person` },
       slogan: "AI-нумерология для осознанного пути",
-      image: `${siteUrl}/photo.png`,
+      image: `${siteUrl}/kcopoc.jpeg`,
       sameAs: [
         `${siteUrl}/`,
         "https://t.me/jyotishgpt"
@@ -117,12 +117,21 @@ export const metadata: Metadata = {
     siteName: "JyotishGPT",
     locale: "ru_RU",
     type: "website",
-    images: [`${siteUrl}/photo.png`]
+    images: [
+      {
+        url: `${siteUrl}/kcopoc.jpeg`,
+        width: 1200,
+        height: 630,
+        type: "image/jpeg",
+        alt: "Портрет Артемия Ксороса"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: defaultTitle,
-    description: defaultDescription
+    description: defaultDescription,
+    images: [`${siteUrl}/kcopoc.jpeg`]
   },
   robots: {
     index: true,
