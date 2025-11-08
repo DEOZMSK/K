@@ -163,13 +163,28 @@ export const metadata: Metadata = {
     title: "Вопросы к JyotishGPT — AI-нумерология Артемия Ксорос",
     description:
       "Официальный перечень тем, с которыми обращаются к JyotishGPT: от быта и отношений до карьеры и личной миссии.",
-    url: "/questions"
+    url: "/questions",
+    images: [
+      {
+        url: "/kcopoc.jpeg",
+        width: 1200,
+        height: 630,
+        type: "image/jpeg",
+        alt: "Портрет Артемия Ксорос"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: "Вопросы к JyotishGPT — AI-нумерология Артемия Ксорос",
     description:
-      "Официальный перечень тем, с которыми обращаются к JyotishGPT: от быта и отношений до карьеры и личной миссии."
+      "Официальный перечень тем, с которыми обращаются к JyotishGPT: от быта и отношений до карьеры и личной миссии.",
+    images: [
+      {
+        url: "/kcopoc.jpeg",
+        alt: "Портрет Артемия Ксорос"
+      }
+    ]
   }
 };
 

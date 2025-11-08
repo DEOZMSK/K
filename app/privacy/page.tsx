@@ -19,13 +19,28 @@ export const metadata: Metadata = {
     title: "Политика конфиденциальности JyotishGPT",
     description:
       "Узнайте, как JyotishGPT защищает данные пользователей и организует хранение сведений, необходимых для консультаций.",
-    url: "/privacy"
+    url: "/privacy",
+    images: [
+      {
+        url: "/kcopoc.jpeg",
+        width: 1200,
+        height: 630,
+        type: "image/jpeg",
+        alt: "Портрет Артемия Ксорос"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: "Политика конфиденциальности JyotishGPT",
     description:
-      "Узнайте, как JyotishGPT защищает данные пользователей и организует хранение сведений, необходимых для консультаций."
+      "Узнайте, как JyotishGPT защищает данные пользователей и организует хранение сведений, необходимых для консультаций.",
+    images: [
+      {
+        url: "/kcopoc.jpeg",
+        alt: "Портрет Артемия Ксорос"
+      }
+    ]
   }
 };
 
