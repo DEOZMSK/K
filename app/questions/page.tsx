@@ -220,7 +220,7 @@ export default async function QuestionsPage() {
               variant="secondary"
               newTab={false}
               analyticsEvent="click_questions_back"
-              className="w-full justify-center px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] sm:w-auto sm:justify-start"
+              className="w-full justify-center px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] border-[#c59a58]/20 bg-[#fff8eb] text-neutral-900 hover:bg-[#fbe9c7] shadow-none hover:shadow-none sm:w-auto sm:justify-start"
             >
               Назад
             </CTAButton>
