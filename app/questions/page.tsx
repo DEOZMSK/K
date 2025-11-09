@@ -6,6 +6,7 @@ import { promises as fs } from "fs";
 import { CTAButton } from "../components/CTAButton";
 import { QuestionsAccordion, QuestionCategory } from "./QuestionsAccordion";
 import { siteConfig } from "../../content/site-config";
+import { LegalFooter } from "../components/LegalFooter";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -295,6 +296,7 @@ export default async function QuestionsPage() {
           </div>
         </div>
       </div>
+      <LegalFooter />
     </main>
   );
 }
