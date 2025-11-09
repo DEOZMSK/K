@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { CTAButton } from "./components/CTAButton";
+import { LegalFooter } from "./components/LegalFooter";
 import { siteConfig } from "../content/site-config";
 
 const canonicalUrl = "/";
@@ -296,10 +297,11 @@ export default function HomePage() {
 
         {closingNote && (
           <footer className="border-t border-[#cda15e]/30 pt-6 text-center text-sm text-neutral-500">
-            {closingNote}
+            <p className="mx-auto max-w-2xl leading-relaxed text-neutral-600">{closingNote}</p>
           </footer>
         )}
       </div>
+      <LegalFooter className="text-xs sm:text-sm" />
     </main>
   );
 }

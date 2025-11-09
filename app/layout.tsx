@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Manrope, Unbounded } from "next/font/google";
 import "./globals.css";
+import { CookieConsent } from "./components/CookieConsent";
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -96,6 +97,29 @@ const structuredData = {
       about: { "@id": `${siteUrl}/#brand` },
       description: defaultDescription,
       inLanguage: "ru"
+    },
+    {
+      "@type": "LegalService",
+      "@id": `${siteUrl}/#legal-service`,
+      name: "Консультации JyotishGPT",
+      description:
+        "Самозанятый консультант Артемий Ксорос проводит консультации с использованием AI-сервиса JyotishGPT и соблюдает требования 152-ФЗ.",
+      areaServed: {
+        "@type": "AdministrativeArea",
+        name: "Москва, Россия"
+      },
+      provider: { "@id": `${siteUrl}/#person` },
+      serviceType: [
+        "Консультации по ведической астрологии",
+        "AI-анализ даты рождения"
+      ],
+      url: `${siteUrl}/`,
+      telephone: "+7-991-979-71-19",
+      email: "mailto:art.ksoros@gmail.com",
+      sameAs: [
+        "https://t.me/BAPHbl",
+        "https://t.me/JyotishGPT"
+      ]
     }
   ]
 };
@@ -187,6 +211,7 @@ export default function RootLayout({
         <Script id="jyotishgpt-structured-data" type="application/ld+json" strategy="beforeInteractive">
           {JSON.stringify(structuredData)}
         </Script>
+        <CookieConsent />
         {children}
       </body>
     </html>

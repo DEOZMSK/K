@@ -154,7 +154,7 @@ export const siteConfig: SiteConfig = {
   },
   closingNote:
     process.env.NEXT_PUBLIC_CLOSING_NOTE ??
-    "JyotishGPT — это пространство, где ведические знания становятся тёплой цифровой поддержкой. Возвращайся, когда понадобится ясность.",
+    "Общение продолжается в Telegram: там действуют правила Telegram и политика конфиденциальности сервиса. JyotishGPT и Артемий Ксорос используют переписку только для консультаций и не отвечают за обработку данных Telegram.",
   telegramLink:
     process.env.NEXT_PUBLIC_TELEGRAM_LINK ?? "https://t.me/jyotishgpt",
 };
