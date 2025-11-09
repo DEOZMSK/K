@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { CTAButton } from "./components/CTAButton";
 import { siteConfig } from "../content/site-config";
@@ -294,11 +295,31 @@ export default function HomePage() {
           </section>
         )}
 
-        {closingNote && (
-          <footer className="border-t border-[#cda15e]/30 pt-6 text-center text-sm text-neutral-500">
-            {closingNote}
-          </footer>
-        )}
+        <footer className="border-t border-[#cda15e]/30 pt-6 text-center text-sm text-neutral-500">
+          <div className="flex flex-col items-center gap-3">
+            {closingNote && <p className="max-w-2xl text-center text-neutral-600">{closingNote}</p>}
+            <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-neutral-500">
+              <Link href="/privacy" className="transition hover:text-neutral-700">
+                Политика конфиденциальности
+              </Link>
+              <span aria-hidden className="text-neutral-400">
+                •
+              </span>
+              <Link href="/terms" className="transition hover:text-neutral-700">
+                Пользовательское соглашение
+              </Link>
+              <span aria-hidden className="text-neutral-400">
+                •
+              </span>
+              <Link href="/telegram-disclaimer" className="transition hover:text-neutral-700">
+                Дисклеймер о Telegram
+              </Link>
+            </nav>
+            <p className="text-[11px] text-neutral-400">
+              © {new Date().getFullYear()} Артемий Ксорос · JyotishGPT
+            </p>
+          </div>
+        </footer>
       </div>
     </main>
   );

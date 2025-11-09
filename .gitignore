@@ -1,0 +1,7 @@
+node_modules/
+.next/
+.DS_Store
+
+# Local env files
+.env.local
+.env.*.local

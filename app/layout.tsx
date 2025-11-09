@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Manrope, Unbounded } from "next/font/google";
 import "./globals.css";
+import { CookieBanner } from "./components/CookieBanner";
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -31,22 +32,26 @@ const structuredData = {
       "@type": "Person",
       "@id": `${siteUrl}/#person`,
       name: "Artemiy Ksoros",
-      alternateName: "Артемий Ксорос",
+      alternateName: ["Артемий Ксорос", "mr.Kcopoc", "@BAPHbl"],
       description:
         "Artemiy Ksoros — исследователь ведической астрологии и цифровых технологий. Создатель JyotishGPT — проекта, соединяющего древние знания и искусственный интеллект.",
       jobTitle: "Создатель JyotishGPT",
       url: `${siteUrl}/`,
       image: `${siteUrl}/kcopoc.jpeg`,
+      email: "mailto:art.ksoros@gmail.com",
+      telephone: "+7-991-979-7119",
       sameAs: [
         `${siteUrl}/`,
-        "https://t.me/jyotishgpt"
+        "https://t.me/jyotishgpt",
+        "https://t.me/BAPHbl",
+        "https://t.me/artemiy_ksoros_bot"
       ]
     },
     {
       "@type": "Brand",
       "@id": `${siteUrl}/#brand`,
       name: "JyotishGPT",
-      alternateName: "Jyotish GPT",
+      alternateName: ["Jyotish GPT", "@JyotishGPT"],
       description: defaultDescription,
       url: `${siteUrl}/`,
       founder: { "@id": `${siteUrl}/#person` },
@@ -54,20 +59,42 @@ const structuredData = {
       image: `${siteUrl}/kcopoc.jpeg`,
       sameAs: [
         `${siteUrl}/`,
-        "https://t.me/jyotishgpt"
+        "https://t.me/jyotishgpt",
+        "https://t.me/GPT_IVI"
       ]
     },
     {
       "@type": "Organization",
       "@id": `${siteUrl}/#organization`,
       name: "JyotishGPT",
+      legalName: "Самозанятый Артемий Ксорос",
       description: defaultDescription,
       url: `${siteUrl}/`,
+      email: "art.ksoros@gmail.com",
+      telephone: "+7-991-979-7119",
       founder: { "@id": `${siteUrl}/#person` },
       brand: { "@id": `${siteUrl}/#brand` },
+      taxID: "500119421000",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Москва",
+        addressCountry: "RU"
+      },
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: "art.ksoros@gmail.com",
+          telephone: "+7-991-979-7119",
+          availableLanguage: ["ru", "en"]
+        }
+      ],
       sameAs: [
         `${siteUrl}/`,
-        "https://t.me/jyotishgpt"
+        "https://t.me/jyotishgpt",
+        "https://t.me/BAPHbl",
+        "https://t.me/GPT_IVI",
+        "https://t.me/artemiy_ksoros_bot"
       ]
     },
     {
@@ -188,6 +215,7 @@ export default function RootLayout({
           {JSON.stringify(structuredData)}
         </Script>
         {children}
+        <CookieBanner />
       </body>
     </html>
   );
