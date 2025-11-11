@@ -173,9 +173,47 @@ const parseQuestionItems = (
   return items;
 };
 
+async function readQuestionsSource(): Promise<string> {
+  const baseFileName = "Что можно спросить_.txt";
+  const fallbackFileName = "Что можно спросить_ (1).txt";
+
+  const tryRead = async (fileName: string) => {
+    const filePath = path.join(process.cwd(), fileName);
+
+    try {
+      const content = await fs.readFile(filePath, "utf8");
+      return { content, exists: true } as const;
+    } catch (error) {
+      const nodeError = error as NodeJS.ErrnoException;
+      if (nodeError?.code === "ENOENT") {
+        return { content: "", exists: false } as const;
+      }
+
+      throw error;
+    }
+  };
+
+  const primary = await tryRead(baseFileName);
+  if (primary.exists && /Ответ:/i.test(primary.content)) {
+    return primary.content;
+  }
+
+  const fallback = await tryRead(fallbackFileName);
+  if (fallback.exists && fallback.content) {
+    return fallback.content;
+  }
+
+  if (primary.exists) {
+    return primary.content;
+  }
+
+  throw new Error(
+    `Не удалось найти файл с вопросами. Ожидаемые имена: "${baseFileName}" или "${fallbackFileName}".`
+  );
+}
+
 async function getQuestionCategories(): Promise<QuestionCategory[]> {
-  const filePath = path.join(process.cwd(), "Что можно спросить_.txt");
-  const rawContent = await fs.readFile(filePath, "utf8");
+  const rawContent = await readQuestionsSource();
   const usedAnchors = new Set<string>();
 
   const categories: QuestionCategory[] = markerEntries
