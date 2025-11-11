@@ -4,7 +4,11 @@ import path from "path";
 import { promises as fs } from "fs";
 
 import { CTAButton } from "../components/CTAButton";
-import { QuestionsAccordion, QuestionCategory } from "./QuestionsAccordion";
+import {
+  QuestionsAccordion,
+  QuestionCategory,
+  QuestionAnswer
+} from "./QuestionsAccordion";
 import { siteConfig } from "../../content/site-config";
 import { LegalFooter } from "../components/LegalFooter";
 
@@ -83,28 +87,75 @@ const CATEGORY_MARKERS: Record<string, QuestionCategory["name"]> = {
   'Вот все вопросы из группы "О себе":': "О себе"
 };
 
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/-{2,}/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .trim();
+
+const createUniqueSlug = (base: string, used: Set<string>) => {
+  let candidate = base || "item";
+  let counter = 1;
+
+  while (used.has(candidate)) {
+    candidate = `${base || "item"}-${counter}`;
+    counter += 1;
+  }
+
+  used.add(candidate);
+  return candidate;
+};
+
 async function getQuestionCategories(): Promise<QuestionCategory[]> {
   const filePath = path.join(process.cwd(), "Что можно спросить_.txt");
   const rawContent = await fs.readFile(filePath, "utf8");
-  const categoriesMap = new Map<QuestionCategory["name"], string[]>();
+  const categoriesMap = new Map<
+    QuestionCategory["name"],
+    Omit<QuestionAnswer, "anchor">[]
+  >();
 
   CATEGORY_ORDER.forEach((name) => {
     categoriesMap.set(name, []);
   });
 
   let currentCategory: QuestionCategory["name"] = "Быт";
-  let buffer: string[] = [];
+  let questionBuffer: string[] = [];
+  let answerBuffer: string[] = [];
+  let parsingAnswer = false;
 
-  const flushBuffer = () => {
-    if (buffer.length === 0) return;
-    const question = buffer.join(" ").replace(/\s+/g, " ").trim();
-    if (question && question !== "...") {
-      const target = categoriesMap.get(currentCategory);
-      if (target) {
-        target.push(question);
-      }
+  const flushEntry = () => {
+    if (questionBuffer.length === 0 || answerBuffer.length === 0) {
+      questionBuffer = [];
+      answerBuffer = [];
+      parsingAnswer = false;
+      return;
     }
-    buffer = [];
+
+    const question = questionBuffer.join(" ").replace(/\s+/g, " ").trim();
+    const answer = answerBuffer.join(" ").replace(/\s+/g, " ").trim();
+
+    if (!question || !answer || question === "..." || answer === "...") {
+      questionBuffer = [];
+      answerBuffer = [];
+      parsingAnswer = false;
+      return;
+    }
+
+    const target = categoriesMap.get(currentCategory);
+    if (target) {
+      target.push({
+        question,
+        answer
+      });
+    }
+
+    questionBuffer = [];
+    answerBuffer = [];
+    parsingAnswer = false;
   };
 
   let processingStarted = false;
@@ -113,13 +164,15 @@ async function getQuestionCategories(): Promise<QuestionCategory[]> {
     const trimmed = line.trim();
 
     if (!trimmed) {
-      flushBuffer();
+      if (parsingAnswer) {
+        flushEntry();
+      }
       return;
     }
 
     const markerCategory = CATEGORY_MARKERS[trimmed];
     if (markerCategory) {
-      flushBuffer();
+      flushEntry();
       currentCategory = markerCategory;
       processingStarted = true;
       return;
@@ -133,15 +186,39 @@ async function getQuestionCategories(): Promise<QuestionCategory[]> {
       return;
     }
 
-    buffer.push(trimmed);
+    if (trimmed.startsWith("Ответ:")) {
+      parsingAnswer = true;
+      const answerLine = trimmed.slice("Ответ:".length).trim();
+      if (answerLine) {
+        answerBuffer.push(answerLine);
+      }
+      return;
+    }
+
+    if (parsingAnswer) {
+      answerBuffer.push(trimmed);
+    } else {
+      questionBuffer.push(trimmed);
+    }
   });
 
-  flushBuffer();
+  flushEntry();
+
+  const usedCategoryAnchors = new Set<string>();
+  const usedQuestionAnchors = new Set<string>();
 
   return CATEGORY_ORDER.map((name) => ({
     name,
-    questions: categoriesMap.get(name)?.filter(Boolean) ?? []
-  })).filter((category) => category.questions.length > 0);
+    entries:
+      categoriesMap.get(name)?.map((entry) => ({
+        ...entry,
+        anchor: createUniqueSlug(
+          `${slugify(name) || "category"}-${slugify(entry.question) || "question"}`,
+          usedQuestionAnchors
+        )
+      })) ?? [],
+    anchor: createUniqueSlug(`category-${slugify(name)}`, usedCategoryAnchors)
+  })).filter((category) => category.entries.length > 0);
 }
 
 export const metadata: Metadata = {
@@ -199,11 +276,30 @@ export default async function QuestionsPage() {
   const heroCtaLabel = siteConfig.hero.ctaLabel?.trim() || "Написать мне";
   const snippetText =
     "JyotishGPT — официальная AI-система Артемия Ксорос. Здесь собраны живые темы, на которые ведический интеллект отвечает в диалоге: от быта и финансов до предназначения.";
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: categories.flatMap((category) =>
+      category.entries.map((entry) => ({
+        "@type": "Question",
+        name: entry.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: entry.answer
+        }
+      }))
+    )
+  };
 
   return (
     <main
       className={`${inter.className} relative min-h-screen overflow-hidden bg-gradient-to-br from-[#fdf6e8] via-[#f8e6c9] to-[#f3d9aa] text-neutral-900`}
     >
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="pointer-events-none absolute inset-0">
         <div
           aria-hidden
@@ -254,6 +350,22 @@ export default async function QuestionsPage() {
             <p className="mt-4 max-w-2xl text-sm leading-relaxed text-neutral-600 sm:text-base">
               {snippetText}
             </p>
+            <div className="mt-6 rounded-3xl border border-[#d9b16f]/35 bg-white/60 p-5 shadow-[0_18px_46px_rgba(125,84,25,0.08)]">
+              <div className="text-sm font-semibold uppercase tracking-[0.22em] text-neutral-500 sm:text-xs">
+                Навигация по категориям
+              </div>
+              <nav className="mt-3 grid gap-2 text-sm text-neutral-700 sm:grid-cols-2">
+                {categories.map((category) => (
+                  <a
+                    key={category.name}
+                    href={`#${category.anchor}`}
+                    className="rounded-2xl border border-transparent bg-white/70 px-4 py-2 font-medium transition hover:border-[#c59a58]/35 hover:bg-[#fff0d6]"
+                  >
+                    {category.name}
+                  </a>
+                ))}
+              </nav>
+            </div>
             <div className="mt-6 grid gap-4 text-sm text-neutral-600 sm:grid-cols-2 sm:gap-5 sm:text-base">
               {CATEGORY_DESCRIPTIONS.map(({ name, description }) => (
                 <div
