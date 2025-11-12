@@ -7,11 +7,13 @@ import { LegalFooter } from "./components/LegalFooter";
 import { siteConfig } from "../content/site-config";
 
 const canonicalUrl = "/";
+const pageDescription = siteConfig.meta.description.trim();
 
 const siteAuthor = "Artemiy Ksoros";
 
 export const metadata: Metadata = {
   title: siteConfig.meta.title,
+  description: pageDescription,
   alternates: {
     canonical: canonicalUrl
   },
@@ -40,8 +42,7 @@ export default function HomePage() {
   const flowDescription = flow.description.trim();
   const flowSteps = (flow.steps ?? []).map((step) => step.trim()).filter(Boolean);
   const hasFlowContent = Boolean(flowTitle || flowDescription || flowSteps.length > 0);
-  const snippetText =
-    "JyotishGPT — это авторский проект Артемия Ксорос, в котором искусственный интеллект соединяется с ведическими системами самоанализа. Это ведический AI-движок, обученный на авторских методиках Артемия Ксороса, помогает человеку осознать свой путь, рассчитать периоды и лучше понять свою природу.";
+  const snippetText = pageDescription;
   const aboutStatements = [
     {
       title: "Artemiy Ksoros",
@@ -64,35 +65,24 @@ export default function HomePage() {
           className="absolute inset-0 -z-20"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 18% 22%, rgba(213,170,84,0.32), transparent 60%), radial-gradient(circle at 78% 18%, rgba(207,153,63,0.24), transparent 64%), radial-gradient(circle at 48% 80%, rgba(226,187,110,0.2), transparent 66%)"
+              "radial-gradient(circle at 20% 25%, rgba(213,170,84,0.28), transparent 60%), radial-gradient(circle at 74% 72%, rgba(207,153,63,0.22), transparent 64%)"
           }}
         />
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 opacity-[0.14]"
+          className="absolute inset-0 -z-10 opacity-30"
           style={{
             backgroundImage:
-              "linear-gradient(0deg, rgba(215,174,92,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(215,174,92,0.2) 1px, transparent 1px)",
-            backgroundSize: "80px 80px"
-          }}
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 12% 78%, rgba(210,160,70,0.28) 0, rgba(210,160,70,0) 58%), radial-gradient(circle at 88% 82%, rgba(200,144,55,0.2) 0, rgba(200,144,55,0) 60%)"
-          }}
-        />
-        <div className="absolute -left-24 top-16 h-80 w-80 rounded-full bg-[radial-gradient(circle_at_center,rgba(212,165,78,0.28),transparent_72%)] blur-3xl animate-float" />
-        <div className="absolute bottom-[-6rem] right-[-4rem] h-80 w-80 rounded-full bg-[radial-gradient(circle_at_center,rgba(201,149,58,0.3),transparent_78%)] blur-3xl animate-soft-pulse" />
-        <div className="absolute left-1/2 top-24 h-64 w-64 -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(193,138,46,0.34),transparent_74%)] blur-[120px] animate-soft-pulse" />
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 opacity-60"
-          style={{
-            backgroundImage: "radial-gradient(rgba(225,190,112,0.22) 1px, transparent 1px)",
+              "linear-gradient(0deg, rgba(215,174,92,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(215,174,92,0.15) 1px, transparent 1px)",
             backgroundSize: "120px 120px"
+          }}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-[5]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 50% 18%, rgba(193,138,46,0.18), transparent 65%)"
           }}
         />
       </div>
@@ -183,7 +173,7 @@ export default function HomePage() {
                   className="group relative flex h-full flex-col gap-3 overflow-hidden rounded-3xl border border-[#cda15e]/30 bg-[#fff4de]/80 p-5 shadow-[0_18px_46px_rgba(125,84,25,0.14)] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-[#b78945]/40 hover:bg-[#fde7c9]"
                 >
                   <div className="absolute inset-0 -z-10 opacity-0 transition duration-300 group-hover:opacity-100" aria-hidden>
-                    <div className="h-full w-full bg-[radial-gradient(circle_at_top,rgba(204,152,59,0.34),transparent_70%)] animate-soft-pulse" />
+                    <div className="h-full w-full bg-[radial-gradient(circle_at_top,rgba(204,152,59,0.34),transparent_70%)]" />
                   </div>
                   <div className="flex items-start gap-4">
                     <span className="text-3xl md:text-4xl">{feature.icon}</span>
@@ -264,8 +254,8 @@ export default function HomePage() {
         {hasFlowContent && (
           <section className="relative overflow-hidden rounded-[32px] border border-[#cda15e]/30 bg-gradient-to-br from-[#fff6e7] via-[#f6e3c4] to-[#efd49e] px-6 py-10 shadow-[0_28px_78px_rgba(125,84,25,0.16)] backdrop-blur-sm sm:px-10">
             <div className="pointer-events-none absolute inset-0">
-              <div className="absolute -top-32 right-6 h-52 w-52 rounded-full bg-[radial-gradient(circle_at_center,rgba(206,150,57,0.3),transparent_60%)] opacity-70 blur-3xl animate-soft-pulse" />
-              <div className="absolute bottom-[-3rem] left-1/2 h-60 w-60 -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(198,143,48,0.32),transparent_68%)] opacity-65 blur-3xl animate-float" />
+              <div className="absolute -top-32 right-6 h-52 w-52 rounded-full bg-[radial-gradient(circle_at_center,rgba(206,150,57,0.3),transparent_60%)] opacity-70 blur-3xl" />
+              <div className="absolute bottom-[-3rem] left-1/2 h-60 w-60 -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(198,143,48,0.32),transparent_68%)] opacity-65 blur-3xl" />
               <div className="absolute inset-0 bg-[linear-gradient(130deg,rgba(209,160,71,0.24),transparent_60%)] opacity-45" />
             </div>
 

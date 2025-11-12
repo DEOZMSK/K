@@ -304,24 +304,20 @@ export default async function QuestionsPage() {
       <div className="pointer-events-none absolute inset-0">
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 opacity-60"
+          className="absolute inset-0 -z-20"
           style={{
             backgroundImage:
-              "linear-gradient(0deg, rgba(215,174,92,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(215,174,92,0.18) 1px, transparent 1px)",
-            backgroundSize: "90px 90px"
+              "radial-gradient(circle at 18% 32%, rgba(212,165,78,0.26), transparent 58%), radial-gradient(circle at 78% 74%, rgba(201,149,58,0.22), transparent 64%)"
           }}
         />
         <div
           aria-hidden
-          className="absolute -left-24 top-20 h-72 w-72 rounded-full bg-[radial-gradient(circle_at_center,rgba(212,165,78,0.28),transparent_72%)] blur-3xl"
-        />
-        <div
-          aria-hidden
-          className="absolute bottom-[-5rem] right-[-3rem] h-80 w-80 rounded-full bg-[radial-gradient(circle_at_center,rgba(201,149,58,0.28),transparent_76%)] blur-3xl"
-        />
-        <div
-          aria-hidden
-          className="absolute left-1/2 top-40 h-56 w-56 -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(193,138,46,0.3),transparent_74%)] blur-[120px]"
+          className="absolute inset-0 -z-10 opacity-35"
+          style={{
+            backgroundImage:
+              "linear-gradient(0deg, rgba(215,174,92,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(215,174,92,0.14) 1px, transparent 1px)",
+            backgroundSize: "110px 110px"
+          }}
         />
       </div>
 
