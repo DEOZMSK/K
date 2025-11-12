@@ -19,11 +19,13 @@ export default function Icon() {
           justifyContent: "center",
           background: "radial-gradient(circle at 50% 40%, #fce3ba 0%, #d2a660 60%, #9f7336 100%)",
           color: "#2f1607",
-          fontSize: 72,
-          fontFamily: "'Noto Sans', 'Segoe UI', sans-serif"
+          fontSize: 60,
+          fontFamily: "'Segoe UI', 'Arial', sans-serif",
+          fontWeight: 700,
+          letterSpacing: 4
         }}
       >
-        ॐ
+        JG
       </div>
     ),
     {
