@@ -32,7 +32,8 @@ const createTelegramLinkWithText = (baseLink: string, text: string) => {
 
 export default function HomePage() {
   const { hero, features, chatPreview, flow, closingNote, telegramLink } = siteConfig;
-  const defaultTelegramMessage = "Привет! А какие ресурсы у вас есть?";
+  const defaultTelegramMessage =
+    "Здравствуйте! Какие ресурсы у вас есть? Какие техники вы используете? Как вы можете мне помочь?";
   const heroTelegramLink = createTelegramLinkWithText(telegramLink, defaultTelegramMessage);
   const heroSubheadline = hero.subheadline.trim();
   const flowTitle = flow.title.trim();

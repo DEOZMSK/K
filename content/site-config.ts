@@ -156,5 +156,5 @@ export const siteConfig: SiteConfig = {
     process.env.NEXT_PUBLIC_CLOSING_NOTE ??
     "Общение продолжается в Telegram: там действуют правила Telegram и политика конфиденциальности сервиса. JyotishGPT и Артемий Ксорос используют переписку только для консультаций и не отвечают за обработку данных Telegram.",
   telegramLink:
-    process.env.NEXT_PUBLIC_TELEGRAM_LINK ?? "https://t.me/jyotishgpt",
+    process.env.NEXT_PUBLIC_TELEGRAM_LINK ?? "https://t.me/BAPHbl",
 };

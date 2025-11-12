@@ -268,7 +268,8 @@ export const metadata: Metadata = {
 
 export default async function QuestionsPage() {
   const categories = await getQuestionCategories();
-  const defaultTelegramMessage = "Привет! А какие ресурсы у вас есть?";
+  const defaultTelegramMessage =
+    "Здравствуйте! Какие ресурсы у вас есть? Какие техники вы используете? Как вы можете мне помочь?";
   const heroTelegramLink = createTelegramLinkWithText(
     siteConfig.telegramLink,
     defaultTelegramMessage
