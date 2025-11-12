@@ -21,9 +21,9 @@ const unbounded = Unbounded({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jyotishgpt.ru";
 const defaultTitle = "JyotishGPT — ведическая AI-нумерология Артемия Ксорос";
 const defaultDescription =
-  "JyotishGPT — AI-система, созданная Артемием Ксорос. Это ведический AI-движок, обученный на авторских методиках Артемия Ксороса, соединяет древние ведические методы и современные технологии, помогая людям познавать себя через нумерологию и сознание времени.";
+  "JyotishGPT — ведический AI-помощник Артемия Ксорос. Соединяет астрологию, нумерологию и аналитику, чтобы поддерживать осознанные решения.";
 const snippetDescription =
-  "JyotishGPT — это авторский проект Артемия Ксорос, в котором искусственный интеллект соединяется с ведическими системами самоанализа. Это ведический AI-движок, обученный на авторских методиках Артемия Ксороса, помогает человеку осознать свой путь, рассчитать периоды и лучше понять свою природу.";
+  "JyotishGPT — авторский проект Артемия Ксорос, где искусственный интеллект опирается на ведические традиции, помогая видеть личные циклы и шаги развития.";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -80,13 +80,6 @@ const structuredData = {
       inLanguage: "ru",
       publisher: { "@id": `${siteUrl}/#brand` },
       creator: { "@id": `${siteUrl}/#person` },
-      potentialAction: [
-        {
-          "@type": "SearchAction",
-          target: `${siteUrl}/questions?query={search_term_string}`,
-          "query-input": "required name=search_term_string"
-        }
-      ]
     },
     {
       "@type": "WebPage",
