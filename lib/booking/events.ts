@@ -46,7 +46,6 @@ export async function createCalendarBooking({
 
   const eventId = buildEventId(startISO, service.id);
   const requestBody = {
-    id: eventId,
     summary: `${service.title} — ${name}`,
     description: descriptionLines.join("\n"),
     start: {
@@ -84,7 +83,7 @@ export async function createCalendarBooking({
 
   try {
     const response = await calendar.events.insert({
-      calendarId,
+      calendarId: calendarIdTrimmed,
       requestBody,
       sendUpdates: "none"
     });
