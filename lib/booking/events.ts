@@ -45,29 +45,68 @@ export async function createCalendarBooking({
   }
 
   const eventId = buildEventId(startISO, service.id);
-
-  const response = await calendar.events.insert({
-    calendarId,
-    requestBody: {
-      id: eventId,
-      summary: `${service.title} — ${name}`,
-      description: descriptionLines.join("\n"),
-      start: {
-        dateTime: startISO,
-        timeZone: BOOKING_TIMEZONE
-      },
-      end: {
-        dateTime: endISO,
-        timeZone: BOOKING_TIMEZONE
-      },
-      extendedProperties: {
-        private: {
-          bookingKey
-        }
-      }
+  const requestBody = {
+    id: eventId,
+    summary: `${service.title} — ${name}`,
+    description: descriptionLines.join("\n"),
+    start: {
+      dateTime: startISO,
+      timeZone: BOOKING_TIMEZONE
     },
-    sendUpdates: "none"
+    end: {
+      dateTime: endISO,
+      timeZone: BOOKING_TIMEZONE
+    },
+    extendedProperties: {
+      private: {
+        bookingKey
+      }
+    }
+  };
+
+  const calendarIdTrimmed = calendarId.trim();
+  const eventIdRegex = /^[\w.!~*'()-]{5,1024}$/;
+
+  console.log("calendar.events.insert input", {
+    calendarId: {
+      value: calendarIdTrimmed,
+      original: calendarId,
+      len: calendarIdTrimmed.length,
+      hasWhitespace: /\s/.test(calendarId)
+    },
+    eventId: {
+      value: eventId,
+      len: eventId.length,
+      regexOk: eventIdRegex.test(eventId)
+    },
+    requestBody
   });
 
-  return response.data;
+  try {
+    const response = await calendar.events.insert({
+      calendarId,
+      requestBody,
+      sendUpdates: "none"
+    });
+
+    return response.data;
+  } catch (error) {
+    const data = (error as { response?: { data?: unknown; status?: number } } | undefined)?.response?.data;
+    const status = (error as { response?: { status?: number } } | undefined)?.response?.status;
+    const errorInfo =
+      typeof data === "object" && data !== null && "error" in data && typeof (data as { error?: unknown }).error === "object"
+        ? ((data as { error: { errors?: Array<Record<string, unknown>> } }).error.errors ?? [])[0]
+        : undefined;
+
+    console.error("calendar.events.insert error", {
+      status,
+      reason: (errorInfo as { reason?: unknown } | undefined)?.reason,
+      message: (errorInfo as { message?: unknown } | undefined)?.message,
+      location: (errorInfo as { location?: unknown } | undefined)?.location,
+      locationType: (errorInfo as { locationType?: unknown } | undefined)?.locationType,
+      data
+    });
+
+    throw error;
+  }
 }
