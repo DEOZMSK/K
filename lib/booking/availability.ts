@@ -59,14 +59,16 @@ export async function fetchBusyIntervals(day: DateTime): Promise<Interval[]> {
   const calendarId = getCalendarId();
   const dayInZone = day.setZone(BOOKING_TIMEZONE);
 
-  const response = await calendar.events.list({
+  const listParams: calendar_v3.Params$Resource$Events$List = {
     calendarId,
     singleEvents: true,
     orderBy: "startTime",
-    timeMin: dayInZone.startOf("day").toISO(),
-    timeMax: dayInZone.endOf("day").toISO(),
+    timeMin: dayInZone.startOf("day").toISO() ?? undefined,
+    timeMax: dayInZone.endOf("day").toISO() ?? undefined,
     timeZone: BOOKING_TIMEZONE
-  });
+  };
+
+  const response = await calendar.events.list(listParams);
 
   const events = response.data.items ?? [];
   return events
@@ -82,14 +84,21 @@ export function buildAvailableSlots(day: DateTime, service: BookingService, busy
   const workingInterval = getWorkingInterval(day);
   const slots: string[] = [];
 
+  const workingStart = workingInterval.start;
+  const workingEnd = workingInterval.end;
+
+  if (!workingStart || !workingEnd) {
+    return slots;
+  }
+
   if (!isWorkingDay(day)) {
     return slots;
   }
 
-  let cursor = workingInterval.start;
+  let cursor = workingStart;
   const duration = service.durationMinutes;
 
-  while (cursor.plus({ minutes: duration }) <= workingInterval.end) {
+  while (cursor.plus({ minutes: duration }) <= workingEnd) {
     const slotEnd = cursor.plus({ minutes: duration });
     const slotInterval = Interval.fromDateTimes(cursor, slotEnd);
 
@@ -125,10 +134,16 @@ export async function assertSlotIsFree(startISO: string, service: BookingService
   }
 
   const workingInterval = getWorkingInterval(start);
+  const workingStart = workingInterval.start;
+  const workingEnd = workingInterval.end;
+
+  if (!workingStart || !workingEnd) {
+    throw new Error("Не удалось вычислить границы рабочего дня");
+  }
   const end = start.plus({ minutes: service.durationMinutes });
   const slotInterval = Interval.fromDateTimes(start, end);
 
-  if (!workingInterval.contains(start) || end > workingInterval.end) {
+  if (!workingInterval.contains(start) || end > workingEnd) {
     throw new Error("Слот выходит за рамки рабочего времени");
   }
 
