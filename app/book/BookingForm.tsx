@@ -17,7 +17,9 @@ interface SlotResponse {
 
 export function BookingForm({ services, timezone }: BookingFormProps) {
   const [selectedServiceId, setSelectedServiceId] = useState(services[0]?.id ?? "");
-  const [date, setDate] = useState(DateTime.now().setZone(timezone).toISODate() ?? "");
+  const minimumBookingDate = useMemo(() => DateTime.now().setZone(timezone).plus({ days: 14 }), [timezone]);
+  const minimumBookingDateISO = minimumBookingDate.toISODate() ?? "";
+  const [date, setDate] = useState(minimumBookingDateISO);
   const [slots, setSlots] = useState<string[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [slotsError, setSlotsError] = useState<string | null>(null);
@@ -79,6 +81,12 @@ export function BookingForm({ services, timezone }: BookingFormProps) {
 
     return () => controller.abort();
   }, [loadSlots]);
+
+  useEffect(() => {
+    if (minimumBookingDateISO && date < minimumBookingDateISO) {
+      setDate(minimumBookingDateISO);
+    }
+  }, [date, minimumBookingDateISO]);
 
   const formatSlot = (slot: string) => {
     const dateTime = DateTime.fromISO(slot).setZone(timezone);
@@ -186,7 +194,7 @@ export function BookingForm({ services, timezone }: BookingFormProps) {
               <input
                 type="date"
                 value={date}
-                min={DateTime.now().setZone(timezone).toISODate() ?? undefined}
+                min={minimumBookingDateISO || undefined}
                 onChange={(event) => setDate(event.target.value)}
                 className="w-full rounded-xl border border-outline bg-white px-3 py-2 text-neutral-900 shadow-sm focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
               />
@@ -221,6 +229,9 @@ export function BookingForm({ services, timezone }: BookingFormProps) {
             </div>
           </div>
           <p className="text-xs text-neutral-500">Рабочие дни: Пн–Пт, 10:00–18:00 ({timezone})</p>
+          <p className="text-xs text-neutral-500">
+            Запись доступна начиная с {minimumBookingDate.toLocaleString(DateTime.DATE_FULL)} (Мск)
+          </p>
           {currentService && (
             <p className="text-xs text-neutral-500">Длительность выбранной услуги: {currentService.durationMinutes} минут</p>
           )}
