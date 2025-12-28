@@ -1,7 +1,13 @@
 import { Interval, DateTime } from "luxon";
 import type { calendar_v3 } from "googleapis";
 
-import { BOOKING_TIMEZONE, SLOT_INTERVAL_MINUTES, WORKING_DAYS, WORKING_HOURS } from "./config";
+import {
+  BOOKING_TIMEZONE,
+  MIN_BOOKING_BUFFER_DAYS,
+  SLOT_INTERVAL_MINUTES,
+  WORKING_DAYS,
+  WORKING_HOURS
+} from "./config";
 import { getCalendarClient, getCalendarId } from "./calendar";
 import type { BookingService } from "../../content/booking";
 
@@ -54,6 +60,11 @@ function isWorkingDay(day: DateTime) {
   return WORKING_DAYS.includes(day.setZone(BOOKING_TIMEZONE).weekday);
 }
 
+function getMinimumBookingDateTime(now = DateTime.now().setZone(BOOKING_TIMEZONE)) {
+  // Нижняя граница для бронирования: не раньше чем через 14 суток в Мск.
+  return now.plus({ days: MIN_BOOKING_BUFFER_DAYS });
+}
+
 export async function fetchBusyIntervals(day: DateTime): Promise<Interval[]> {
   const calendar = getCalendarClient();
   const calendarId = getCalendarId();
@@ -80,7 +91,12 @@ function doesOverlap(intervals: Interval[], slot: Interval) {
   return intervals.some((busy) => busy.overlaps(slot));
 }
 
-export function buildAvailableSlots(day: DateTime, service: BookingService, busyIntervals: Interval[]) {
+export function buildAvailableSlots(
+  day: DateTime,
+  service: BookingService,
+  busyIntervals: Interval[],
+  minStart?: DateTime
+) {
   const workingInterval = getWorkingInterval(day);
   const slots: string[] = [];
 
@@ -99,6 +115,11 @@ export function buildAvailableSlots(day: DateTime, service: BookingService, busy
   const duration = service.durationMinutes;
 
   while (cursor.plus({ minutes: duration }) <= workingEnd) {
+    if (minStart && cursor < minStart) {
+      cursor = cursor.plus({ minutes: SLOT_INTERVAL_MINUTES });
+      continue;
+    }
+
     const slotEnd = cursor.plus({ minutes: duration });
     const slotInterval = Interval.fromDateTimes(cursor, slotEnd);
 
@@ -118,8 +139,13 @@ export async function listAvailableSlots(dateISO: string, service: BookingServic
     throw new Error("Неверная дата");
   }
 
+  const minimumStart = getMinimumBookingDateTime();
+  if (day.endOf("day") < minimumStart) {
+    return [];
+  }
+
   const busy = await fetchBusyIntervals(day);
-  return buildAvailableSlots(day, service, busy);
+  return buildAvailableSlots(day, service, busy, minimumStart);
 }
 
 export async function assertSlotIsFree(startISO: string, service: BookingService) {
@@ -127,6 +153,12 @@ export async function assertSlotIsFree(startISO: string, service: BookingService
 
   if (!start.isValid) {
     throw new Error("Неверный формат времени слота");
+  }
+
+  const minimumStart = getMinimumBookingDateTime();
+  if (start < minimumStart) {
+    const formattedMinimum = minimumStart.toLocaleString(DateTime.DATE_FULL);
+    throw new Error(`Запись доступна только начиная с ${formattedMinimum} (Мск)`);
   }
 
   if (!isWorkingDay(start)) {

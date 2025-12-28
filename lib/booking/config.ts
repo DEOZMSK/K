@@ -8,3 +8,5 @@ export const WORKING_HOURS = {
 export const SLOT_INTERVAL_MINUTES = 30;
 
 export const WORKING_DAYS: readonly number[] = [1, 2, 3, 4, 5];
+
+export const MIN_BOOKING_BUFFER_DAYS = 14;
