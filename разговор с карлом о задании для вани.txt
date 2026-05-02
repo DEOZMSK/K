@@ -1,0 +1,1131 @@
+Карл: "Ваня, работай только с этими 4 репозиториями и ни с какими другими: 
+
+- DEOZMSK/mr.Kcopoc_oplata_bot
+- DEOZMSK/K
+- DEOZMSK/FITNESS
+- DEOZMSK/E
+
+ЦЕЛЬ
+
+Нужно сделать для проекта JyotishGPT такой же отдельный web-инструмент, как /trainers в репозитории E, но не про фитнес, а на основе уже существующих ведических нумерологических расчётов из репозитория mr.Kcopoc_oplata_bot.
+
+Итог должен быть такой:
+
+1) в репозитории K появляется отдельный мобильный route с калькуляторами/инструментами;
+2) этот route открывается как standalone web-страница в браузере;
+3) этот же route открывается из Telegram-бота как Mini App;
+4) в Chrome на Android это можно установить как приложение через PWA-обвязку;
+5) текущие формулы не выдумываются заново, а берутся из уже существующего кода моего бота;
+6) существующий landing, book/questions/legal и оплаты бота не ломаются.
+
+НЕ ЗАДАВАЙ МНЕ В НАЧАЛЕ ВОПРОСЫ.
+Если где-то не хватает мелких решений — используй дефолты ниже и двигайся дальше.
+
+ДЕФОЛТЫ
+
+- основной route mini app: /tools
+- production URL mini app: https://jyotishgpt.ru/tools
+- название кнопки в боте: 🔮 Мини‑приложение
+- основная модель: один web app, который работает и в браузере, и внутри Telegram WebView
+- дизайн: в стиле JyotishGPT, а не в стиле EFITNES
+- логика расчётов: source of truth = текущий код из DEOZMSK/mr.Kcopoc_oplata_bot
+- если нужна документация по формулам: сначала сам извлеки её из текущего кода и сложи в Formula/README_FOR_VANYA.txt, не проси меня переписывать формулы вручную
+
+ЧТО СЧИТАТЬ ИСТОЧНИКАМИ ПРАВДЫ
+
+1. Архитектурный шаблон web-инструмента:
+   - DEOZMSK/E/app/trainers/page.tsx
+   - DEOZMSK/E/app/trainers/TrainerToolsClient.tsx
+   - DEOZMSK/E/app/trainers/calculators/*
+   - DEOZMSK/E/app/trainers/types.ts
+   - DEOZMSK/E/Formula/README_FOR_VANYA.txt
+
+2. Паттерн отделения landing от отдельного tool-route:
+   - DEOZMSK/E/app/components/route-guards.ts
+   - DEOZMSK/E/app/components/RouteAwareLandingHead.tsx
+   - DEOZMSK/E/app/components/RouteAwareCookieConsent.tsx
+   - DEOZMSK/E/app/layout.tsx
+
+3. Паттерн модульного бота:
+   - DEOZMSK/FITNESS/app/*
+   - DEOZMSK/FITNESS/README.md
+   - DEOZMSK/FITNESS/docs/PROJECT_AUDIT_2026-04-25.md
+
+4. Источник правды по моим расчётам:
+   - DEOZMSK/mr.Kcopoc_oplata_bot/bot.py
+   - DEOZMSK/mr.Kcopoc_oplata_bot/README.md
+   - DEOZMSK/mr.Kcopoc_oplata_bot/tests/test_periods.py
+   - любые другие файлы в этом же репозитории, если они участвуют в логике кнопок/расчётов
+
+5. Текущая сайтовая база JyotishGPT:
+   - DEOZMSK/K/app/*
+   - DEOZMSK/K/content/*
+   - DEOZMSK/K/README.md
+   - DEOZMSK/K/env.example
+
+ТРЕБОВАНИЕ ПО ПОРЯДКУ РАБОТЫ
+
+Сделай работу в таком порядке.
+
+ШАГ ПЕРВЫЙ
+Сначала изучи E и пойми, как там реализован отдельный tool-route /trainers:
+- отдельная страница;
+- отдельный client component;
+- отдельные calculators;
+- отдельные form components;
+- отключение landing JSON-LD/cookie на tool-route;
+- мобильный интерфейс с карточками инструментов.
+
+ШАГ ВТОРОЙ
+Потом изучи мой репозиторий mr.Kcopoc_oplata_bot и выдели все реальные нумерологические блоки, которые уже существуют в боте.
+Минимум ориентируйся на те сущности, которые уже торчат в меню/кнопках и логике:
+- Карма
+- Ахамкара
+- Дхарма
+- Экспрессия
+- Вьявадана
+- Варны
+- Периоды
+- Месяцы
+- всё, что ещё реально существует в коде и не является выдумкой
+
+Важно:
+не придумывай новые формулы;
+не “улучшай” математику по своему вкусу;
+если формула некрасивая, но это текущее поведение бота — сохрани её;
+если где-то логика смешана с текстами, сначала выдели её в явный слой.
+
+ШАГ ТРЕТИЙ
+В репозитории K сделай новый отдельный route:
+- app/tools/page.tsx
+- app/tools/ToolsClient.tsx
+- app/tools/types.ts
+- app/tools/calculators/*
+- app/tools/components/*
+
+Если сочтёшь нужным, можешь назвать client component иначе, но route должен остаться /tools.
+
+Сделай этот route по модели E/app/trainers, но с моим контентом и моими расчётами.
+
+ТРЕБОВАНИЯ К WEB UI
+
+1. Mobile-first, оптимизировано под Telegram WebView.
+2. Большие tap-targets.
+3. Никакой зависимости от Telegram API для базовой работы страницы.
+   Если Telegram.WebApp недоступен — страница всё равно должна работать в обычном браузере.
+4. Результаты считать локально на клиенте или в лёгком app-слое без лишнего backend.
+5. UI и вычисления разделить.
+6. Для каждого инструмента:
+   - аккуратный ввод данных;
+   - валидация;
+   - предупреждение вместо NaN/Infinity;
+   - человекочитаемый результат;
+   - короткая подсказка/description;
+   - никакой псевдомедицинской или псевдофатальной формулировки.
+7. Стилистика должна быть в бренде JyotishGPT, а не копией фитнес-неона из E.
+8. Не переписывай весь landing. Добавь только то, что нужно для нового route и входов в него.
+
+ТРЕБОВАНИЯ К СЛОЮ РАСЧЁТОВ
+
+1. Создай чистые функции по модели E:
+   return { valid: boolean, warning?: string, ...resultFields }
+
+2. Все расчёты разложи по файлам в app/tools/calculators/*.
+3. Создай app/tools/calculators/index.ts.
+4. Создай types.ts с input/result типами.
+5. Перед реализацией UI создай файл:
+   - Formula/README_FOR_VANYA.txt
+   и/или
+   - Formula/fixtures.json
+   где ты зафиксируешь:
+   - какие формулы реально были извлечены из старого бота;
+   - какие входы нужны;
+   - какие выходы возвращаются;
+   - какие кейсы являются эталонными.
+6. Не проси меня переписывать формулы вручную, если их уже можно достать из bot.py.
+7. Если найдёшь неоднозначность, пометь её как TODO в Formula/README_FOR_VANYA.txt, но не останавливай работу.
+
+ОСОБЫЙ ПУНКТ ПО “ПЕРИОДАМ”
+
+Блок “Периоды” уже закреплён README и test_periods.py.
+Его нужно перенести без изменения поведения.
+Особенно:
+- правило для 29 февраля;
+- расчёт дня недели;
+- main/background values;
+- формат диапазонов;
+- месяцы;
+- тестовые эталоны.
+
+Если UI меняешь — математику не меняй.
+
+ЧТО НУЖНО ДОБАВИТЬ В САЙТ K
+
+1. Новую CTA-точку входа в /tools на landing.
+2. При необходимости ссылку на /tools в questions/или других релевантных местах.
+3. Route-aware guard по примеру E, чтобы на /tools:
+   - не мешали landing JSON-LD;
+   - не мешал landing cookie/лишняя обвязка, если она загрязняет mini app UX.
+4. Не ломай существующий SEO для главных страниц.
+
+ЧТО НУЖНО ДОБАВИТЬ В mr.Kcopoc_oplata_bot
+
+Нужно добавить запуск mini app из бота, но без ломки текущих сценариев, оплат, drip campaign и существующих меню.
+
+Сделай:
+1. Кнопку “🔮 Мини‑приложение” в главном меню или в логически правильном месте.
+2. Эта кнопка должна открывать web app URL:
+   https://jyotishgpt.ru/tools
+   Либо через env-переменную, если так безопаснее/правильнее.
+3. Используй нормальный Telegram WebApp launch path, а не просто текстовую ссылку, если текущая версия aiogram и кодовая архитектура это позволяют.
+4. Если для текущей архитектуры нужен fallback — добавь и fallback обычной ссылкой.
+5. Ничего не вырезай из текущих платёжных и контентных сценариев.
+
+ВАЖНО ПО TELEGRAM
+
+Считай целевым результатом именно Mini App launch path.
+Но архитектура страницы должна работать и вне Telegram.
+
+Если возможно без лишнего риска — подготовь код так, чтобы потом можно было легко включить Main Mini App / Menu Button.
+Если это требует ручного шага в BotFather — просто явно зафиксируй это в финальном handoff, кодовую часть всё равно сделай.
+
+PWA / ANDROID INSTALL
+
+В репозитории K добавь PWA-обвязку для route /tools:
+
+1. app/manifest.ts
+2. корректный name / short_name / start_url / display / theme_color / background_color
+3. иконки 192 и 512
+4. если текущие иконки подходят — используй их
+5. если можешь безопасно добавить install UX — добавь
+6. service worker добавляй только если сделаешь это без риска сломать Next.js build/route behavior;
+   если safe-реализация слишком спорная — не ломай проект ради этого, но manifest должен быть точно
+
+ЦЕЛЬ PWA-СЛОЯ:
+- чтобы route /tools можно было открыть в Chrome на Android
+- и установить как app-like entry point
+
+НЕ ДЕЛАЙ
+
+- не используй никакие другие репозитории
+- не придумывай новые формулы
+- не меняй текущие расчёты без доказанного бага
+- не переписывай всё приложение целиком
+- не вноси тяжёлый backend, если это не нужно
+- не ломай book/questions/legal/SEO/оплаты
+- не превращай решение в “поговорим сначала о концепции”
+- не останавливайся на аудите без реализации
+
+ЧТО ДОЛЖНО ПОЛУЧИТЬСЯ НА ВЫХОДЕ
+
+Я хочу получить не рассуждения, а результат.
+
+Сделай:
+
+1. Реальные изменения в коде в нужных репозиториях.
+2. Короткий итоговый handoff:
+   - что изменено
+   - список файлов по каждому репозиторию
+   - что нужно сделать мне руками после деплоя
+3. Если были приняты дефолтные решения — перечисли их кратко.
+4. Если есть TODO — только самые важные и только если они реально блокируют идеал, но не блокируют запуск.
+
+КРИТЕРИИ ГОТОВНОСТИ
+
+Считать задачу выполненной только если одновременно выполнено всё ниже:
+
+1. В K существует и работает route /tools.
+2. /tools выглядит как отдельный инструмент, а не как кусок landing.
+3. /tools работает в обычном браузере без Telegram.
+4. Из бота mr.Kcopoc_oplata_bot этот route открывается как mini app path или максимально близко к нему по реальному Telegram WebApp-сценарию.
+5. Периоды совпадают с текущим поведением README/tests.
+6. Остальные нумерологические блоки берут математику из текущего bot.py, а не из фантазии.
+7. Landing JyotishGPT не сломан.
+8. Платежи/услуги/прочие старые сценарии бота не сломаны.
+9. В K есть manifest-based PWA слой для установки через Chrome.
+10. Код собирается и проходит базовую проверку.
+
+Если где-то есть выбор между “красивее” и “совместимо с текущим кодом” — выбирай совместимо с текущим кодом.
+
+Начинай сразу с анализа этих 4 репозиториев и переходи к реальным изменениям."
+
+Я: "Согласно твоему заданию Ваня должен видеть 4 репозитория... Но технически он так не умеет, если умеет то у меня это не настроено. Поэтому выпиши все что Ване требуется, а я ещё добавлю информацию из pdf, и он уже с ориентируется я скажу просто ему что задание из pdf подразумевает что ты ты должен знать другие репозитории но у тебя не к ним доступа поэтому все что тебе не достаёт вот во втором pdf... (Я знаю что Ване не скормить pdf я просто таким образом объясняю - суть, я буду кидать ему текста твоих исследований. В общем на основе своего же задания заполни все белые пятна потому что Ваня должен будет из бота mr.Kcopoc_oplata_bot  взять расчеты. Он должен будет менять страницу на сайте репозиторий DEOZMSK/K сайт JyotishGPT.ru если ты ему что то не даш он будет работать в слепую. Давай заполним его пустоту всей нужной информацией заранее. Если символов не хватает раздели на два этапа... Сначала 1й потом я снова добавлю в чат pdf уже с двумя файлами и скормлю Ване уже три текста из pdf"
+
+Карл: "Ваня, работай ТОЛЬКО в репозитории DEOZMSK/K.
+
+ВАЖНО:
+- ты НЕ меняешь DEOZMSK/mr.Kcopoc_oplata_bot;
+- ты НЕ обязан видеть DEOZMSK/E и DEOZMSK/FITNESS;
+- всё, что тебе нужно знать о тех репозиториях, уже описано ниже;
+- из bot.py позже будут даны отдельным текстом формулы и эталоны;
+- сейчас твоя задача: подготовить в K правильную архитектуру страницы/tools и места, куда эти формулы лягут без переделки проекта.
+
+ЦЕЛЬ
+
+Сделать на сайте JyotishGPT.ru отдельный route /tools — это отдельный рабочий экран с нумерологическими инструментами, а не кусок landing.
+Эта страница должна:
+1) работать как обычная web-страница в браузере;
+2) быть удобной в Telegram WebView;
+3) быть готовой к подключению формул из второго текста;
+4) иметь PWA-обвязку для установки через Chrome на Android;
+5) не ломать существующий landing, questions, legal, book и SEO.
+
+ЧТО СЧИТАТЬ АРХИТЕКТУРНЫМ ОРИЕНТИРОМ
+
+Ты не видишь E, поэтому просто прими как спецификацию:
+
+- нужен отдельный route вида /tools;
+- у route должна быть серверная страница page.tsx и отдельный client component;
+- UI должен быть отделён от вычислений;
+- вычисления должны лежать в отдельных файлах calculators/*;
+- типы входа/выхода должны лежать отдельно;
+- /tools не должен тянуть на себя лишнюю landing-обвязку типа SEO/json-ld/cookie-consent, если она мешает mini-app UX;
+- это должен быть mobile-first экран с карточками инструментов.
+
+ЧТО ИМЕННО СОЗДАТЬ В K
+
+Создай такую структуру:
+
+- app/tools/page.tsx
+- app/tools/ToolsClient.tsx
+- app/tools/types.ts
+- app/tools/calculators/index.ts
+- app/tools/calculators/karma.ts
+- app/tools/calculators/ahamkara.ts
+- app/tools/calculators/dharma.ts
+- app/tools/calculators/expression.ts
+- app/tools/calculators/vyavadana.ts
+- app/tools/calculators/varna.ts
+- app/tools/calculators/periods.ts
+- app/tools/calculators/months.ts
+- app/tools/components/*
+- Formula/README_FOR_VANYA.txt
+- Formula/fixtures.json
+
+Если по стилю проекта удобнее назвать ToolsClient иначе — можно, но route должен остаться /tools.
+
+КАКОЙ ДОЛЖЕН БЫТЬ КОНТРАКТ У ВЫЧИСЛЕНИЙ
+
+Подготовь слой вычислений как pure functions.
+Даже если пока нет всей математики, интерфейсы уже должны быть готовы.
+
+Базовый принцип:
+каждый calculator возвращает не “голое число”, а нормальный объект результата.
+
+Минимальный базовый контракт:
+
+type BaseResult = {
+  valid: boolean
+  warning?: string
+  title?: string
+  summary?: string
+}
+
+type BirthDateInput = {
+  day: number
+  month: number
+  year: number
+}
+
+type PeriodsInput = BirthDateInput & {
+  targetYear?: number
+  targetMonth?: number
+}
+
+Дальше можешь расширять типы под конкретный calculator, но общий принцип не ломай:
+- входы типизированы;
+- выходы типизированы;
+- NaN/Infinity наружу не отдаём;
+- если данных не хватает, вернуть valid:false или warning, а не ломать UI.
+
+На этом этапе допустимо сделать stub-реализацию:
+- функция возвращает placeholder-результат;
+- внутри TODO;
+- но форма, переключение инструмента, типы, рендер результата и структура файлов уже должны работать.
+
+СПИСОК ИНСТРУМЕНТОВ, КОТОРЫЕ НАДО ЗАЛОЖИТЬ
+
+Подготовь карточки/модули под:
+- Карма
+- Ахамкара
+- Дхарма
+- Экспрессия
+- Вьявадана
+- Варны
+- Периоды
+- Месяцы
+
+Эти инструменты пока можно сделать как shell + contract + placeholder result.
+Математика придёт отдельным текстом.
+Но названия, слоты, переключение и файлы под них должны уже существовать.
+
+ТРЕБОВАНИЯ К UI
+
+1. Mobile-first.
+2. Удобно внутри Telegram WebView.
+3. Большие зоны нажатия.
+4. Светлая/чистая/брендовая подача в стиле JyotishGPT, НЕ копия фитнес-интерфейса.
+5. Без тяжёлой анимации.
+6. Без зависимости от Telegram API для базовой работы.
+7. Если Telegram.WebApp отсутствует, /tools всё равно работает как нормальная страница.
+8. UI разделён на:
+   - список инструментов / tool switcher
+   - форму ввода
+   - блок результата
+   - предупреждения/валидацию
+9. Не добавляй псевдомедицинские или “фатальные” формулировки.
+10. Пока нет формул — используй нейтральные placeholder descriptions.
+
+ЧТО НУЖНО ДОБАВИТЬ В ОБЩУЮ АРХИТЕКТУРУ K
+
+1. Точку входа в /tools с главной страницы.
+2. При необходимости ещё одну ссылку в релевантном месте, но без захламления.
+3. Route-aware обработку для /tools:
+   - если на landing есть обвязка, которая портит UX tools-экрана, отключи её на /tools;
+   - не ломай SEO и поведение главных публичных страниц.
+4. Если для этого надо вынести/изменить route guards или layout-логику — сделай аккуратно.
+
+PWA СЛОЙ
+
+Добавь в K PWA-обвязку для /tools:
+
+- app/manifest.ts
+- name / short_name
+- start_url = /tools
+- display = standalone или minimal-ui
+- theme_color / background_color
+- иконки 192 и 512, если текущие подходят — используй их
+- install UX можно добавить, если это безопасно для проекта
+- service worker только если сделаешь это без риска сломать build/route behavior;
+  если есть риск — не надо ломать проект ради SW, но manifest должен быть точно
+
+ВАЖНО:
+на этом этапе тебе НЕ НУЖНО встраивать Telegram launch button в ботовом коде.
+Твоя задача ограничена сайтом K.
+Но route /tools должен быть готов к открытию внутри Telegram WebView.
+
+ЧТО СДЕЛАТЬ В FORMULA
+
+Создай заготовки:
+- Formula/README_FOR_VANYA.txt
+- Formula/fixtures.json
+
+И запиши туда:
+- какие calculators предусмотрены;
+- какие входы ожидаются;
+- какие выходы должны быть;
+- где потом нужно вставить математические правила;
+- какие данные будут подставлены из следующего текста.
+
+Идея такая:
+после этого я дам тебе второй текст с формулами/эталонами,
+а ты просто вставишь их в уже готовые calculators/*, не переделывая архитектуру.
+
+НЕ ДЕЛАЙ
+
+- не меняй mr.Kcopoc_oplata_bot
+- не проси сейчас вручную переписывать тебе архитектуру E/FITNESS
+- не переписывай весь сайт
+- не ломай landing/questions/legal/book
+- не выдумывай формулы
+- не строй тяжёлый backend, если без него можно
+- не завязывай /tools на обязательное наличие Telegram API
+
+ЧТО ДОЛЖНО БЫТЬ НА ВЫХОДЕ ПОСЛЕ ЭТОГО ЭТАПА
+
+1. В K существует рабочий route /tools.
+2. У /tools есть отдельная архитектура, а не хаотичный кусок page.tsx.
+3. Есть ready-to-fill calculators/* для всех нужных блоков.
+4. Есть types.ts и единый контракт для результатов.
+5. Есть Formula/README_FOR_VANYA.txt и Formula/fixtures.json как точки для следующего этапа.
+6. Есть manifest-based PWA слой.
+7. Есть вход в /tools с main site.
+8. Основные страницы сайта не сломаны.
+9. Код собирается.
+10. В handoff перечисли:
+   - какие файлы созданы/изменены;
+   - где потом вставлять формулы из следующего текста;
+   - какие места ты оставил TODO специально под второй этап.
+
+Если где-то есть выбор между “красивее” и “совместимо с будущей вставкой формул” — выбирай совместимо с будущей вставкой формул." 
+ "
+Я: "теперь завершающий этап"
+
+Карл: "Двухэтапный пакет для Вани по DEOZMSK/K
+Executive summary
+Ниже — готовый пакет, в котором DEOZMSK/K рассматривается как единственный рабочий репозиторий, а mr.Kcopoc_oplata_bot — только как read-only источник логики и эталонов. Архитектурный шаблон берётся из E/app/trainers/*, потому что там уже реализован отдельный tool-route с клиентским экраном, отдельными calculators и route-aware отделением от landing; в K сейчас этого слоя нет, там пока глобальный layout с JSON-LD/cookie-consent и landing с CTA в Telegram и /questions. 
+ 
+ 
+ 
+
+Stage 1 ниже делает для Вани всё, что нужно построить сейчас в K без формул. Stage 2 фиксирует, что именно вставить после твоего PDF с формулами/эталонами, причём для блока Периоды уже есть подтверждённые правила и тестовые кейсы в mr.Kcopoc_oplata_bot, а для Telegram Mini Apps и Chrome PWA используются официальные требования Telegram и web.dev/Next.js. 
+ 
+ 
+ 
+
+Ключевые информационные потребности
+Эти 5 потребностей закрывают все “белые пятна”, чтобы Ваня мог не видеть E/FITNESS и всё равно уверенно сделать K/tools. Они собраны из live-страниц JyotishGPT, кода E, K, FITNESS, mr.Kcopoc_oplata_bot и официальных Telegram/PWA источников. 
+ 
+ 
+ 
+ 
+ 
+
+Инфо‑потребность	Где искать	Какие артефакты нужны	Что должен дать ты
+Контракт функций калькуляторов	E/app/trainers/TrainerToolsClient.tsx, E/Formula/README_FOR_VANYA.txt, mr.Kcopoc_oplata_bot/bot.py	ToolId, типы input/result, сигнатура run(input) => result, статус stub/ready, карта calculators	PDF с формулами и полями результата по каждому калькулятору
+Матрица входов/выходов	mr.Kcopoc_oplata_bot/bot.py, README.md, tests/test_periods.py	список инструментов, обязательные поля ввода, output JSON, golden cases	3–10 “золотых” дат/кейсов на каждый калькулятор
+Route-aware guards и точки интеграции в K	E/app/components/route-guards.ts, RouteAwareLandingHead.tsx, RouteAwareCookieConsent.tsx, E/app/layout.tsx, K/app/layout.tsx, K/app/page.tsx	isToolsRoute, выключение global JSON-LD/cookie на /tools, CTA со landing	решение, где именно на сайте должен быть вход в /tools
+Telegram WebView / Chrome PWA	Telegram Mini Apps docs, web.dev, Next.js manifest docs	app/manifest.ts, suggested envs, install UX, browser/Telegram-safe behavior	иконки 192×192 и 512×512, если хочешь заменить текущие
+Формульный слой и fixtures-пайплайн	mr.Kcopoc_oplata_bot/README.md, tests/test_periods.py, bot.py	Formula/README_FOR_VANYA.txt, Formula/fixtures.json, IDs кейсов, expected outputs	PDF с формулами/толкованиями и подтверждёнными эталонами
+
+Приоритетный порядок артефактов
+Я начал именно с сайтов, как ты просил. jyotishgpt.ru удалось прочитать как live-источник бренда, CTA и контентной структуры; efitnes.site в live-fetch таймаутился, поэтому его реальный /trainers пришлось восстанавливать по репозиторию E, где этот маршрут и лежит. GitHub дал все ключевые кодовые артефакты; Figma для этой задачи не дала читаемых исходных design-артефактов и не оказалась источником доказательств. 
+ 
+ 
+
+Приоритет	Источник	Что беру первым	Что фиксирую для Вани
+Высший	efitnes.site	live /trainers	live fetch не сработал, поэтому беру кодовую реализацию из DEOZMSK/E
+Высший	jyotishgpt.ru	главная и /questions	бренд, тональность, текущие CTA, scope контента
+Высший	DEOZMSK/E	app/trainers/*, Formula/README_FOR_VANYA.txt, route-aware components	готовый шаблон отдельного tool-route
+Высший	DEOZMSK/K	app/layout.tsx, app/page.tsx, env.example, package.json	где врезать /tools, какие env/scripts уже есть
+Средний	DEOZMSK/mr.Kcopoc_oplata_bot	README.md, tests/test_periods.py, bot.py	список инструментов, “Периоды”, правила 29 февраля, ranges и golden cases
+Средний	DEOZMSK/FITNESS	README.md, PROJECT_AUDIT_2026-04-25.md	подтверждение паттерна “модульный formulas layer отдельно от UI”
+Поддерживающий	Telegram docs	web_app, Main Mini App, ?startapp	требования к открытию внутри Telegram
+Поддерживающий	web.dev / Next.js	install criteria, app/manifest.ts	требования к PWA/Chrome install
+
+Сравнение E и K
+Сравнение ниже показывает главное: в E уже есть весь skeleton отдельного инструмента, а в K есть только landing, общий layout и env/scripts. Поэтому переносить в K нужно не фитнес-формулы, а саму архитектуру отдельного рабочего route. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Что есть в E	Что нужно в K
+app/trainers/page.tsx как отдельный route с metadata и отдельным client-screen	app/tools/page.tsx с metadata и отдельным ToolsClient
+TrainerToolsClient.tsx как отдельный client component	ToolsClient.tsx с mobile-first UI и переключателем инструментов
+app/trainers/calculators/* + types.ts	app/tools/calculators/* + app/tools/types.ts
+Formula/README_FOR_VANYA.txt как source-of-truth слой поверх UI	Formula/README_FOR_VANYA.txt + Formula/fixtures.json под твой PDF
+isTrainersRoute, RouteAwareLandingHead, RouteAwareCookieConsent	isToolsRoute, RouteAwareLandingHead, RouteAwareCookieConsent или адаптация тех же компонентов под /tools
+layout.tsx уже знает, что /trainers — особый route	K/app/layout.tsx сейчас глобально вставляет JSON-LD и CookieConsent, значит нужен route-aware слой
+landing E уже имеет вход в /trainers	landing K сейчас ведёт в Telegram и /questions; надо добавить CTA в /tools
+UI/формулы физически разделены	в K надо сразу сохранить это разделение, даже если формулы придут позже
+иконки 192/512 уже задекларированы в metadata	в K они тоже уже задекларированы, поэтому app/manifest.ts можно строить поверх текущих иконок
+
+Stage 1 package для Вани
+Stage 1 — это полностью рабочий каркас в K без вставки формул. Его цель: создать K/tools, который уже открывается как самостоятельный экран, не тащит лишнюю landing-обвязку и готов принять формулы одним вторым патчем. K уже содержит базовые env и Next scripts, а E показывает нужный паттерн развязки UI от calculators. 
+ 
+ 
+
+Структура файлов
+text
+Копировать
+app/
+  components/
+    route-guards.ts
+    RouteAwareLandingHead.tsx
+    RouteAwareCookieConsent.tsx
+  tools/
+    page.tsx
+    ToolsClient.tsx
+    types.ts
+    registry.ts
+    calculators/
+      index.ts
+      _shared/
+        date.ts
+        errors.ts
+      karma.ts
+      ahamkara.ts
+      dharma.ts
+      expression.ts
+      vyavadana.ts
+      varna.ts
+      periods.ts
+      months.ts
+    components/
+      ToolGrid.tsx
+      ToolCard.tsx
+      ToolForm.tsx
+      FieldBirthDate.tsx
+      FieldRangeMode.tsx
+      ResultPanel.tsx
+      WarningPanel.tsx
+      InstallAppButton.tsx
+      TelegramViewportBridge.tsx
+  manifest.ts
+
+Formula/
+  README_FOR_VANYA.txt
+  fixtures.json
+Mermaid-схема
+mr.Kcopoc_oplata_bot
+read-only formulas source
+
+Formula PDF / fixtures
+
+K /tools
+client calculators + typed contracts
+
+Telegram WebView
+
+Chrome PWA
+
+
+
+Показать код
+TS-шаблоны и контракты
+app/tools/types.ts
+
+ts
+Копировать
+export type ToolId =
+  | "karma"
+  | "ahamkara"
+  | "dharma"
+  | "expression"
+  | "vyavadana"
+  | "varna"
+  | "periods"
+  | "months";
+
+export type PeriodRangeMode = "-10" | "+10" | "±5";
+
+export type CalcStatus = "stub" | "ready";
+
+export interface SourceMeta {
+  sourceRepo: "mr.Kcopoc_oplata_bot";
+  sourceFile?: string;
+  formulaId?: string;
+  fixtureId?: string;
+  note?: string;
+}
+
+export interface BirthDateInput {
+  day: number;
+  month: number;
+  year: number;
+  birthDateIso?: string;
+}
+
+export interface BaseCalcResult {
+  valid: boolean;
+  toolId: ToolId;
+  title: string;
+  summary?: string;
+  warning?: string;
+  status: CalcStatus;
+  source: "bot-readonly" | "stub";
+  meta?: SourceMeta;
+}
+
+export interface SingleValueResult extends BaseCalcResult {
+  value?: number | string;
+  interpretationShort?: string;
+  interpretationText?: string;
+}
+
+export interface PeriodRow {
+  year: number;
+  marker: string;
+  weekday: string;
+  yearSuffix: string;
+  main: string;
+  background: string;
+}
+
+export interface PeriodsInput extends BirthDateInput {
+  mode: PeriodRangeMode;
+  currentYear?: number;
+}
+
+export interface PeriodsResult extends BaseCalcResult {
+  rangeLabel?: string;
+  rows: PeriodRow[];
+}
+
+export interface MonthsResult extends BaseCalcResult {
+  headers: string[];
+  expressionRow: string[];
+  karmaRow: string[];
+}
+
+export interface ToolDescriptor<I, O extends BaseCalcResult> {
+  id: ToolId;
+  title: string;
+  description: string;
+  status: CalcStatus;
+  requiredFields: string[];
+  initialInput: I;
+  run: (input: I) => O;
+}
+app/tools/calculators/periods.ts
+
+ts
+Копировать
+import type {
+  PeriodsInput,
+  PeriodsResult,
+  ToolDescriptor,
+} from "../types";
+
+export const periodsTool: ToolDescriptor<PeriodsInput, PeriodsResult> = {
+  id: "periods",
+  title: "Периоды",
+  description: "Годовые ряды по дате рождения. Формула будет вставлена на Stage 2.",
+  status: "stub",
+  requiredFields: ["day", "month", "year", "mode"],
+  initialInput: {
+    day: 27,
+    month: 1,
+    year: 1989,
+    mode: "±5",
+  },
+  run(input) {
+    return {
+      valid: false,
+      toolId: "periods",
+      title: "Периоды",
+      warning:
+        "Формула для periods ещё не вставлена. Ожидается Stage 2 PDF/fixtures.",
+      status: "stub",
+      source: "stub",
+      meta: {
+        sourceRepo: "mr.Kcopoc_oplata_bot",
+        sourceFile: "tests/test_periods.py",
+        note: "На Stage 2 вставить формулу и golden cases из PDF/fixtures.",
+      },
+      rows: [],
+    };
+  },
+};
+app/tools/calculators/index.ts
+
+ts
+Копировать
+export { karmaTool } from "./karma";
+export { ahamkaraTool } from "./ahamkara";
+export { dharmaTool } from "./dharma";
+export { expressionTool } from "./expression";
+export { vyavadanaTool } from "./vyavadana";
+export { varnaTool } from "./varna";
+export { periodsTool } from "./periods";
+export { monthsTool } from "./months";
+app/tools/registry.ts
+
+ts
+Копировать
+import {
+  karmaTool,
+  ahamkaraTool,
+  dharmaTool,
+  expressionTool,
+  vyavadanaTool,
+  varnaTool,
+  periodsTool,
+  monthsTool,
+} from "./calculators";
+
+export const toolsRegistry = [
+  karmaTool,
+  ahamkaraTool,
+  dharmaTool,
+  expressionTool,
+  vyavadanaTool,
+  varnaTool,
+  periodsTool,
+  monthsTool,
+] as const;
+Route-aware guards
+K/app/layout.tsx сейчас всегда подключает JSON-LD и CookieConsent; в E это уже переведено в route-aware wrappers. Поэтому в K на Stage 1 надо сделать тот же приём, только для /tools. 
+ 
+ 
+ 
+ 
+
+app/components/route-guards.ts
+
+ts
+Копировать
+export function isToolsRoute(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return pathname === "/tools" || pathname.startsWith("/tools/");
+}
+Предлагаемые env-переменные
+K/env.example уже содержит NEXT_PUBLIC_SITE_URL, Telegram link и webhook. На Stage 1 можно не усложнять конфиг, но если Ваня хочет избежать хардкода, ему достаточно добавить ещё три переменные. 
+
+env
+Копировать
+NEXT_PUBLIC_TOOLS_PATH=/tools
+NEXT_PUBLIC_TOOLS_TITLE=Инструменты JyotishGPT
+NEXT_PUBLIC_MINI_APP_URL=https://jyotishgpt.ru/tools
+Пошаговый чеклист для Вани
+K/package.json уже поддерживает dev, build, start, lint; для Stage 1 этого достаточно. На этом этапе бот не правится, а Telegram/PWA поведение ограничивается готовностью web-route работать в браузере и WebView. 
+ 
+
+bash
+Копировать
+# ветка
+git checkout -b feat/tools-stage1
+
+# окружение
+cp env.example .env.local
+# при необходимости добавить NEXT_PUBLIC_TOOLS_PATH / NEXT_PUBLIC_MINI_APP_URL
+
+# зависимости
+npm install
+# если в репо уже есть lockfile другого менеджера — использовать соответствующий менеджер
+
+# запуск
+npm run dev
+
+# проверки
+npm run lint
+npm run build
+Создать/изменить файлы в таком порядке:
+
+app/tools/types.ts
+app/tools/calculators/*
+app/tools/registry.ts
+app/tools/ToolsClient.tsx
+app/tools/page.tsx
+app/components/route-guards.ts
+app/components/RouteAwareLandingHead.tsx
+app/components/RouteAwareCookieConsent.tsx
+app/layout.tsx
+app/page.tsx — добавить CTA в /tools
+app/manifest.ts
+Formula/README_FOR_VANYA.txt
+Formula/fixtures.json
+Smoke-check после Stage 1:
+
+/ открывается как раньше.
+/questions открывается как раньше.
+/tools открывается без падения.
+на /tools нет лишнего cookie-overlay/landing JSON-LD.
+npm run build зелёный.
+npm run lint зелёный.
+Stage 2 package после PDF с формулами
+Stage 2 начинается только после того, как ты присылаешь PDF/текст с формулами и эталонами. На этом этапе Ваня не меняет архитектуру, а просто заменяет stub-слой в app/tools/calculators/* на настоящие вычисления, заполняет Formula/*, фиксирует expected outputs и добавляет тесты под реальные golden cases. Для Периодов часть Stage 2 уже можно заполнить заранее, потому что правила 29 февраля, WEEKDAY_MAP, resolve_period_years, rendering и sample rows есть в README.md, tests/test_periods.py и bot.py. 
+ 
+ 
+
+Шаблон Formula/README_FOR_VANYA.txt
+text
+Копировать
+JYOTISHGPT — СПЕЦИФИКАЦИЯ ФОРМУЛ ДЛЯ K/tools
+
+Назначение:
+Этот файл — единый источник правды по нумерологическим calculators для app/tools.
+UI и расчёты должны оставаться отдельными.
+Если в PDF и коде есть расхождение, источник правды указывается явно в секции calculator.
+
+Главные правила:
+1. Не выдумывать новые формулы.
+2. Не смешивать разные трактовки без пометки.
+3. Все calculators — чистые функции.
+4. Ввод валидировать: не допускать NaN / Infinity / невозможные даты.
+5. Если данных не хватает — возвращать warning / valid:false, а не ломать UI.
+6. Пользовательские формулировки: “по введённым данным”, “интерпретация”, “ориентир”, без фатальных утверждений.
+7. Bot repo не меняем. Он только read-only reference.
+
+Рекомендуемая структура:
+app/tools/calculators/
+- karma.ts
+- ahamkara.ts
+- dharma.ts
+- expression.ts
+- vyavadana.ts
+- varna.ts
+- periods.ts
+- months.ts
+- index.ts
+
+Базовый контракт результата:
+{
+  valid: boolean,
+  warning?: string,
+  toolId: string,
+  title: string,
+  summary?: string,
+  status: "ready",
+  source: "bot-readonly",
+  meta?: { sourceRepo, sourceFile, fixtureId, note }
+}
+
+==================================================
+[calculator] karma
+==================================================
+status: waiting_pdf
+source_repo: mr.Kcopoc_oplata_bot
+source_file: bot.py
+required_input:
+- day
+- month
+- year
+expected_output:
+- value
+- interpretationShort
+- interpretationText
+formula_rule:
+- [TO_BE_FILLED_FROM_PDF]
+golden_cases:
+- [TO_BE_FILLED_FROM_PDF]
+
+==================================================
+[calculator] ahamkara
+==================================================
+status: waiting_pdf
+source_repo: mr.Kcopoc_oplata_bot
+source_file: bot.py
+required_input:
+- day
+- month
+- year
+expected_output:
+- value
+- interpretationShort
+- interpretationText
+formula_rule:
+- [TO_BE_FILLED_FROM_PDF]
+golden_cases:
+- [TO_BE_FILLED_FROM_PDF]
+
+==================================================
+[calculator] periods
+==================================================
+status: baseline_ready
+source_repo: mr.Kcopoc_oplata_bot
+source_files:
+- README.md
+- tests/test_periods.py
+- bot.py
+
+required_input:
+- day
+- month
+- year
+- mode (-10 | +10 | ±5)
+
+expected_output:
+- rangeLabel
+- rows[] with:
+  - year
+  - marker
+  - weekday
+  - yearSuffix
+  - main
+  - background
+
+known_rules:
+- weekday берётся из стандартной календарной логики
+- используется WEEKDAY_MAP
+- если дата рождения 29.02, то в невисокосный год брать 01.03
+- в 3-м ряду main пересчитывается от weekday + yearSuffix + expression
+- background считается через destiny + yearRoot
+- layout и rows нельзя менять без причины
+
+golden_case:
+birth_date: 1989-01-27
+years: 2024..2026
+expected_rows:
+- { year: 2024, marker: "", weekday: "8", yearSuffix: "24", main: "6", background: "9" }
+- { year: 2025, marker: "", weekday: "2", yearSuffix: "25", main: "1", background: "1" }
+- { year: 2026, marker: "", weekday: "9", yearSuffix: "26", main: "9", background: "2" }
+
+extra_case:
+birth_date: 2000-02-29
+years: 2023..2025
+expected_rows:
+- { year: 2023, marker: "", weekday: "5", yearSuffix: "23", main: "5", background: "4" }
+- { year: 2024, marker: "", weekday: "3", yearSuffix: "24", main: "4", background: "5" }
+- { year: 2025, marker: "", weekday: "8", yearSuffix: "25", main: "1", background: "6" }
+Шаблон Formula/fixtures.json
+json
+Копировать
+{
+  "version": "stage2-draft",
+  "sourceRepo": "mr.Kcopoc_oplata_bot",
+  "calculators": [
+    {
+      "id": "karma",
+      "status": "waiting_pdf",
+      "sourceFile": "bot.py",
+      "input": {
+        "day": 27,
+        "month": 1,
+        "year": 1989
+      },
+      "expected": {
+        "pending_from_pdf": true
+      }
+    },
+    {
+      "id": "ahamkara",
+      "status": "waiting_pdf",
+      "sourceFile": "bot.py",
+      "input": {
+        "day": 27,
+        "month": 1,
+        "year": 1989
+      },
+      "expected": {
+        "pending_from_pdf": true
+      }
+    },
+    {
+      "id": "periods",
+      "status": "baseline_ready",
+      "sourceFiles": ["README.md", "tests/test_periods.py", "bot.py"],
+      "input": {
+        "day": 27,
+        "month": 1,
+        "year": 1989,
+        "mode": "±5",
+        "currentYear": 2025
+      },
+      "expected": {
+        "rangeLabel": "2024–2026",
+        "rows": [
+          { "year": 2024, "marker": "", "weekday": "8", "yearSuffix": "24", "main": "6", "background": "9" },
+          { "year": 2025, "marker": "", "weekday": "2", "yearSuffix": "25", "main": "1", "background": "1" },
+          { "year": 2026, "marker": "", "weekday": "9", "yearSuffix": "26", "main": "9", "background": "2" }
+        ]
+      }
+    }
+  ]
+}
+Что Ваня делает на Stage 2
+Читает твой PDF/текст.
+Заполняет Formula/README_FOR_VANYA.txt.
+Заполняет Formula/fixtures.json.
+Меняет status: "stub" на "ready" в calculators.
+Переносит math-логику в app/tools/calculators/*.
+Оставляет UI/route guards/layout нетронутыми, если нет причины менять.
+Добавляет тесты для golden cases.
+Как запускать тесты на Stage 2
+В K сейчас нет test runner, поэтому Stage 2 должен его явно добавить. Самый прямой путь — vitest как dev dependency и отдельный test script; Stage 1 может оставить это на потом, чтобы не раздувать первый patch. K/package.json сейчас содержит только dev/build/start/lint, поэтому тестовый script — это доп. изменение Stage 2. 
+
+Рекомендуемый Stage 2 минимум:
+
+bash
+Копировать
+npm install -D vitest
+json
+Копировать
+{
+  "scripts": {
+    "test": "vitest run"
+  }
+}
+И затем:
+
+bash
+Копировать
+npm run test
+npm run lint
+npm run build
+Действия для тебя и итоговый handoff
+Чтобы Stage 2 прошёл без слепых зон, тебе нужно прислать не “вообще формулы”, а очень конкретный пакет: PDF/текст по каждому calculator, 3–10 golden cases, явно названные required fields, expected output fields, иконки 192/512 если текущие не подходят, а для Периодов — подтвердить, что текущая логика из README/tests остаётся источником правды. Для Chrome installability manifest должен содержать имя, иконки, start_url, display; для Telegram Mini App route должен быть безопасен в WebView и не зависеть от наличия Telegram API для базовой работы. 
+ 
+ 
+
+Что должен сделать ты
+Прислать PDF/текст по karma, ahamkara, dharma, expression, vyavadana, varna, months.
+По каждому calculator прислать:
+обязательные входы;
+формулу/правило;
+expected output fields;
+минимум 3 golden cases.
+Отдельно подтвердить режимы periods: -10, +10, ±5.
+Дать 192×192 и 512×512 иконки, если не хочешь использовать уже существующие.
+Если нужны отдельные тексты интерпретаций, прислать их как таблицу число -> короткий текст -> полный текст.
+Что Ваня должен вернуть после Stage 1
+zip или patch с изменениями только в DEOZMSK/K.
+README/handoff с перечнем:
+созданных и изменённых файлов;
+TODO, которые специально ждут Stage 2 PDF;
+env additions;
+как запускать локально;
+результаты smoke-check.
+Что Ваня должен вернуть после Stage 2
+patch с реально вставленными формулами;
+заполненный Formula/README_FOR_VANYA.txt;
+заполненный Formula/fixtures.json;
+тесты и результат npm run test;
+примеры output JSON минимум для 3 calculators.
+Handoff-блок, который нужно попросить у Вани
+text
+Копировать
+Верни, пожалуйста, итог в таком формате:
+
+1. Changed files
+- список всех изменённых/созданных файлов в K
+
+2. Stage 1 status
+- что уже работает на /tools
+- какие calculators пока stub
+- какие route-aware изменения внесены
+
+3. Stage 2 readiness
+- какие поля ждут PDF
+- какие fixtures уже готовы
+- какие calculators можно заполнять сразу
+
+4. Sample output JSON
+- karma
+- ahamkara
+- periods
+
+5. TODO
+- только реальные блокеры, не общие рассуждения
+
+6. Runbook
+- как локально запустить
+- как проверить /tools
+- как собрать prod build
+Пример output JSON, который он должен уметь показать
+json
+Копировать
+[
+  {
+    "toolId": "karma",
+    "title": "Карма",
+    "valid": false,
+    "status": "stub",
+    "source": "stub",
+    "warning": "Формула ожидает Stage 2 PDF/fixtures."
+  },
+  {
+    "toolId": "ahamkara",
+    "title": "Ахамкара",
+    "valid": false,
+    "status": "stub",
+    "source": "stub",
+    "warning": "Формула ожидает Stage 2 PDF/fixtures."
+  },
+  {
+    "toolId": "periods",
+    "title": "Периоды",
+    "valid": true,
+    "status": "ready",
+    "source": "bot-readonly",
+    "rangeLabel": "2024–2026",
+    "rows": [
+      { "year": 2024, "marker": "", "weekday": "8", "yearSuffix": "24", "main": "6", "background": "9" },
+      { "year": 2025, "marker": "", "weekday": "2", "yearSuffix": "25", "main": "1", "background": "1" },
+      { "year": 2026, "marker": "", "weekday": "9", "yearSuffix": "26", "main": "9", "background": "2" }
+    ]
+  }
+]
+Формат финального deliverable
+Stage 1 package: zip patch + README
+внутри только K, без вставленных формул, но с готовым /tools, route-aware guards, manifest и typed stubs.
+
+Stage 2 patch: formulas inserted + tests
+внутри заполненные calculators, fixtures, formula spec и тесты под golden cases."
