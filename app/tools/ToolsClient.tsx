@@ -15,6 +15,7 @@ import type { PeriodMode } from "./types";
 import { parseBirthDate } from "./calculators/shared";
 
 type ToolKey = "karma" | "ahamkara" | "dharma" | "expression" | "vyavadana" | "varna" | "periods" | "help";
+type BasicToolKey = Exclude<ToolKey, "periods" | "help">;
 
 const TOOLS: Array<{ key: ToolKey; label: string }> = [
   { key: "karma", label: "Карма" },
@@ -59,92 +60,17 @@ export default function ToolsClient() {
     ? `${String(parsedBirthDate.day).padStart(2, "0")}.${String(parsedBirthDate.month).padStart(2, "0")}.${parsedBirthDate.year}`
     : null;
 
-  function resetDate() {
-    setBirthDateInput("");
-    setActiveTool(null);
-  }
+  const basicResults = {
+    karma: { title: "Карма", ...karmaResult },
+    ahamkara: { title: "Ахамкара", ...ahamkaraResult },
+    dharma: { title: "Дхарма", ...dharmaResult },
+    expression: { title: "Экспрессия", ...expressionResult },
+    vyavadana: { title: "Вьявадана", ...vyavadanaResult },
+    varna: { title: "Варны", ...varnaResult, meaning: undefined },
+  } as const;
 
-  function renderResult() {
-    if (!activeTool) return <p className="text-sm text-slate-300">Выберите расчёт.</p>;
-
-    if (activeTool === "help") {
-      return (
-        <div className="space-y-2 text-sm text-slate-100">
-          <p>Введите дату в формате ДД.ММ.ГГГГ, ДД/ММ/ГГГГ, ДД-ММ-ГГГГ или DDMMYYYY.</p>
-          <p>После выбора кнопки расчёт выполняется сразу, без перезагрузки страницы.</p>
-        </div>
-      );
-    }
-
-    const resultMap = {
-      karma: { title: "Карма", value: karmaResult.value, meaning: karmaResult.meaning, warning: karmaResult.warning, valid: karmaResult.valid },
-      ahamkara: { title: "Ахамкара", value: ahamkaraResult.value, meaning: ahamkaraResult.meaning, warning: ahamkaraResult.warning, valid: ahamkaraResult.valid },
-      dharma: { title: "Дхарма", value: dharmaResult.value, meaning: dharmaResult.meaning, warning: dharmaResult.warning, valid: dharmaResult.valid },
-      expression: { title: "Экспрессия", value: expressionResult.value, meaning: expressionResult.meaning, warning: expressionResult.warning, valid: expressionResult.valid },
-      vyavadana: { title: "Вьявадана", value: vyavadanaResult.value, meaning: vyavadanaResult.meaning, warning: vyavadanaResult.warning, valid: vyavadanaResult.valid },
-      varna: { title: "Варны", value: varnaResult.value, meaning: undefined, warning: varnaResult.warning, valid: varnaResult.valid },
-    } as const;
-
-    if (activeTool === "periods") {
-      if (!periodsResult.valid) return <p className="text-sm text-amber-300">{periodsResult.warning}</p>;
-      return (
-        <div className="space-y-2 text-sm text-slate-100">
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {(["-10", "+10", "±5"] as const).map((mode) => (
-              <button
-                key={mode}
-                type="button"
-                onClick={() => { setPeriodsMode(mode); setShowMonths(false); }}
-                className={`rounded-lg px-2 py-1 text-xs transition ${
-                  periodsMode === mode ? "bg-indigo-500 text-white" : "bg-slate-800 text-slate-100 hover:bg-slate-700"
-                }`}
-              >
-                {mode} лет
-              </button>
-            ))}
-            <button
-              type="button"
-              onClick={() => setShowMonths((v) => !v)}
-              className="rounded-lg bg-slate-800 px-2 py-1 text-xs text-slate-100 transition hover:bg-slate-700"
-            >
-              📆 Месяцы
-            </button>
-          </div>
-          <p className="text-slate-200">Период: {periodsResult.rangeLabel}</p>
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-xs">
-              <thead>
-                <tr className="text-slate-300">
-                  <th className="px-2 py-1 text-left">Год</th><th className="px-2 py-1 text-left">День</th><th className="px-2 py-1 text-left">Суффикс</th><th className="px-2 py-1 text-left">Main</th><th className="px-2 py-1 text-left">Background</th>
-                </tr>
-              </thead>
-              <tbody>
-                {periodsResult.rows.map((row) => (
-                  <tr key={row.year} className={row.marker ? "text-emerald-300" : "text-slate-100"}>
-                    <td className="px-2 py-1">{row.year} {row.marker}</td><td className="px-2 py-1">{row.weekday}</td><td className="px-2 py-1">{row.yearSuffix}</td><td className="px-2 py-1">{row.main}</td><td className="px-2 py-1">{row.background}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {showMonths && monthsResult.valid && (
-            <div className="overflow-x-auto pt-2">
-              <p className="mb-2 text-slate-200">📆 Месяцы</p>
-              <table className="min-w-full text-xs">
-                <tbody>
-                  <tr>{monthsResult.headers.map((month) => <td key={`m-${month}`} className="px-2 py-1 text-slate-300">{month}</td>)}</tr>
-                  <tr>{monthsResult.expressionRow.map((v, i) => <td key={`e-${i}`} className="px-2 py-1">{v}</td>)}</tr>
-                  <tr>{monthsResult.karmaRow.map((v, i) => <td key={`k-${i}`} className="px-2 py-1">{v}</td>)}</tr>
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    const data = resultMap[activeTool];
+  function renderBasicResult(tool: BasicToolKey) {
+    const data = basicResults[tool];
     if (!data.valid) return <p className="text-sm text-amber-300">{data.warning}</p>;
 
     return (
@@ -161,6 +87,100 @@ export default function ToolsClient() {
         )}
       </div>
     );
+  }
+
+  function renderPeriodsResult() {
+    if (!periodsResult.valid) return <p className="text-sm text-amber-300">{periodsResult.warning}</p>;
+    return (
+      <div className="space-y-2 text-sm text-slate-100">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {(["-10", "+10", "±5"] as const).map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              onClick={() => { setPeriodsMode(mode); setShowMonths(false); }}
+              className={`rounded-lg px-2 py-1 text-xs transition ${
+                periodsMode === mode ? "bg-indigo-500 text-white" : "bg-slate-800 text-slate-100 hover:bg-slate-700"
+              }`}
+            >
+              {mode} лет
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => setShowMonths((v) => !v)}
+            className="rounded-lg bg-slate-800 px-2 py-1 text-xs text-slate-100 transition hover:bg-slate-700"
+          >
+            📆 Месяцы
+          </button>
+        </div>
+        <p className="text-slate-200">Период: {periodsResult.rangeLabel}</p>
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-xs">
+            <thead>
+              <tr className="text-slate-300">
+                <th className="px-2 py-1 text-left">Год</th><th className="px-2 py-1 text-left">День</th><th className="px-2 py-1 text-left">Суффикс</th><th className="px-2 py-1 text-left">Main</th><th className="px-2 py-1 text-left">Background</th>
+              </tr>
+            </thead>
+            <tbody>
+              {periodsResult.rows.map((row) => (
+                <tr key={row.year} className={row.marker ? "text-emerald-300" : "text-slate-100"}>
+                  <td className="px-2 py-1">{row.year} {row.marker}</td><td className="px-2 py-1">{row.weekday}</td><td className="px-2 py-1">{row.yearSuffix}</td><td className="px-2 py-1">{row.main}</td><td className="px-2 py-1">{row.background}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {showMonths && monthsResult.valid && (
+          <div className="overflow-x-auto pt-2">
+            <p className="mb-2 text-slate-200">📆 Месяцы</p>
+            <table className="min-w-full text-xs">
+              <tbody>
+                <tr>{monthsResult.headers.map((month) => <td key={`m-${month}`} className="px-2 py-1 text-slate-300">{month}</td>)}</tr>
+                <tr>{monthsResult.expressionRow.map((v, i) => <td key={`e-${i}`} className="px-2 py-1">{v}</td>)}</tr>
+                <tr>{monthsResult.karmaRow.map((v, i) => <td key={`k-${i}`} className="px-2 py-1">{v}</td>)}</tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  function renderHelpResult() {
+    return (
+      <div className="space-y-2 text-sm text-slate-100">
+        <p><span className="font-semibold">Карма</span> — базовый вектор уроков и повторяющихся жизненных тем.</p>
+        <p><span className="font-semibold">Ахамкара</span> — проявление эго, привычная роль в коммуникации и самоощущении.</p>
+        <p><span className="font-semibold">Дхарма</span> — направление предназначения и формат полезной реализации.</p>
+        <p><span className="font-semibold">Экспрессия</span> — стиль самовыражения и то, как вы воспринимаетесь со стороны.</p>
+        <p><span className="font-semibold">Вьявадана</span> — внутренние фильтры восприятия, ограничения и зоны развития.</p>
+        <p><span className="font-semibold">Варны</span> — преобладающий тип социального проявления и естественная роль.</p>
+        <p><span className="font-semibold">Периоды</span> — динамика влияний по годам и месяцам в выбранном диапазоне.</p>
+      </div>
+    );
+  }
+
+  const actionMap: Record<ToolKey, () => JSX.Element> = {
+    karma: () => renderBasicResult("karma"),
+    ahamkara: () => renderBasicResult("ahamkara"),
+    dharma: () => renderBasicResult("dharma"),
+    expression: () => renderBasicResult("expression"),
+    vyavadana: () => renderBasicResult("vyavadana"),
+    varna: () => renderBasicResult("varna"),
+    periods: renderPeriodsResult,
+    help: renderHelpResult,
+  };
+
+  function resetDate() {
+    setBirthDateInput("");
+    setActiveTool(null);
+  }
+
+  function renderResult() {
+    if (!activeTool) return <p className="text-sm text-slate-300">Выберите расчёт.</p>;
+    return actionMap[activeTool]();
   }
 
   return (
