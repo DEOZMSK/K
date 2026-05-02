@@ -78,7 +78,7 @@ export default function ToolsClient() {
       dharma: { title: "Дхарма", value: dharmaResult.value, meaning: dharmaResult.meaning, warning: dharmaResult.warning, valid: dharmaResult.valid },
       expression: { title: "Экспрессия", value: expressionResult.value, meaning: expressionResult.meaning, warning: expressionResult.warning, valid: expressionResult.valid },
       vyavadana: { title: "Вьявадана", value: vyavadanaResult.value, meaning: vyavadanaResult.meaning, warning: vyavadanaResult.warning, valid: vyavadanaResult.valid },
-      varna: { title: "Варны", value: varnaResult.value, warning: varnaResult.warning, valid: varnaResult.valid },
+      varna: { title: "Варны", value: varnaResult.value, meaning: undefined, warning: varnaResult.warning, valid: varnaResult.valid },
     } as const;
 
     if (activeTool === "periods") {
