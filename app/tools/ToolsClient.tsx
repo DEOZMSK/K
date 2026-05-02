@@ -125,21 +125,21 @@ export default function ToolsClient() {
                 {active === "varna" && varnaDetails && (
                   <div className="space-y-3 text-slate-100">
                     <p>Варны: {String(varna.value)}</p>
-                    <div className="space-y-1">
-                      <p>{varnaDetails.formattedDate}:</p>
-                      {varnaDetails.rows.map((row, i) => (
-                        <p key={`varna-row-${i}`}>{row.digit} ({row.percent}%) {row.label}</p>
-                      ))}
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      <div className="space-y-1">
+                        <p>{varnaDetails.formattedDate}:</p>
+                        {varnaDetails.rows.map((row, i) => (
+                          <p key={`varna-row-${i}`}>{row.digit} ({row.percent}%) {row.label}</p>
+                        ))}
+                      </div>
+                      <div className="space-y-1">
+                        <p>Итого:</p>
+                        <p>Кшатрий — {varnaDetails.totals.Кшатрий}%</p>
+                        <p>Брахман — {varnaDetails.totals.Брахман}%</p>
+                        <p>Вайшья — {varnaDetails.totals.Вайшья}%</p>
+                        <p>Шудра — {varnaDetails.totals.Шудра}%</p>
+                      </div>
                     </div>
-                    <div className="space-y-1">
-                      <p>Итого:</p>
-                      <p>Кшатрий — {varnaDetails.totals.Кшатрий}%</p>
-                      <p>Брахман — {varnaDetails.totals.Брахман}%</p>
-                      <p>Вайшья — {varnaDetails.totals.Вайшья}%</p>
-                      <p>Шудра — {varnaDetails.totals.Шудра}%</p>
-                    </div>
-                    <p className="text-sm text-slate-300">Проценты показывают распределение варн по дате рождения. Это не трактовка и не выводы о характере.</p>
-                    <p className="text-sm text-slate-300">Если хочешь понять, как эта конфигурация проявляется в жизни, работе и отношениях — напиши мне <a className="underline" href="https://t.me/BAPHbl" target="_blank" rel="noreferrer">лично</a>.</p>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                       <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Брахман</a>
                       <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кшатрий</a>
@@ -164,26 +164,17 @@ export default function ToolsClient() {
                     </div>
 
                     {months.valid && (
-                      <div className="overflow-x-auto text-sm">
+                      <div className="text-sm">
                         <p className="mb-2 font-medium">Месяцы</p>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th className="pr-3">Месяц</th>
-                              {months.headers.map((h) => <th className="pr-2" key={h}>{h}</th>)}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="pr-3">Экспрессия</td>
-                              {months.expressionRow.map((v, i) => <td className="pr-2" key={`e-${i}`}>{v}</td>)}
-                            </tr>
-                            <tr>
-                              <td className="pr-3">Карма</td>
-                              {months.karmaRow.map((v, i) => <td className="pr-2" key={`k-${i}`}>{v}</td>)}
-                            </tr>
-                          </tbody>
-                        </table>
+                        <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-4">
+                          {months.headers.map((month, i) => (
+                            <div key={month} className="rounded-lg border border-white/15 bg-white/5 px-2 py-1.5 text-xs">
+                              <p className="font-semibold">{month}</p>
+                              <p>E: {months.expressionRow[i]}</p>
+                              <p>K: {months.karmaRow[i]}</p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
