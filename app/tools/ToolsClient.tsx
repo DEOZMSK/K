@@ -34,7 +34,7 @@ export default function ToolsClient() {
   const isDateValid = karma.valid;
 
   const activeButtonClass = (name: Action) =>
-    `rounded-2xl border px-2 py-2 text-xs font-medium transition-all sm:text-sm ${active === name ? "border-white/35 bg-white/20 text-white" : "border-white/15 bg-white/5 text-slate-200 hover:bg-white/10"}`;
+    `min-w-0 rounded-2xl border px-2 py-2 text-xs font-medium leading-tight transition-all sm:text-sm ${active === name ? "border-white/35 bg-white/20 text-white" : "border-white/15 bg-white/5 text-slate-200 hover:bg-white/10"}`;
 
   const varnaDetails = useMemo(() => {
     const parsed = parseBirthDate(birthDate) ?? parseIsoBirthDate(birthDate);
@@ -111,12 +111,12 @@ export default function ToolsClient() {
                 <button onClick={() => setActive("dharma")} className={activeButtonClass("dharma")}>Дхарма</button>
                 <button onClick={() => setActive("expression")} className={activeButtonClass("expression")}>Экспрессия</button>
                 <button onClick={() => setActive("vyavadhana")} className={activeButtonClass("vyavadhana")}>Вьявадана</button>
-                <button onClick={() => setActive("varna")} className={activeButtonClass("varna")}>Варны</button>
+                <button onClick={() => setActive("varna")} className={activeButtonClass("varna")}>Варна</button>
                 <button onClick={() => setActive("periods")} className={activeButtonClass("periods")}>Периоды</button>
                 <button onClick={() => setActive("help")} className={activeButtonClass("help")}>Справка</button>
               </div>
 
-              <div className="mt-3 rounded-2xl border border-white/10 bg-black/45 p-3 text-sm">
+              <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/10 bg-black/45 p-3 text-sm">
                 {active === "karma" && renderMeaning("Карма", Number(karma.value), karma.meaning?.text, karma.meaning?.url)}
                 {active === "ahamkara" && renderMeaning("Ахамкара", Number(ahamkara.value), ahamkara.meaning?.text, ahamkara.meaning?.url)}
                 {active === "dharma" && renderMeaning("Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
@@ -149,7 +149,7 @@ export default function ToolsClient() {
                   </div>
                 )}
                 {active === "periods" && periods.valid && (
-                  <div>
+                  <div className="space-y-3">
                     <div className="mb-3 flex flex-wrap gap-2">
                       <button onClick={() => setPeriodMode("-10")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">−10 лет</button>
                       <button onClick={() => setPeriodMode("+10")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">+10 лет</button>
@@ -164,7 +164,7 @@ export default function ToolsClient() {
                     </div>
 
                     {months.valid && (
-                      <div className="mt-4 overflow-x-auto text-sm">
+                      <div className="overflow-x-auto text-sm">
                         <p className="mb-2 font-medium">Месяцы</p>
                         <table>
                           <thead>
