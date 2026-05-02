@@ -14,9 +14,7 @@ import {
 import { CalculatorCard } from "./components/CalculatorCard";
 import type { PeriodMode } from "./types";
 
-const actions = ["karma", "ahamkara", "dharma", "expression", "vyavadhana", "varna", "periods", "help"] as const;
-
-type Action = (typeof actions)[number];
+type Action = "karma" | "ahamkara" | "dharma" | "expression" | "vyavadhana" | "varna" | "periods" | "help";
 
 export default function ToolsClient() {
   const [birthDate, setBirthDate] = useState("");
@@ -33,11 +31,16 @@ export default function ToolsClient() {
   const months = useMemo(() => calculateMonths({ birthDate }), [birthDate]);
 
   const isDateValid = karma.valid;
+
   const renderMeaning = (title: string, num: number, text?: string, link?: string) => (
     <div className="space-y-3 text-slate-100">
       <p className="text-xl font-semibold">{title}: {num}</p>
       <p className="text-slate-200">{text}</p>
-      {link && <a className="inline-block rounded-xl bg-indigo-500 px-4 py-2 font-medium" href={link} target="_blank" rel="noreferrer">📖 Открыть разбор в Telegram</a>}
+      {link && (
+        <a className="inline-block rounded-xl bg-indigo-500 px-4 py-2 font-medium" href={link} target="_blank" rel="noreferrer">
+          📖 Открыть разбор в Telegram
+        </a>
+      )}
     </div>
   );
 
@@ -83,14 +86,53 @@ export default function ToolsClient() {
                       <button onClick={() => setPeriodMode("-10")} className="rounded-lg bg-slate-800 px-3 py-1">−10 лет</button>
                       <button onClick={() => setPeriodMode("+10")} className="rounded-lg bg-slate-800 px-3 py-1">+10 лет</button>
                       <button onClick={() => setPeriodMode("±5")} className="rounded-lg bg-slate-800 px-3 py-1">±5 лет</button>
-                      <button onClick={() => setActive("help")} className="rounded-lg bg-slate-800 px-3 py-1">📆 Месяцы</button>
                     </div>
                     <p className="mb-2">Период: {periods.rangeLabel}</p>
-                    <div className="overflow-x-auto text-sm"><table><thead><tr><th className="pr-3">Год</th><th className="pr-3">День</th><th className="pr-3">Суффикс</th><th className="pr-3">Main</th><th>Background</th></tr></thead><tbody>{periods.rows.map((r)=><tr key={r.year}><td>{r.year}</td><td>{r.weekday}</td><td>{r.yearSuffix}</td><td>{r.main}</td><td>{r.background}</td></tr>)}</tbody></table></div>
-                    {months.valid && <p className="mt-3 text-slate-300">Месяцы: экспрессия {months.expressionRow.join(" ")}</p>}
+                    <div className="overflow-x-auto text-sm">
+                      <table>
+                        <thead><tr><th className="pr-3">Год</th><th className="pr-3">День</th><th className="pr-3">Суффикс</th><th className="pr-3">Main</th><th>Background</th></tr></thead>
+                        <tbody>{periods.rows.map((r) => <tr key={r.year}><td>{r.year}</td><td>{r.weekday}</td><td>{r.yearSuffix}</td><td>{r.main}</td><td>{r.background}</td></tr>)}</tbody>
+                      </table>
+                    </div>
+
+                    {months.valid && (
+                      <div className="mt-4 overflow-x-auto text-sm">
+                        <p className="mb-2 font-medium">📆 Месяцы</p>
+                        <table>
+                          <thead>
+                            <tr>
+                              <th className="pr-3">Месяц</th>
+                              {months.headers.map((h) => <th className="pr-2" key={h}>{h}</th>)}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td className="pr-3">Экспрессия</td>
+                              {months.expressionRow.map((v, i) => <td className="pr-2" key={`e-${i}`}>{v}</td>)}
+                            </tr>
+                            <tr>
+                              <td className="pr-3">Карма</td>
+                              {months.karmaRow.map((v, i) => <td className="pr-2" key={`k-${i}`}>{v}</td>)}
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
                 )}
-                {active === "help" && <p>Введите дату в формате ДД.ММ.ГГГГ/ДД-ММ-ГГГГ/ДДММГГГГ и нажмите нужный расчёт. Все трактовки содержат ссылки на полный разбор.</p>}
+                {active === "help" && (
+                  <div className="space-y-3">
+                    <p>Выберите расчёт. В справке — быстрые ссылки и объяснения.</p>
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/57?src=bot" target="_blank" rel="noreferrer">♾ Карма</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/206?src=bot" target="_blank" rel="noreferrer">🌟 Ахамкара</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/265?src=bot" target="_blank" rel="noreferrer">🔥 Дхарма</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/85?src=bot" target="_blank" rel="noreferrer">⚡ Экспрессия</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/BAPHbl" target="_blank" rel="noreferrer">🚧 Вьявадана — обсудить</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">🗓 Периоды</a>
+                    </div>
+                  </div>
+                )}
               </div>
             </>
           )}
