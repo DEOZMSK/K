@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { parseBirthDate, parseIsoBirthDate, reduceToDigit, sumDigits } from "./calculators/shared";
 import {
   calculateAhamkara,
   calculateDharma,
@@ -32,6 +33,48 @@ export default function ToolsClient() {
 
   const isDateValid = karma.valid;
 
+  const activeButtonClass = (name: Action) =>
+    `rounded-xl p-3 text-slate-900 transition-colors ${active === name ? "bg-indigo-300" : "bg-slate-300"}`;
+
+  const varnaDetails = useMemo(() => {
+    const parsed = parseBirthDate(birthDate) ?? parseIsoBirthDate(birthDate);
+    if (!parsed) return null;
+
+    const labels: Record<number, "Кшатрий" | "Брахман" | "Вайшья" | "Шудра"> = {
+      1: "Кшатрий",
+      9: "Кшатрий",
+      3: "Брахман",
+      6: "Брахман",
+      2: "Вайшья",
+      5: "Вайшья",
+      4: "Шудра",
+      7: "Шудра",
+      8: "Шудра",
+    };
+
+    const dayDigit = reduceToDigit(sumDigits(parsed.day));
+    const monthDigit = parsed.month >= 10 ? reduceToDigit(sumDigits(parsed.month)) : parsed.month;
+    const yearDigit = reduceToDigit(sumDigits(parsed.year));
+    const fateDigit = reduceToDigit(parsed.ddmmyyyy.split("").reduce((a, c) => a + Number(c), 0));
+
+    const totals = { Кшатрий: 0, Брахман: 0, Вайшья: 0, Шудра: 0 };
+    totals[labels[dayDigit]] += 40;
+    totals[labels[monthDigit]] += 10;
+    totals[labels[yearDigit]] += 10;
+    totals[labels[fateDigit]] += 40;
+
+    return {
+      formattedDate: `${parsed.ddmmyyyy.slice(0, 2)}.${parsed.ddmmyyyy.slice(2, 4)}.${parsed.ddmmyyyy.slice(4)}`,
+      rows: [
+        { digit: dayDigit, percent: 40, label: labels[dayDigit] },
+        { digit: monthDigit, percent: 10, label: labels[monthDigit] },
+        { digit: yearDigit, percent: 10, label: labels[yearDigit] },
+        { digit: fateDigit, percent: 40, label: labels[fateDigit] },
+      ],
+      totals,
+    };
+  }, [birthDate]);
+
   const renderMeaning = (title: string, num: number, text?: string, link?: string) => (
     <div className="space-y-3 text-slate-100">
       <p className="text-xl font-semibold">{title}: {num}</p>
@@ -45,7 +88,7 @@ export default function ToolsClient() {
   );
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900 px-4 py-6 text-white">
+    <main className="page-glow page-glow-indigo min-h-screen bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900 px-4 py-6 text-white">
       <div className="mx-auto w-full max-w-md">
         <CalculatorCard title="🔮 Бесплатный расчёт/прогноз">
           <label className="text-sm text-slate-200" htmlFor="birthDate">Дата рождения</label>
@@ -63,14 +106,14 @@ export default function ToolsClient() {
           {isDateValid && (
             <>
               <div className="mt-4 grid grid-cols-2 gap-2">
-                <button onClick={() => setActive("karma")} className="rounded-xl bg-slate-800 p-3">♾ Карма</button>
-                <button onClick={() => setActive("ahamkara")} className="rounded-xl bg-slate-800 p-3">🌟 Ахамкара</button>
-                <button onClick={() => setActive("dharma")} className="rounded-xl bg-slate-800 p-3">🔥 Дхарма</button>
-                <button onClick={() => setActive("expression")} className="rounded-xl bg-slate-800 p-3">⚡ Экспрессия</button>
-                <button onClick={() => setActive("vyavadhana")} className="rounded-xl bg-slate-800 p-3">🚧 Вьявадана</button>
-                <button onClick={() => setActive("varna")} className="rounded-xl bg-slate-800 p-3">Варны</button>
-                <button onClick={() => setActive("periods")} className="rounded-xl bg-slate-800 p-3">🗓 Периоды</button>
-                <button onClick={() => setActive("help")} className="rounded-xl bg-indigo-600 p-3">ℹ️ Справка</button>
+                <button onClick={() => setActive("karma")} className={activeButtonClass("karma")}>♾ Карма</button>
+                <button onClick={() => setActive("ahamkara")} className={activeButtonClass("ahamkara")}>🌟 Ахамкара</button>
+                <button onClick={() => setActive("dharma")} className={activeButtonClass("dharma")}>🔥 Дхарма</button>
+                <button onClick={() => setActive("expression")} className={activeButtonClass("expression")}>⚡ Экспрессия</button>
+                <button onClick={() => setActive("vyavadhana")} className={activeButtonClass("vyavadhana")}>🚧 Вьявадана</button>
+                <button onClick={() => setActive("varna")} className={activeButtonClass("varna")}>Варны</button>
+                <button onClick={() => setActive("periods")} className={activeButtonClass("periods")}>🗓 Периоды</button>
+                <button onClick={() => setActive("help")} className={activeButtonClass("help")}>ℹ️ Справка</button>
               </div>
 
               <div className="mt-4 rounded-xl bg-slate-950/80 p-4">
@@ -79,13 +122,38 @@ export default function ToolsClient() {
                 {active === "dharma" && renderMeaning("🔥 Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
                 {active === "expression" && renderMeaning("⚡ Экспрессия", Number(expression.value), expression.meaning?.text, expression.meaning?.url)}
                 {active === "vyavadhana" && renderMeaning("🚧 Вьявадана", Number(vyavadhana.value), vyavadhana.meaning?.text, vyavadhana.meaning?.url)}
-                {active === "varna" && <p>Варны: {String(varna.value)}</p>}
+                {active === "varna" && varnaDetails && (
+                  <div className="space-y-3 text-slate-100">
+                    <p>Варны: {String(varna.value)}</p>
+                    <div className="space-y-1">
+                      <p>{varnaDetails.formattedDate}:</p>
+                      {varnaDetails.rows.map((row, i) => (
+                        <p key={`varna-row-${i}`}>{row.digit} ({row.percent}%) {row.label}</p>
+                      ))}
+                    </div>
+                    <div className="space-y-1">
+                      <p>Итого:</p>
+                      <p>Кшатрий — {varnaDetails.totals.Кшатрий}%</p>
+                      <p>Брахман — {varnaDetails.totals.Брахман}%</p>
+                      <p>Вайшья — {varnaDetails.totals.Вайшья}%</p>
+                      <p>Шудра — {varnaDetails.totals.Шудра}%</p>
+                    </div>
+                    <p className="text-sm text-slate-300">Проценты показывают распределение варн по дате рождения. Это не трактовка и не выводы о характере.</p>
+                    <p className="text-sm text-slate-300">Если хочешь понять, как эта конфигурация проявляется в жизни, работе и отношениях — напиши мне <a className="underline" href="https://t.me/BAPHbl" target="_blank" rel="noreferrer">лично</a>.</p>
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Брахман</a>
+                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кшатрий</a>
+                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Вайшья</a>
+                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Шудра</a>
+                    </div>
+                  </div>
+                )}
                 {active === "periods" && periods.valid && (
                   <div>
                     <div className="mb-3 flex flex-wrap gap-2">
-                      <button onClick={() => setPeriodMode("-10")} className="rounded-lg bg-slate-800 px-3 py-1">−10 лет</button>
-                      <button onClick={() => setPeriodMode("+10")} className="rounded-lg bg-slate-800 px-3 py-1">+10 лет</button>
-                      <button onClick={() => setPeriodMode("±5")} className="rounded-lg bg-slate-800 px-3 py-1">±5 лет</button>
+                      <button onClick={() => setPeriodMode("-10")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">−10 лет</button>
+                      <button onClick={() => setPeriodMode("+10")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">+10 лет</button>
+                      <button onClick={() => setPeriodMode("±5")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">±5 лет</button>
                     </div>
                     <p className="mb-2">Период: {periods.rangeLabel}</p>
                     <div className="overflow-x-auto text-sm">

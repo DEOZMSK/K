@@ -57,7 +57,7 @@ export default function HomePage() {
   ];
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#fdf6e8] via-[#f8e6c9] to-[#f3d9aa] text-neutral-900">
+    <main className="page-glow page-glow-gold relative min-h-screen overflow-hidden bg-gradient-to-br from-[#fdf6e8] via-[#f8e6c9] to-[#f3d9aa] text-neutral-900">
       {/* Фон с цифровой глубиной */}
       <div className="pointer-events-none absolute inset-0">
         <div
