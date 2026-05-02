@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import {
   calculateAhamkara,
   calculateDharma,
@@ -162,7 +163,7 @@ export default function ToolsClient() {
     );
   }
 
-  const actionMap: Record<ToolKey, () => JSX.Element> = {
+  const actionMap: Record<ToolKey, () => ReactNode> = {
     karma: () => renderBasicResult("karma"),
     ahamkara: () => renderBasicResult("ahamkara"),
     dharma: () => renderBasicResult("dharma"),
