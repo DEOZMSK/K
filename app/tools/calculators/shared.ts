@@ -14,7 +14,7 @@ export function sumDigits(n: number): number {
 export function reduceToDigit(n: number): number {
   let value = Math.abs(n);
   while (value > 9) value = sumDigits(value);
-  return value;
+  return value === 0 ? 9 : value;
 }
 
 export function parseBirthDate(input: string): ParsedBirthDate | null {
