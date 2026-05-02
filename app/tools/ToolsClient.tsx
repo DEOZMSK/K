@@ -73,11 +73,11 @@ export default function ToolsClient() {
     }
 
     const resultMap = {
-      karma: { title: "Карма", value: karmaResult.value, warning: karmaResult.warning, valid: karmaResult.valid },
-      ahamkara: { title: "Ахамкара", value: ahamkaraResult.value, warning: ahamkaraResult.warning, valid: ahamkaraResult.valid },
-      dharma: { title: "Дхарма", value: dharmaResult.value, warning: dharmaResult.warning, valid: dharmaResult.valid },
-      expression: { title: "Экспрессия", value: expressionResult.value, warning: expressionResult.warning, valid: expressionResult.valid },
-      vyavadana: { title: "Вьявадана", value: vyavadanaResult.value, warning: vyavadanaResult.warning, valid: vyavadanaResult.valid },
+      karma: { title: "Карма", value: karmaResult.value, meaning: karmaResult.meaning, warning: karmaResult.warning, valid: karmaResult.valid },
+      ahamkara: { title: "Ахамкара", value: ahamkaraResult.value, meaning: ahamkaraResult.meaning, warning: ahamkaraResult.warning, valid: ahamkaraResult.valid },
+      dharma: { title: "Дхарма", value: dharmaResult.value, meaning: dharmaResult.meaning, warning: dharmaResult.warning, valid: dharmaResult.valid },
+      expression: { title: "Экспрессия", value: expressionResult.value, meaning: expressionResult.meaning, warning: expressionResult.warning, valid: expressionResult.valid },
+      vyavadana: { title: "Вьявадана", value: vyavadanaResult.value, meaning: vyavadanaResult.meaning, warning: vyavadanaResult.warning, valid: vyavadanaResult.valid },
       varna: { title: "Варны", value: varnaResult.value, warning: varnaResult.warning, valid: varnaResult.valid },
     } as const;
 
@@ -102,9 +102,18 @@ export default function ToolsClient() {
     if (!data.valid) return <p className="text-sm text-amber-300">{data.warning}</p>;
 
     return (
-      <p className="text-sm text-slate-100">
-        {data.title}: <span className="font-semibold text-white">{String(data.value)}</span>
-      </p>
+      <div className="space-y-2 text-sm text-slate-100">
+        <p>
+          {data.title}: <span className="font-semibold text-white">{String(data.value)}</span>
+        </p>
+        {data.meaning && (
+          <p className="text-slate-200">
+            <a href={data.meaning.url} target="_blank" rel="noreferrer" className="underline decoration-indigo-300/70 underline-offset-2 hover:text-white">
+              {data.meaning.text}
+            </a>
+          </p>
+        )}
+      </div>
     );
   }
 
