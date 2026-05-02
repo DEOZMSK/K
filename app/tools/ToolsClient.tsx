@@ -7,9 +7,11 @@ import {
   calculateExpression,
   calculateKarma,
   calculatePeriods,
+  calculateMonths,
   calculateVarna,
   calculateVyavadana,
 } from "./calculators";
+import type { PeriodMode } from "./types";
 import { parseBirthDate } from "./calculators/shared";
 
 type ToolKey = "karma" | "ahamkara" | "dharma" | "expression" | "vyavadana" | "varna" | "periods" | "help";
@@ -29,6 +31,8 @@ export default function ToolsClient() {
   const [birthDateInput, setBirthDateInput] = useState("");
   const [activeTool, setActiveTool] = useState<ToolKey | null>(null);
   const parsedBirthDate = useMemo(() => parseBirthDate(birthDateInput), [birthDateInput]);
+  const [periodsMode, setPeriodsMode] = useState<PeriodMode>("±5");
+  const [showMonths, setShowMonths] = useState(false);
 
   const karmaResult = useMemo(() => calculateKarma({ birthDate: birthDateInput }), [birthDateInput]);
   const ahamkaraResult = useMemo(() => calculateAhamkara({ birthDate: birthDateInput }), [birthDateInput]);
@@ -40,11 +44,11 @@ export default function ToolsClient() {
     () =>
       calculatePeriods({
         birthDate: birthDateInput,
-        mode: "±5",
-        currentYear: new Date().getUTCFullYear(),
+        mode: periodsMode,
       }),
-    [birthDateInput],
+    [birthDateInput, periodsMode],
   );
+  const monthsResult = useMemo(() => calculateMonths({ birthDate: birthDateInput }), [birthDateInput]);
 
   const isDateValid = Boolean(parsedBirthDate);
   const dateValidationError =
@@ -85,15 +89,57 @@ export default function ToolsClient() {
       if (!periodsResult.valid) return <p className="text-sm text-amber-300">{periodsResult.warning}</p>;
       return (
         <div className="space-y-2 text-sm text-slate-100">
-          <p className="text-slate-200">Период: {periodsResult.rangeLabel}</p>
-          <ul className="space-y-1 text-xs leading-5">
-            {periodsResult.rows.map((row) => (
-              <li key={row.year}>
-                {row.marker ? "● " : ""}
-                {row.year}: день {row.weekday}, суффикс {row.yearSuffix}, main {row.main}, background {row.background}
-              </li>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {(["-10", "+10", "±5"] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => { setPeriodsMode(mode); setShowMonths(false); }}
+                className={`rounded-lg px-2 py-1 text-xs transition ${
+                  periodsMode === mode ? "bg-indigo-500 text-white" : "bg-slate-800 text-slate-100 hover:bg-slate-700"
+                }`}
+              >
+                {mode} лет
+              </button>
             ))}
-          </ul>
+            <button
+              type="button"
+              onClick={() => setShowMonths((v) => !v)}
+              className="rounded-lg bg-slate-800 px-2 py-1 text-xs text-slate-100 transition hover:bg-slate-700"
+            >
+              📆 Месяцы
+            </button>
+          </div>
+          <p className="text-slate-200">Период: {periodsResult.rangeLabel}</p>
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-xs">
+              <thead>
+                <tr className="text-slate-300">
+                  <th className="px-2 py-1 text-left">Год</th><th className="px-2 py-1 text-left">День</th><th className="px-2 py-1 text-left">Суффикс</th><th className="px-2 py-1 text-left">Main</th><th className="px-2 py-1 text-left">Background</th>
+                </tr>
+              </thead>
+              <tbody>
+                {periodsResult.rows.map((row) => (
+                  <tr key={row.year} className={row.marker ? "text-emerald-300" : "text-slate-100"}>
+                    <td className="px-2 py-1">{row.year} {row.marker}</td><td className="px-2 py-1">{row.weekday}</td><td className="px-2 py-1">{row.yearSuffix}</td><td className="px-2 py-1">{row.main}</td><td className="px-2 py-1">{row.background}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {showMonths && monthsResult.valid && (
+            <div className="overflow-x-auto pt-2">
+              <p className="mb-2 text-slate-200">📆 Месяцы</p>
+              <table className="min-w-full text-xs">
+                <tbody>
+                  <tr>{monthsResult.headers.map((month) => <td key={`m-${month}`} className="px-2 py-1 text-slate-300">{month}</td>)}</tr>
+                  <tr>{monthsResult.expressionRow.map((v, i) => <td key={`e-${i}`} className="px-2 py-1">{v}</td>)}</tr>
+                  <tr>{monthsResult.karmaRow.map((v, i) => <td key={`k-${i}`} className="px-2 py-1">{v}</td>)}</tr>
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       );
     }

@@ -7,8 +7,10 @@ export function calculateMonths(input: MonthsInput): MonthsResult {
 
   const expressionSimple = reduceToDigit(parsed.day + parsed.month);
   const karmaSimple = reduceToDigit(parsed.day + parsed.month + parsed.year);
+  // Семантика как в bot.py/render_months_text:
+  // 1..12 по колонкам, затем строки "экспрессия" и "карма" для каждого месяца.
   const headers = Array.from({ length: 12 }, (_, i) => String(i + 1));
-  const expressionRow = headers.map((h) => String(reduceToDigit(Number(h) + expressionSimple)));
-  const karmaRow = headers.map((h) => String(reduceToDigit(Number(h) + karmaSimple)));
+  const expressionRow = headers.map((month) => String(reduceToDigit(Number(month) + expressionSimple)));
+  const karmaRow = headers.map((month) => String(reduceToDigit(Number(month) + karmaSimple)));
   return { valid: true, headers, expressionRow, karmaRow };
 }
