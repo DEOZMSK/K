@@ -132,19 +132,19 @@ export default function ToolsClient() {
                           <p key={`varna-row-${i}`}>{row.digit} ({row.percent}%) {row.label}</p>
                         ))}
                       </div>
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         <p>Итого:</p>
                         <p>Кшатрий — {varnaDetails.totals.Кшатрий}%</p>
                         <p>Брахман — {varnaDetails.totals.Брахман}%</p>
                         <p>Вайшья — {varnaDetails.totals.Вайшья}%</p>
                         <p>Шудра — {varnaDetails.totals.Шудра}%</p>
+                        <div className="grid grid-cols-1 gap-1.5 pt-1">
+                          <a className="rounded-lg bg-slate-300 px-2 py-1.5 text-slate-900" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Брахман</a>
+                          <a className="rounded-lg bg-slate-300 px-2 py-1.5 text-slate-900" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кшатрий</a>
+                          <a className="rounded-lg bg-slate-300 px-2 py-1.5 text-slate-900" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Вайшья</a>
+                          <a className="rounded-lg bg-slate-300 px-2 py-1.5 text-slate-900" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Шудра</a>
+                        </div>
                       </div>
-                    </div>
-                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Брахман</a>
-                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кшатрий</a>
-                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Вайшья</a>
-                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Шудра</a>
                     </div>
                   </div>
                 )}
@@ -156,27 +156,34 @@ export default function ToolsClient() {
                       <button onClick={() => setPeriodMode("±5")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">±5 лет</button>
                     </div>
                     <p className="mb-2">Период: {periods.rangeLabel}</p>
-                    <div className="overflow-x-auto text-sm">
-                      <table>
+                    <div className="grid grid-cols-[1fr_auto] gap-3 text-sm">
+                      <div className="min-w-0 overflow-x-auto">
+                        <table>
                         <thead><tr><th className="pr-3">Год</th><th className="pr-3">День</th><th className="pr-3">Суффикс</th><th className="pr-3">Main</th><th>Background</th></tr></thead>
                         <tbody>{periods.rows.map((r) => <tr key={r.year}><td>{r.year}</td><td>{r.weekday}</td><td>{r.yearSuffix}</td><td>{r.main}</td><td>{r.background}</td></tr>)}</tbody>
-                      </table>
-                    </div>
-
-                    {months.valid && (
-                      <div className="text-sm">
-                        <p className="mb-2 font-medium">Месяцы</p>
-                        <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-4">
-                          {months.headers.map((month, i) => (
-                            <div key={month} className="rounded-lg border border-white/15 bg-white/5 px-2 py-1.5 text-xs">
-                              <p className="font-semibold">{month}</p>
-                              <p>E: {months.expressionRow[i]}</p>
-                              <p>K: {months.karmaRow[i]}</p>
-                            </div>
-                          ))}
-                        </div>
+                        </table>
                       </div>
-                    )}
+
+                      {months.valid && (
+                        <div className="rounded-lg border border-white/15 bg-white/5 p-2 text-xs">
+                          <p className="mb-1 font-medium">Месяцы</p>
+                          <table>
+                            <thead>
+                              <tr><th className="pr-1 text-left">М</th><th className="pr-1 text-left">M</th><th className="text-left">B</th></tr>
+                            </thead>
+                            <tbody>
+                              {months.headers.map((month, i) => (
+                                <tr key={month}>
+                                  <td className="pr-1">{month}</td>
+                                  <td className="pr-1">{months.expressionRow[i]}</td>
+                                  <td>{months.karmaRow[i]}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
                 {active === "help" && (
