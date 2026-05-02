@@ -1,46 +1,72 @@
 {
-  "version": "stage2-draft",
+  "version": "stage2-draft-expanded",
   "sourceRepo": "mr.Kcopoc_oplata_bot",
   "calculators": [
     {
       "id": "periods",
       "status": "baseline_ready",
-      "sourceFiles": ["README.md", "tests/test_periods.py", "bot.py"],
+      "sourceFiles": ["mr.Kcopoc_oplata_bot/tests/test_periods.py", "app/tools/calculators/periods.ts"],
       "fixtures": [
         {
           "caseId": "periods_baseline_1989_01_27",
-          "input": {
-            "birthDate": "1989-01-27",
-            "mode": "±5",
-            "currentYear": 2025
-          },
+          "input": { "birthDate": "1989-01-27", "mode": "±5", "currentYear": 2025 },
           "expected": {
             "rangeLabel": "2020–2030",
             "sampleRows": [
-              { "year": 2024, "marker": "", "weekday": "8", "yearSuffix": "24", "main": "6", "background": "9" },
-              { "year": 2025, "marker": "", "weekday": "2", "yearSuffix": "25", "main": "1", "background": "1" },
-              { "year": 2026, "marker": "", "weekday": "9", "yearSuffix": "26", "main": "9", "background": "2" }
+              { "year": 2024, "weekday": "8", "yearSuffix": "24", "main": "6", "background": "9" },
+              { "year": 2025, "weekday": "2", "yearSuffix": "25", "main": "1", "background": "1" },
+              { "year": 2026, "weekday": "9", "yearSuffix": "26", "main": "9", "background": "2" }
             ]
           }
         },
         {
           "caseId": "periods_feb_29_rollover",
-          "input": {
-            "birthDate": "2000-02-29",
-            "mode": "±5",
-            "currentYear": 2025
-          },
+          "input": { "birthDate": "2000-02-29", "mode": "±5", "currentYear": 2025 },
           "expected": {
             "rangeLabel": "2020–2030",
             "sampleRows": [
-              { "year": 2023, "marker": "", "weekday": "5", "yearSuffix": "23", "main": "5", "background": "4" },
-              { "year": 2024, "marker": "", "weekday": "3", "yearSuffix": "24", "main": "4", "background": "5" },
-              { "year": 2025, "marker": "", "weekday": "8", "yearSuffix": "25", "main": "1", "background": "6" }
-            ],
-            "rule": "В невисокосные годы дата 29.02 заменяется на 01.03"
+              { "year": 2023, "weekday": "5", "yearSuffix": "23", "main": "5", "background": "4" },
+              { "year": 2024, "weekday": "3", "yearSuffix": "24", "main": "4", "background": "5" },
+              { "year": 2025, "weekday": "8", "yearSuffix": "25", "main": "1", "background": "6" }
+            ]
           }
+        },
+        {
+          "caseId": "periods_invalid_date",
+          "input": { "birthDate": "2025-02-30", "mode": "±5", "currentYear": 2025 },
+          "expected": { "valid": false, "warningContains": "корректную дату рождения" }
         }
       ]
-    }
+    },
+    { "id": "karma", "status": "todo_formula", "fixtures": [
+      { "caseId": "karma_ref_01", "input": { "birthDate": "1990-01-01" }, "expected": { "TODO": "Снять фактический ответ из бота" } },
+      { "caseId": "karma_ref_02", "input": { "birthDate": "2001-11-09" }, "expected": { "TODO": "Снять фактический ответ из бота" } },
+      { "caseId": "karma_ref_03", "input": { "birthDate": "1977-07-07" }, "expected": { "TODO": "Снять фактический ответ из бота" } }
+    ]},
+    { "id": "ahamkara", "status": "todo_formula", "fixtures": [
+      { "caseId": "ahamkara_ref_01", "input": { "birthDate": "1990-01-01" }, "expected": { "TODO": "Снять фактический ответ из бота" } },
+      { "caseId": "ahamkara_ref_02", "input": { "birthDate": "2001-11-09" }, "expected": { "TODO": "Снять фактический ответ из бота" } }
+    ]},
+    { "id": "dharma", "status": "todo_formula", "fixtures": [
+      { "caseId": "dharma_ref_01", "input": { "birthDate": "1990-01-01" }, "expected": { "TODO": "Снять фактический ответ из бота" } },
+      { "caseId": "dharma_ref_02", "input": { "birthDate": "2001-11-09" }, "expected": { "TODO": "Снять фактический ответ из бота" } }
+    ]},
+    { "id": "expression", "status": "todo_formula", "fixtures": [
+      { "caseId": "expression_ref_01", "input": { "birthDate": "1990-01-01" }, "expected": { "TODO": "Снять фактический ответ из бота" } },
+      { "caseId": "expression_ref_02", "input": { "birthDate": "2001-11-09" }, "expected": { "TODO": "Снять фактический ответ из бота" } }
+    ]},
+    { "id": "vyavadana", "status": "todo_formula", "fixtures": [
+      { "caseId": "vyavadana_ref_01", "input": { "birthDate": "1990-01-01" }, "expected": { "TODO": "Снять фактический ответ из бота" } },
+      { "caseId": "vyavadana_ref_02", "input": { "birthDate": "2001-11-09" }, "expected": { "TODO": "Снять фактический ответ из бота" } }
+    ]},
+    { "id": "varna", "status": "todo_formula", "fixtures": [
+      { "caseId": "varna_ref_01", "input": { "birthDate": "1990-01-01" }, "expected": { "TODO": "Снять фактический ответ из бота" } },
+      { "caseId": "varna_ref_02", "input": { "birthDate": "2001-11-09" }, "expected": { "TODO": "Снять фактический ответ из бота" } }
+    ]},
+    { "id": "months", "status": "todo_formula", "fixtures": [
+      { "caseId": "months_ref_01", "input": { "birthDate": "1990-01-01", "targetYear": 2025 }, "expected": { "TODO": "Снять фактический ответ из бота" } },
+      { "caseId": "months_ref_02", "input": { "birthDate": "2001-11-09", "targetYear": 2026 }, "expected": { "TODO": "Снять фактический ответ из бота" } },
+      { "caseId": "months_ref_03", "input": { "birthDate": "2000-02-29", "targetYear": 2025 }, "expected": { "TODO": "Проверить правило невисокосного года" } }
+    ]}
   ]
 }
