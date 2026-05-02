@@ -10,6 +10,7 @@ import {
   calculateVarna,
   calculateVyavadana,
 } from "./calculators";
+import { parseBirthDate } from "./calculators/shared";
 
 type ToolKey = "karma" | "ahamkara" | "dharma" | "expression" | "vyavadana" | "varna" | "periods" | "help";
 
@@ -27,6 +28,7 @@ const TOOLS: Array<{ key: ToolKey; label: string }> = [
 export default function ToolsClient() {
   const [birthDateInput, setBirthDateInput] = useState("");
   const [activeTool, setActiveTool] = useState<ToolKey | null>(null);
+  const parsedBirthDate = useMemo(() => parseBirthDate(birthDateInput), [birthDateInput]);
 
   const karmaResult = useMemo(() => calculateKarma({ birthDate: birthDateInput }), [birthDateInput]);
   const ahamkaraResult = useMemo(() => calculateAhamkara({ birthDate: birthDateInput }), [birthDateInput]);
@@ -44,7 +46,14 @@ export default function ToolsClient() {
     [birthDateInput],
   );
 
-  const isDateValid = karmaResult.valid;
+  const isDateValid = Boolean(parsedBirthDate);
+  const dateValidationError =
+    birthDateInput.trim() && !parsedBirthDate
+      ? "Дата не распознана. Используйте форматы: 07.09.1994, 7.9.1994, 07/09/1994, 07-09-1994 или 07091994."
+      : null;
+  const acceptedDateLabel = parsedBirthDate
+    ? `${String(parsedBirthDate.day).padStart(2, "0")}.${String(parsedBirthDate.month).padStart(2, "0")}.${parsedBirthDate.year}`
+    : null;
 
   function resetDate() {
     setBirthDateInput("");
@@ -120,7 +129,12 @@ export default function ToolsClient() {
             }}
             className="w-full rounded-xl border border-white/20 bg-slate-950/80 px-3 py-3 text-base outline-none ring-indigo-400 transition focus:ring-2"
           />
-          {!isDateValid && birthDateInput.trim() && <p className="mt-2 text-xs text-amber-300">{karmaResult.warning}</p>}
+          {dateValidationError && <p className="mt-2 text-xs text-amber-300">{dateValidationError}</p>}
+          {acceptedDateLabel && (
+            <p className="mt-2 rounded-lg border border-emerald-400/30 bg-emerald-950/40 px-3 py-2 text-xs text-emerald-200">
+              ✅ Дата принята: <span className="font-semibold">{acceptedDateLabel}</span>
+            </p>
+          )}
         </div>
 
         {isDateValid && (
@@ -144,15 +158,16 @@ export default function ToolsClient() {
 
             <div className="mt-4 rounded-xl border border-white/15 bg-slate-950/70 p-3">{renderResult()}</div>
 
-            <button
-              type="button"
-              onClick={resetDate}
-              className="mt-4 w-full rounded-xl border border-white/30 px-3 py-2 text-sm text-slate-100 transition hover:bg-slate-800"
-            >
-              Изменить/сбросить дату
-            </button>
           </>
         )}
+
+        <button
+          type="button"
+          onClick={resetDate}
+          className="mt-4 w-full rounded-xl border border-white/30 px-3 py-2 text-sm text-slate-100 transition hover:bg-slate-800"
+        >
+          Сбросить дату
+        </button>
       </section>
     </main>
   );
