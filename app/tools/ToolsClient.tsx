@@ -1,13 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { calculateDigitProfile } from "./calculators";
+import { calculateExpression } from "./calculators";
 import { CalculatorCard } from "./components/CalculatorCard";
 
 export default function ToolsClient() {
   const [birthDate, setBirthDate] = useState("");
 
-  const result = useMemo(() => calculateDigitProfile({ birthDate }), [birthDate]);
+  const result = useMemo(() => calculateExpression({ birthDate }), [birthDate]);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900 px-4 py-6 text-white">
@@ -18,8 +18,8 @@ export default function ToolsClient() {
         </header>
 
         <CalculatorCard
-          title="Базовый профиль"
-          description="Черновой калькулятор. Формулы будут заменены на точные из бота в следующем шаге."
+          title="Экспрессия"
+          description="Реализация формулы будет вставлена 1:1 из source-бота после получения доступа к репозиторию." 
         >
           <label className="text-sm text-slate-200" htmlFor="birthDate">
             Дата рождения
@@ -33,12 +33,7 @@ export default function ToolsClient() {
           />
           <div className="mt-4 rounded-xl bg-slate-900/80 p-3 text-sm">
             {!result.valid && <p className="text-amber-300">{result.warning}</p>}
-            {result.valid && (
-              <>
-                <p>Путь: {result.lifePath}</p>
-                <p>Экспрессия: {result.expression}</p>
-              </>
-            )}
+            {result.valid && <p>Экспрессия: {String(result.value)}</p>}
           </div>
         </CalculatorCard>
       </div>
