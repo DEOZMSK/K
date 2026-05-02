@@ -91,20 +91,20 @@ export default function ToolsClient() {
     <main className="page-glow page-glow-indigo h-dvh overflow-hidden bg-gradient-to-b from-black via-[#0b0f16] to-[#131a24] px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="Бесплатный расчёт/прогноз">
-          <label className="text-sm text-slate-200" htmlFor="birthDate">Дата рождения</label>
-          <input
-            id="birthDate"
-            type="text"
-            placeholder="07.09.1994"
-            value={birthDate}
-            onChange={(e) => setBirthDate(e.target.value)}
-            className="mt-2 w-full rounded-xl border border-white/20 bg-slate-900 px-3 py-3 text-base"
-          />
-          {!isDateValid && birthDate.trim() && <p className="mt-2 text-rose-300">{karma.warning}</p>}
-          {isDateValid && <p className="mt-2 rounded-lg bg-emerald-950/50 p-2 text-emerald-300">Дата принята</p>}
+          <div className={isDateValid ? "pt-12" : "flex h-full flex-col justify-center"}>
+            <label className="text-sm text-slate-200" htmlFor="birthDate">Дата рождения</label>
+            <input
+              id="birthDate"
+              type="text"
+              placeholder="07.09.1994"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              className="mt-2 w-full rounded-xl border border-white/20 bg-slate-900 px-3 py-3 text-base"
+            />
+            {!isDateValid && birthDate.trim() && <p className="mt-2 text-rose-300">{karma.warning}</p>}
 
-          {isDateValid && (
-            <>
+            {isDateValid && (
+              <>
               <div className="mt-3 grid grid-cols-2 gap-1.5">
                 <button onClick={() => setActive("karma")} className={activeButtonClass("karma")}>Карма</button>
                 <button onClick={() => setActive("ahamkara")} className={activeButtonClass("ahamkara")}>Ахамкара</button>
@@ -200,10 +200,13 @@ export default function ToolsClient() {
                   </div>
                 )}
               </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
 
-          <button onClick={() => { setBirthDate(""); setActive("help"); }} className="mt-3 w-full rounded-2xl border border-white/20 bg-white/5 p-2.5 text-sm">Сбросить дату</button>
+          {isDateValid && (
+            <button onClick={() => { setBirthDate(""); setActive("help"); }} className="mt-3 w-full rounded-2xl border border-white/20 bg-white/5 p-2.5 text-sm">Сбросить дату</button>
+          )}
         </CalculatorCard>
       </div>
     </main>
