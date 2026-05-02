@@ -22,11 +22,17 @@ export type PeriodsInput = BirthDateInput & {
 
 export type MonthsInput = BirthDateInput;
 
-export type KarmaResult = CalculatorResultBase & { value?: number | string };
-export type AhamkaraResult = CalculatorResultBase & { value?: number | string };
-export type DharmaResult = CalculatorResultBase & { value?: number | string };
-export type ExpressionResult = CalculatorResultBase & { value?: number | string };
-export type VyavadanaResult = CalculatorResultBase & { value?: number | string };
+export type MeaningPayload = {
+  text: string;
+  url: string;
+  linkHtml: string;
+};
+
+export type KarmaResult = CalculatorResultBase & { value?: number | string; meaning?: MeaningPayload };
+export type AhamkaraResult = CalculatorResultBase & { value?: number | string; meaning?: MeaningPayload };
+export type DharmaResult = CalculatorResultBase & { value?: number | string; meaning?: MeaningPayload };
+export type ExpressionResult = CalculatorResultBase & { value?: number | string; meaning?: MeaningPayload };
+export type VyavadanaResult = CalculatorResultBase & { value?: number | string; meaning?: MeaningPayload };
 export type VarnaResult = CalculatorResultBase & { value?: number | string };
 
 export type PeriodRow = {
