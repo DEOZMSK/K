@@ -34,7 +34,7 @@ export default function ToolsClient() {
   const isDateValid = karma.valid;
 
   const activeButtonClass = (name: Action) =>
-    `rounded-xl p-3 text-slate-900 transition-colors ${active === name ? "bg-indigo-300" : "bg-slate-300"}`;
+    `rounded-2xl border px-2 py-2 text-xs font-medium transition-all sm:text-sm ${active === name ? "border-white/35 bg-white/20 text-white" : "border-white/15 bg-white/5 text-slate-200 hover:bg-white/10"}`;
 
   const varnaDetails = useMemo(() => {
     const parsed = parseBirthDate(birthDate) ?? parseIsoBirthDate(birthDate);
@@ -81,16 +81,16 @@ export default function ToolsClient() {
       <p className="text-slate-200">{text}</p>
       {link && (
         <a className="inline-block rounded-xl bg-indigo-500 px-4 py-2 font-medium" href={link} target="_blank" rel="noreferrer">
-          📖 Открыть разбор в Telegram
+          Открыть разбор в Telegram
         </a>
       )}
     </div>
   );
 
   return (
-    <main className="page-glow page-glow-indigo min-h-screen bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900 px-4 py-6 text-white">
-      <div className="mx-auto w-full max-w-md">
-        <CalculatorCard title="🔮 Бесплатный расчёт/прогноз">
+    <main className="page-glow page-glow-indigo h-dvh overflow-hidden bg-gradient-to-b from-black via-[#0b0f16] to-[#131a24] px-3 py-3 text-white">
+      <div className="mx-auto flex h-full w-full max-w-md">
+        <CalculatorCard title="Бесплатный расчёт/прогноз">
           <label className="text-sm text-slate-200" htmlFor="birthDate">Дата рождения</label>
           <input
             id="birthDate"
@@ -101,27 +101,27 @@ export default function ToolsClient() {
             className="mt-2 w-full rounded-xl border border-white/20 bg-slate-900 px-3 py-3 text-base"
           />
           {!isDateValid && birthDate.trim() && <p className="mt-2 text-rose-300">{karma.warning}</p>}
-          {isDateValid && <p className="mt-2 rounded-lg bg-emerald-950/50 p-2 text-emerald-300">✅ Дата принята</p>}
+          {isDateValid && <p className="mt-2 rounded-lg bg-emerald-950/50 p-2 text-emerald-300">Дата принята</p>}
 
           {isDateValid && (
             <>
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                <button onClick={() => setActive("karma")} className={activeButtonClass("karma")}>♾ Карма</button>
-                <button onClick={() => setActive("ahamkara")} className={activeButtonClass("ahamkara")}>🌟 Ахамкара</button>
-                <button onClick={() => setActive("dharma")} className={activeButtonClass("dharma")}>🔥 Дхарма</button>
-                <button onClick={() => setActive("expression")} className={activeButtonClass("expression")}>⚡ Экспрессия</button>
-                <button onClick={() => setActive("vyavadhana")} className={activeButtonClass("vyavadhana")}>🚧 Вьявадана</button>
+              <div className="mt-3 grid grid-cols-2 gap-1.5">
+                <button onClick={() => setActive("karma")} className={activeButtonClass("karma")}>Карма</button>
+                <button onClick={() => setActive("ahamkara")} className={activeButtonClass("ahamkara")}>Ахамкара</button>
+                <button onClick={() => setActive("dharma")} className={activeButtonClass("dharma")}>Дхарма</button>
+                <button onClick={() => setActive("expression")} className={activeButtonClass("expression")}>Экспрессия</button>
+                <button onClick={() => setActive("vyavadhana")} className={activeButtonClass("vyavadhana")}>Вьявадана</button>
                 <button onClick={() => setActive("varna")} className={activeButtonClass("varna")}>Варны</button>
-                <button onClick={() => setActive("periods")} className={activeButtonClass("periods")}>🗓 Периоды</button>
-                <button onClick={() => setActive("help")} className={activeButtonClass("help")}>ℹ️ Справка</button>
+                <button onClick={() => setActive("periods")} className={activeButtonClass("periods")}>Периоды</button>
+                <button onClick={() => setActive("help")} className={activeButtonClass("help")}>Справка</button>
               </div>
 
-              <div className="mt-4 rounded-xl bg-slate-950/80 p-4">
-                {active === "karma" && renderMeaning("♾ Карма", Number(karma.value), karma.meaning?.text, karma.meaning?.url)}
-                {active === "ahamkara" && renderMeaning("🌟 Ахамкара", Number(ahamkara.value), ahamkara.meaning?.text, ahamkara.meaning?.url)}
-                {active === "dharma" && renderMeaning("🔥 Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
-                {active === "expression" && renderMeaning("⚡ Экспрессия", Number(expression.value), expression.meaning?.text, expression.meaning?.url)}
-                {active === "vyavadhana" && renderMeaning("🚧 Вьявадана", Number(vyavadhana.value), vyavadhana.meaning?.text, vyavadhana.meaning?.url)}
+              <div className="mt-3 rounded-2xl border border-white/10 bg-black/45 p-3 text-sm">
+                {active === "karma" && renderMeaning("Карма", Number(karma.value), karma.meaning?.text, karma.meaning?.url)}
+                {active === "ahamkara" && renderMeaning("Ахамкара", Number(ahamkara.value), ahamkara.meaning?.text, ahamkara.meaning?.url)}
+                {active === "dharma" && renderMeaning("Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
+                {active === "expression" && renderMeaning("Экспрессия", Number(expression.value), expression.meaning?.text, expression.meaning?.url)}
+                {active === "vyavadhana" && renderMeaning("Вьявадана", Number(vyavadhana.value), vyavadhana.meaning?.text, vyavadhana.meaning?.url)}
                 {active === "varna" && varnaDetails && (
                   <div className="space-y-3 text-slate-100">
                     <p>Варны: {String(varna.value)}</p>
@@ -165,7 +165,7 @@ export default function ToolsClient() {
 
                     {months.valid && (
                       <div className="mt-4 overflow-x-auto text-sm">
-                        <p className="mb-2 font-medium">📆 Месяцы</p>
+                        <p className="mb-2 font-medium">Месяцы</p>
                         <table>
                           <thead>
                             <tr>
@@ -192,12 +192,12 @@ export default function ToolsClient() {
                   <div className="space-y-3">
                     <p>Выберите расчёт. В справке — быстрые ссылки и объяснения.</p>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">♾ Карма</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/98?src=bot" target="_blank" rel="noreferrer">🌟 Ахамкара</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/99?src=bot" target="_blank" rel="noreferrer">🔥 Дхарма</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/dharma" target="_blank" rel="noreferrer">⚡ Экспрессия</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/viavadana" target="_blank" rel="noreferrer">🚧 Вьявадана — обсудить</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/period" target="_blank" rel="noreferrer">🗓 Периоды</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">Карма</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/98?src=bot" target="_blank" rel="noreferrer">Ахамкара</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/99?src=bot" target="_blank" rel="noreferrer">Дхарма</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/dharma" target="_blank" rel="noreferrer">Экспрессия</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/viavadana" target="_blank" rel="noreferrer">Вьявадана — обсудить</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/period" target="_blank" rel="noreferrer">Периоды</a>
                     </div>
                   </div>
                 )}
@@ -205,7 +205,7 @@ export default function ToolsClient() {
             </>
           )}
 
-          <button onClick={() => { setBirthDate(""); setActive("help"); }} className="mt-4 w-full rounded-xl border border-white/20 p-3">Сбросить дату</button>
+          <button onClick={() => { setBirthDate(""); setActive("help"); }} className="mt-3 w-full rounded-2xl border border-white/20 bg-white/5 p-2.5 text-sm">Сбросить дату</button>
         </CalculatorCard>
       </div>
     </main>
