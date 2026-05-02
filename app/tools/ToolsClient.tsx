@@ -124,12 +124,12 @@ export default function ToolsClient() {
                   <div className="space-y-3">
                     <p>Выберите расчёт. В справке — быстрые ссылки и объяснения.</p>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/57?src=bot" target="_blank" rel="noreferrer">♾ Карма</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/206?src=bot" target="_blank" rel="noreferrer">🌟 Ахамкара</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/265?src=bot" target="_blank" rel="noreferrer">🔥 Дхарма</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/85?src=bot" target="_blank" rel="noreferrer">⚡ Экспрессия</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/BAPHbl" target="_blank" rel="noreferrer">🚧 Вьявадана — обсудить</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">🗓 Периоды</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">♾ Карма</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/98?src=bot" target="_blank" rel="noreferrer">🌟 Ахамкара</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/99?src=bot" target="_blank" rel="noreferrer">🔥 Дхарма</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/dharma" target="_blank" rel="noreferrer">⚡ Экспрессия</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/viavadana" target="_blank" rel="noreferrer">🚧 Вьявадана — обсудить</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/period" target="_blank" rel="noreferrer">🗓 Периоды</a>
                     </div>
                   </div>
                 )}
