@@ -294,7 +294,7 @@ export default async function QuestionsPage() {
 
   return (
     <main
-      className={`${inter.className} relative min-h-screen overflow-hidden bg-gradient-to-br from-[#fdf6e8] via-[#f8e6c9] to-[#f3d9aa] text-neutral-900`}
+      className={`${inter.className} page-glow page-glow-gold relative min-h-screen overflow-hidden bg-gradient-to-br from-[#fdf6e8] via-[#f8e6c9] to-[#f3d9aa] text-neutral-900`}
     >
       <script
         type="application/ld+json"

@@ -34,7 +34,7 @@ export default function ToolsClient() {
   const isDateValid = karma.valid;
 
   const activeButtonClass = (name: Action) =>
-    `rounded-xl p-3 transition-colors ${active === name ? "bg-indigo-600" : "bg-slate-800"}`;
+    `rounded-xl p-3 text-slate-900 transition-colors ${active === name ? "bg-indigo-300" : "bg-slate-300"}`;
 
   const varnaDetails = useMemo(() => {
     const parsed = parseBirthDate(birthDate) ?? parseIsoBirthDate(birthDate);
@@ -88,7 +88,7 @@ export default function ToolsClient() {
   );
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900 px-4 py-6 text-white">
+    <main className="page-glow page-glow-indigo min-h-screen bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900 px-4 py-6 text-white">
       <div className="mx-auto w-full max-w-md">
         <CalculatorCard title="🔮 Бесплатный расчёт/прогноз">
           <label className="text-sm text-slate-200" htmlFor="birthDate">Дата рождения</label>
@@ -141,19 +141,19 @@ export default function ToolsClient() {
                     <p className="text-sm text-slate-300">Проценты показывают распределение варн по дате рождения. Это не трактовка и не выводы о характере.</p>
                     <p className="text-sm text-slate-300">Если хочешь понять, как эта конфигурация проявляется в жизни, работе и отношениях — напиши мне <a className="underline" href="https://t.me/BAPHbl" target="_blank" rel="noreferrer">лично</a>.</p>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Брахман</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кшатрий</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Вайшья</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Шудра</a>
+                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Брахман</a>
+                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кшатрий</a>
+                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Вайшья</a>
+                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Шудра</a>
                     </div>
                   </div>
                 )}
                 {active === "periods" && periods.valid && (
                   <div>
                     <div className="mb-3 flex flex-wrap gap-2">
-                      <button onClick={() => setPeriodMode("-10")} className="rounded-lg bg-slate-800 px-3 py-1">−10 лет</button>
-                      <button onClick={() => setPeriodMode("+10")} className="rounded-lg bg-slate-800 px-3 py-1">+10 лет</button>
-                      <button onClick={() => setPeriodMode("±5")} className="rounded-lg bg-slate-800 px-3 py-1">±5 лет</button>
+                      <button onClick={() => setPeriodMode("-10")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">−10 лет</button>
+                      <button onClick={() => setPeriodMode("+10")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">+10 лет</button>
+                      <button onClick={() => setPeriodMode("±5")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">±5 лет</button>
                     </div>
                     <p className="mb-2">Период: {periods.rangeLabel}</p>
                     <div className="overflow-x-auto text-sm">
