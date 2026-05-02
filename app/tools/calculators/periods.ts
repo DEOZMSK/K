@@ -3,6 +3,13 @@ import { parseBirthDate, parseIsoBirthDate, reduceToDigit, sumDigits } from "./s
 
 const WEEKDAY_MAP = [2, 9, 5, 3, 6, 8, 1] as const;
 
+function getCurrentYearInMoscow(): number {
+  const formatter = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Moscow", year: "numeric" });
+  const yearPart = formatter.formatToParts(new Date()).find((part) => part.type === "year")?.value;
+  const parsed = yearPart ? Number(yearPart) : Number.NaN;
+  return Number.isFinite(parsed) ? parsed : new Date().getUTCFullYear();
+}
+
 function isLeapYear(year: number): boolean {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
@@ -22,7 +29,7 @@ export function calculatePeriods(input: PeriodsInput): PeriodsResult {
   const birth = parseBirthDate(input.birthDate) ?? parseIsoBirthDate(input.birthDate);
   if (!birth) return { valid: false, warning: "Укажите корректную дату рождения.", rows: [] };
 
-  const currentYear = Number.isInteger(input.currentYear) ? Number(input.currentYear) : new Date().getUTCFullYear();
+  const currentYear = Number.isInteger(input.currentYear) ? Number(input.currentYear) : getCurrentYearInMoscow();
   let years = yearsRange(input.mode, currentYear).filter((y) => y >= birth.year);
   if (years.length === 0) years = [birth.year];
 
