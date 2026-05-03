@@ -163,15 +163,6 @@ export default function ToolsClient() {
           <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col justify-center"}>
             {!isDateValid && (
               <>
-                <div className="mx-auto mb-4 w-full max-w-[320px] px-2 text-center text-[19px] leading-[1.18] text-[#f7f2e9]/92 drop-shadow-[0_2px_12px_rgba(255,229,182,0.16)] sm:mb-5 sm:max-w-[360px] sm:text-[21px]">
-                  <p className={cormorantGaramond.className}>Если вы родились после полуночи и до 02:00 ночи — попробуйте посмотреть обе даты 🌙</p>
-                  <p className={`${cormorantGaramond.className} mt-2`}>Например:</p>
-                  <p className={`${cormorantGaramond.className} mt-1`}>07.09.1994 в 01:30</p>
-                  <p className={`${cormorantGaramond.className}`}>→ попробуйте и 07.09.1994, и 06.09.1994.</p>
-                  <p className={`${cormorantGaramond.className} mt-2`}>Иногда работает одна дата.</p>
-                  <p className={cormorantGaramond.className}>Иногда — обе.</p>
-                  <p className={cormorantGaramond.className}>А иногда разница ощущается очень сильно.</p>
-                </div>
                 <input
                   id="birthDate"
                   type="text"
