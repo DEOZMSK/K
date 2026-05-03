@@ -116,7 +116,7 @@ export default function ToolsClient() {
                 <button onClick={() => setActive("help")} className={activeButtonClass("help")}>Справка</button>
               </div>
 
-              <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/10 bg-black/45 p-3 text-sm">
+              <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(2,6,23,0.78)_0%,rgba(2,6,23,0.86)_42%,rgba(0,0,0,0.9)_100%),url('/bg-tools.webp')] bg-cover bg-center bg-no-repeat p-3 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
                 {active === "karma" && renderMeaning("Карма", Number(karma.value), karma.meaning?.text, karma.meaning?.url)}
                 {active === "ahamkara" && renderMeaning("Ахамкара", Number(ahamkara.value), ahamkara.meaning?.text, ahamkara.meaning?.url)}
                 {active === "dharma" && renderMeaning("Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
