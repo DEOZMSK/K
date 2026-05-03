@@ -20,9 +20,23 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  const url = new URL(event.request.url);
+  const isSameOrigin = url.origin === self.location.origin;
+  const isNextStatic = isSameOrigin && url.pathname.startsWith("/_next/static/");
+  const isAssetFile =
+    isSameOrigin && /\.(?:css|js|mjs|png|jpg|jpeg|webp|gif|svg|ico|woff2?)$/i.test(url.pathname);
+
+  if (event.request.mode === "navigate" || !(isNextStatic || isAssetFile)) {
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
+        if (!response.ok) {
+          return response;
+        }
+
         const clonedResponse = response.clone();
         event.waitUntil(
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clonedResponse)).catch(() => undefined)
