@@ -18,6 +18,7 @@ import type { PeriodMode } from "./types";
 type Action = "karma" | "ahamkara" | "dharma" | "expression" | "vyavadhana" | "varna" | "periods" | "help";
 
 export default function ToolsClient() {
+  const monthShortLabels = ["Янв.", "Фев.", "Мар.", "Апр.", "Май.", "Июн.", "Июл.", "Авг.", "Сен.", "Окт.", "Ноя.", "Дек."];
   const [birthDate, setBirthDate] = useState("");
   const [active, setActive] = useState<Action>("help");
   const [periodMode, setPeriodMode] = useState<PeriodMode>("±5");
@@ -168,7 +169,7 @@ export default function ToolsClient() {
                           <div className="grid grid-flow-col gap-2">
                             {months.headers.map((month, i) => (
                               <div key={month} className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs">
-                                <p className="font-semibold">{month}</p>
+                                <p className="font-semibold">{monthShortLabels[i] ?? month}</p>
                                 <p>{months.expressionRow[i]}</p>
                                 <p>{months.karmaRow[i]}</p>
                               </div>
