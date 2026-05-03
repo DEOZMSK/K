@@ -97,7 +97,7 @@ export default function ToolsClient() {
     <main className="h-dvh overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
-          <div className={isDateValid ? "pt-20" : "flex h-full flex-col justify-center"}>
+          <div className={isDateValid ? "pt-24" : "flex h-full flex-col justify-center"}>
             {!isDateValid && (
               <>
                 <input
