@@ -88,7 +88,7 @@ export default function ToolsClient() {
   );
 
   return (
-    <main className="page-glow page-glow-indigo h-dvh overflow-hidden bg-cover bg-center bg-no-repeat px-3 py-3 text-white" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/fon.jpg')" }}>
+    <main className="page-glow page-glow-indigo h-dvh overflow-hidden bg-gradient-to-b from-black via-[#070b12] to-[#111827] px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
           <div className={isDateValid ? "pt-12" : "flex h-full flex-col justify-center"}>
