@@ -88,7 +88,7 @@ export default function ToolsClient() {
   );
 
   return (
-    <main className="page-glow page-glow-indigo h-dvh overflow-hidden bg-cover bg-center bg-no-repeat px-3 py-3 text-white" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), url('/fon.jpg')" }}>
+    <main className="page-glow page-glow-indigo h-dvh overflow-hidden bg-cover bg-center bg-no-repeat px-3 py-3 text-white" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/fon.jpg')" }}>
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
           <div className={isDateValid ? "pt-12" : "flex h-full flex-col justify-center"}>
@@ -156,8 +156,8 @@ export default function ToolsClient() {
                           {periods.rows.map((r) => (
                             <div key={r.year} className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs">
                               <p className="font-semibold">{r.year}</p>
-                              <p>M {r.main}</p>
-                              <p>B {r.background}</p>
+                              <p>{r.main}</p>
+                              <p>{r.background}</p>
                             </div>
                           ))}
                         </div>
@@ -169,8 +169,8 @@ export default function ToolsClient() {
                             {months.headers.map((month, i) => (
                               <div key={month} className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs">
                                 <p className="font-semibold">{month}</p>
-                                <p>M {months.expressionRow[i]}</p>
-                                <p>B {months.karmaRow[i]}</p>
+                                <p>{months.expressionRow[i]}</p>
+                                <p>{months.karmaRow[i]}</p>
                               </div>
                             ))}
                           </div>
