@@ -89,8 +89,8 @@ export default function ToolsClient() {
   );
 
   return (
-    <main className="page-glow page-glow-indigo relative h-dvh overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-white">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-black/45 to-black/55" />
+    <main className="page-glow page-glow-indigo relative h-dvh overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat [filter:brightness(1.12)_contrast(1.08)] px-3 py-3 text-white">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/25 via-black/35 to-black/45" />
       <div className="relative z-10 mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
           <div className={isDateValid ? "pt-14" : "flex h-full flex-col justify-center pt-14"}>
@@ -117,7 +117,7 @@ export default function ToolsClient() {
                 <button onClick={() => setActive("help")} className={activeButtonClass("help")}>Справка</button>
               </div>
 
-              <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/[0.12] bg-[rgba(0,0,0,0.55)] p-3 text-sm backdrop-blur-[8px]">
+              <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/[0.12] bg-[rgba(0,0,0,0.48)] p-3 text-sm backdrop-blur-[8px]">
                 {active === "karma" && renderMeaning("Карма", Number(karma.value), karma.meaning?.text, karma.meaning?.url)}
                 {active === "ahamkara" && renderMeaning("Ахамкара", Number(ahamkara.value), ahamkara.meaning?.text, ahamkara.meaning?.url)}
                 {active === "dharma" && renderMeaning("Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
