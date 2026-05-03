@@ -207,9 +207,9 @@ export default function ToolsClient() {
               <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/[0.12] bg-black/45 p-3 text-sm backdrop-blur-[6px]">
                 {active === "karma" && renderKarmaResult(Number(karma.value), karma.meaning?.url)}
                 {active === "ahamkara" && renderImageResult("Ахамкара", "ego", "ego", Number(ahamkara.value), ahamkara.meaning?.url, ahamkara.meaning?.text)}
-                {active === "dharma" && renderMeaning("Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
+                {active === "dharma" && renderImageResult("Дхарма", "dh", "dh", Number(dharma.value), dharma.meaning?.url, dharma.meaning?.text)}
                 {active === "expression" && renderImageResult("Экспрессия", "exp", "exp", Number(expression.value), expression.meaning?.url, expression.meaning?.text)}
-                {active === "vyavadhana" && renderMeaning("Вьявадана", Number(vyavadhana.value), vyavadhana.meaning?.text, vyavadhana.meaning?.url)}
+                {active === "vyavadhana" && renderImageResult("Вьявадана", "vya", "vya", Number(vyavadhana.value), vyavadhana.meaning?.url, vyavadhana.meaning?.text)}
                 {active === "varna" && varnaDetails && (
                   <div className="space-y-3 text-slate-100">
                     <p>Варны: {String(varna.value)}</p>
