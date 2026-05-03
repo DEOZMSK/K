@@ -12,8 +12,10 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#0b1021",
     background_color: "#0b1021",
     icons: [
-      { src: "/icons/jyotishgpt-icon-192-v2.png", sizes: "192x192", type: "image/png", purpose: "any maskable" },
-      { src: "/icons/jyotishgpt-icon-512-v2.png", sizes: "512x512", type: "image/png", purpose: "any maskable" }
+      { src: "/icons/jyotishgpt-icon-192-v2.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/icons/jyotishgpt-icon-192-v2.png", sizes: "192x192", type: "image/png", purpose: "maskable" },
+      { src: "/icons/jyotishgpt-icon-512-v2.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/icons/jyotishgpt-icon-512-v2.png", sizes: "512x512", type: "image/png", purpose: "maskable" }
     ]
   };
 }
