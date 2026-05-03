@@ -34,6 +34,11 @@ export default function ToolsClient() {
 
   const isDateValid = karma.valid;
 
+  const handleReset = () => {
+    setBirthDate("");
+    setActive("help");
+  };
+
   const activeButtonClass = (name: Action) =>
     `min-w-0 rounded-2xl border px-2 py-2 text-xs font-medium leading-tight transition-all sm:text-sm ${active === name ? "border-white/35 bg-white/20 text-white" : "border-white/15 bg-white/5 text-slate-200 hover:bg-white/10"}`;
 
@@ -92,19 +97,30 @@ export default function ToolsClient() {
     <main className="h-dvh overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
-          <div className={isDateValid ? "pt-20" : "flex h-full flex-col justify-center"}>
-            <input
-              id="birthDate"
-              type="text"
-              placeholder="07.09.1994"
-              value={birthDate}
-              onChange={(e) => setBirthDate(e.target.value)}
-              className="mx-auto mt-2 h-9 w-full max-w-[230px] rounded-xl border border-white/20 bg-[rgba(6,18,48,0.82)] px-3 text-center text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-8px_20px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.03)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
-            />
-            {!isDateValid && birthDate.trim() && <p className="mx-auto mt-2 w-full max-w-[230px] text-center text-rose-300">{karma.warning}</p>}
+          <div className={isDateValid ? "pt-24" : "flex h-full flex-col justify-center"}>
+            {!isDateValid && (
+              <>
+                <input
+                  id="birthDate"
+                  type="text"
+                  placeholder="07.09.1994"
+                  value={birthDate}
+                  onChange={(e) => setBirthDate(e.target.value)}
+                  className="mx-auto mt-2 h-9 w-full max-w-[230px] rounded-xl border border-white/20 bg-[rgba(6,18,48,0.82)] px-3 text-center text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-8px_20px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.03)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
+                />
+                {birthDate.trim() && <p className="mx-auto mt-2 w-full max-w-[230px] text-center text-rose-300">{karma.warning}</p>}
+              </>
+            )}
 
             {isDateValid && (
               <>
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="mx-auto mb-4 flex h-8 items-center justify-center rounded-full border border-amber-300/50 bg-black/35 px-5 text-xs font-medium text-amber-100 shadow-[0_0_18px_rgba(245,158,11,0.14)] backdrop-blur-sm active:scale-[0.98]"
+                >
+                  Сброс
+                </button>
               <div className="mt-3 grid grid-cols-2 gap-1.5">
                 <button onClick={() => setActive("karma")} className={activeButtonClass("karma")}>Карма</button>
                 <button onClick={() => setActive("ahamkara")} className={activeButtonClass("ahamkara")}>Ахамкара</button>
