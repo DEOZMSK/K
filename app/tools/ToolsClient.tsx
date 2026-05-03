@@ -100,6 +100,34 @@ export default function ToolsClient() {
     </div>
   );
 
+
+  const renderKarmaResult = (num: number, link?: string) => {
+    const safeNum = Number.isInteger(num) && num >= 1 && num <= 9 ? num : null;
+    if (!safeNum) {
+      return renderMeaning("Карма", num, karma.meaning?.text, link);
+    }
+
+    const image = (
+      <img
+        src={`/karma/karma${safeNum}.jpg`}
+        alt={`Карма ${safeNum}`}
+        className="block h-auto w-full max-w-full rounded-[20px] border border-white/15 object-contain shadow-[0_12px_30px_rgba(0,0,0,0.35)]"
+      />
+    );
+
+    return (
+      <div className="mx-auto w-full max-w-[360px]">
+        {link ? (
+          <a href={link} target="_blank" rel="noreferrer" aria-label={`Открыть разбор Кармы ${safeNum} в Telegram`}>
+            {image}
+          </a>
+        ) : (
+          image
+        )}
+      </div>
+    );
+  };
+
   return (
     <main className="min-h-[100svh] h-[100dvh] overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
@@ -149,7 +177,7 @@ export default function ToolsClient() {
               </div>
 
               <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/[0.12] bg-black/45 p-3 text-sm backdrop-blur-[6px]">
-                {active === "karma" && renderMeaning("Карма", Number(karma.value), karma.meaning?.text, karma.meaning?.url)}
+                {active === "karma" && renderKarmaResult(Number(karma.value), karma.meaning?.url)}
                 {active === "ahamkara" && renderMeaning("Ахамкара", Number(ahamkara.value), ahamkara.meaning?.text, ahamkara.meaning?.url)}
                 {active === "dharma" && renderMeaning("Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
                 {active === "expression" && renderMeaning("Экспрессия", Number(expression.value), expression.meaning?.text, expression.meaning?.url)}
