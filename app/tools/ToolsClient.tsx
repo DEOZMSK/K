@@ -101,13 +101,18 @@ export default function ToolsClient() {
           <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col justify-center"}>
             {!isDateValid && (
               <>
+                <p className="mx-auto mb-2 mt-2 w-full max-w-[260px] text-center text-xs leading-relaxed text-white/85 sm:text-[13px]">
+                  Важно: с 00:00 до 02:00 считается предыдущая дата.
+                  <br />
+                  Пример: родились 07.09.1994 в 01:30 → вводите 06.09.1994.
+                </p>
                 <input
                   id="birthDate"
                   type="text"
                   placeholder="07.09.1994"
                   value={birthDate}
                   onChange={(e) => setBirthDate(e.target.value)}
-                  className="mx-auto mt-2 h-9 w-full max-w-[230px] rounded-xl border border-white/20 bg-[rgba(6,18,48,0.82)] px-3 text-center text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-8px_20px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.03)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
+                  className="mx-auto h-9 w-full max-w-[230px] rounded-xl border border-white/20 bg-[rgba(6,18,48,0.82)] px-3 text-center text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-8px_20px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.03)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
                 />
                 {birthDate.trim() && <p className="mx-auto mt-2 w-full max-w-[230px] text-center text-rose-300">{karma.warning}</p>}
               </>
