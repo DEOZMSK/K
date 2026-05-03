@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
     id: "/tools",
     display: "standalone",
     orientation: "portrait",
-    theme_color: "#0b1021",
-    background_color: "#0b1021",
+    theme_color: "#C89B3C",
+    background_color: "#C89B3C",
     icons: [
       { src: "/icons/jyotishgpt-icon-192-v2.png", sizes: "192x192", type: "image/png", purpose: "any" },
       { src: "/icons/jyotishgpt-icon-192-v2.png", sizes: "192x192", type: "image/png", purpose: "maskable" },
