@@ -88,19 +88,10 @@ export default function ToolsClient() {
   );
 
   return (
-    <main className="page-glow page-glow-indigo h-dvh overflow-hidden bg-gradient-to-b from-black via-[#0b0f16] to-[#131a24] px-3 py-3 text-white">
+    <main className="page-glow page-glow-indigo h-dvh overflow-hidden bg-cover bg-center bg-no-repeat px-3 py-3 text-white" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), url('/fon.jpg')" }}>
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
-          <div className="mb-2 flex justify-end">
-            <button
-              onClick={() => { setBirthDate(""); setActive("help"); }}
-              className="rounded-lg border border-white/25 bg-white/10 px-2 py-1 text-[11px] leading-none text-slate-200"
-            >
-              сброс даты
-            </button>
-          </div>
           <div className={isDateValid ? "pt-12" : "flex h-full flex-col justify-center"}>
-            <label className="text-sm text-slate-200" htmlFor="birthDate">Дата рождения</label>
             <input
               id="birthDate"
               type="text"
@@ -142,16 +133,10 @@ export default function ToolsClient() {
                       </div>
                       <div className="space-y-2">
                         <p>Итого:</p>
-                        <p>Кшатрий — {varnaDetails.totals.Кшатрий}%</p>
-                        <p>Брахман — {varnaDetails.totals.Брахман}%</p>
-                        <p>Вайшья — {varnaDetails.totals.Вайшья}%</p>
-                        <p>Шудра — {varnaDetails.totals.Шудра}%</p>
-                        <div className="grid grid-cols-1 gap-1.5 pt-1">
-                          <a className="rounded-lg bg-slate-300 px-2 py-1.5 text-slate-900" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Брахман</a>
-                          <a className="rounded-lg bg-slate-300 px-2 py-1.5 text-slate-900" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кшатрий</a>
-                          <a className="rounded-lg bg-slate-300 px-2 py-1.5 text-slate-900" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Вайшья</a>
-                          <a className="rounded-lg bg-slate-300 px-2 py-1.5 text-slate-900" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Шудра</a>
-                        </div>
+                        <div className="flex items-center justify-between gap-2"><span>Кшатрий — {varnaDetails.totals.Кшатрий}%</span><a className="rounded-md bg-slate-300 px-2 py-1 text-[11px] text-slate-900" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кнопка</a></div>
+                        <div className="flex items-center justify-between gap-2"><span>Брахман — {varnaDetails.totals.Брахман}%</span><a className="rounded-md bg-slate-300 px-2 py-1 text-[11px] text-slate-900" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Кнопка</a></div>
+                        <div className="flex items-center justify-between gap-2"><span>Вайшья — {varnaDetails.totals.Вайшья}%</span><a className="rounded-md bg-slate-300 px-2 py-1 text-[11px] text-slate-900" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Кнопка</a></div>
+                        <div className="flex items-center justify-between gap-2"><span>Шудра — {varnaDetails.totals.Шудра}%</span><a className="rounded-md bg-slate-300 px-2 py-1 text-[11px] text-slate-900" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Кнопка</a></div>
                       </div>
                     </div>
                   </div>
@@ -164,31 +149,31 @@ export default function ToolsClient() {
                       <button onClick={() => setPeriodMode("±5")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">±5 лет</button>
                     </div>
                     <p className="mb-2">Период: {periods.rangeLabel}</p>
-                    <div className="grid grid-cols-[1fr_auto] gap-3 text-sm">
-                      <div className="min-w-0 overflow-x-auto">
-                        <table>
-                        <thead><tr><th className="pr-3">Год</th><th className="pr-3">M</th><th>B</th></tr></thead>
-                        <tbody>{periods.rows.map((r) => <tr key={r.year}><td>{r.year}</td><td>{r.main}</td><td>{r.background}</td></tr>)}</tbody>
-                        </table>
+                    <div className="space-y-2 overflow-x-auto text-sm">
+                      <div className="min-w-max">
+                        <p className="mb-1 text-xs text-slate-300">Годы</p>
+                        <div className="grid grid-flow-col gap-2">
+                          {periods.rows.map((r) => (
+                            <div key={r.year} className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs">
+                              <p className="font-semibold">{r.year}</p>
+                              <p>M {r.main}</p>
+                              <p>B {r.background}</p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-
                       {months.valid && (
-                        <div className="rounded-lg border border-white/15 bg-white/5 p-2 text-xs">
-                          <p className="mb-1 font-medium">Месяцы</p>
-                          <table>
-                            <thead>
-                              <tr><th className="pr-1 text-left">Месяц</th><th className="pr-1 text-left">M</th><th className="text-left">B</th></tr>
-                            </thead>
-                            <tbody>
-                              {months.headers.map((month, i) => (
-                                <tr key={month}>
-                                  <td className="pr-1">{month}</td>
-                                  <td className="pr-1">{months.expressionRow[i]}</td>
-                                  <td>{months.karmaRow[i]}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                        <div className="min-w-max">
+                          <p className="mb-1 text-xs text-slate-300">Месяцы</p>
+                          <div className="grid grid-flow-col gap-2">
+                            {months.headers.map((month, i) => (
+                              <div key={month} className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs">
+                                <p className="font-semibold">{month}</p>
+                                <p>M {months.expressionRow[i]}</p>
+                                <p>B {months.karmaRow[i]}</p>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -196,7 +181,7 @@ export default function ToolsClient() {
                 )}
                 {active === "help" && (
                   <div className="space-y-3">
-                    <p>Выберите расчёт. В справке — быстрые ссылки и объяснения.</p>
+                    <p>Ссылки на посты в моём Telegram-канале: там подробнее разобраны названия, которые вы видите на кнопках.</p>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                       <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">Карма</a>
                       <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/98?src=bot" target="_blank" rel="noreferrer">Ахамкара</a>
