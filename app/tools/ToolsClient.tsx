@@ -200,12 +200,13 @@ export default function ToolsClient() {
                   <div className="space-y-3">
                     <p>Ссылки на посты в моём Telegram-канале: там подробнее разобраны названия, которые вы видите на кнопках.</p>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">Карма</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/98?src=bot" target="_blank" rel="noreferrer">Ахамкара</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/99?src=bot" target="_blank" rel="noreferrer">Дхарма</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/dharma" target="_blank" rel="noreferrer">Экспрессия</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/viavadana" target="_blank" rel="noreferrer">Вьявадана — обсудить</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/period" target="_blank" rel="noreferrer">Периоды</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-sm leading-snug text-slate-100 whitespace-normal" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">Карма — пинки за прошлое, как есть</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-sm leading-snug text-slate-100 whitespace-normal" href="https://t.me/JyotishGPT/98?src=bot" target="_blank" rel="noreferrer">Ахамкара — как видят посторонние, тебя</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-sm leading-snug text-slate-100 whitespace-normal" href="https://t.me/JyotishGPT/99?src=bot" target="_blank" rel="noreferrer">Дхарма — как надо жить, таким как ты</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-sm leading-snug text-slate-100 whitespace-normal" href="https://teletype.in/@jyotishgpt/dharma" target="_blank" rel="noreferrer">Экспрессия — как видят близкие, тебя</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-sm leading-snug text-slate-100 whitespace-normal" href="https://teletype.in/@jyotishgpt/viavadana" target="_blank" rel="noreferrer">Вьявадана — эта планета тебе не рада</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-sm leading-snug text-slate-100 whitespace-normal" href="https://teletype.in/@jyotishgpt/varna" target="_blank" rel="noreferrer">Варна — какой ты априори, порода</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-sm leading-snug text-slate-100 whitespace-normal sm:col-span-2" href="https://teletype.in/@jyotishgpt/period" target="_blank" rel="noreferrer">Периоды — сам не поймёшь, пиши..</a>
                     </div>
                   </div>
                 )}
