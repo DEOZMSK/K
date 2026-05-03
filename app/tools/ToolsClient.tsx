@@ -90,7 +90,15 @@ export default function ToolsClient() {
   return (
     <main className="page-glow page-glow-indigo h-dvh overflow-hidden bg-gradient-to-b from-black via-[#0b0f16] to-[#131a24] px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
-        <CalculatorCard title="Бесплатный расчёт/прогноз">
+        <CalculatorCard title="">
+          <div className="mb-2 flex justify-end">
+            <button
+              onClick={() => { setBirthDate(""); setActive("help"); }}
+              className="rounded-lg border border-white/25 bg-white/10 px-2 py-1 text-[11px] leading-none text-slate-200"
+            >
+              сброс даты
+            </button>
+          </div>
           <div className={isDateValid ? "pt-12" : "flex h-full flex-col justify-center"}>
             <label className="text-sm text-slate-200" htmlFor="birthDate">Дата рождения</label>
             <input
@@ -159,8 +167,8 @@ export default function ToolsClient() {
                     <div className="grid grid-cols-[1fr_auto] gap-3 text-sm">
                       <div className="min-w-0 overflow-x-auto">
                         <table>
-                        <thead><tr><th className="pr-3">Год</th><th className="pr-3">День</th><th className="pr-3">Суффикс</th><th className="pr-3">Main</th><th>Background</th></tr></thead>
-                        <tbody>{periods.rows.map((r) => <tr key={r.year}><td>{r.year}</td><td>{r.weekday}</td><td>{r.yearSuffix}</td><td>{r.main}</td><td>{r.background}</td></tr>)}</tbody>
+                        <thead><tr><th className="pr-3">Год</th><th className="pr-3">M</th><th>B</th></tr></thead>
+                        <tbody>{periods.rows.map((r) => <tr key={r.year}><td>{r.year}</td><td>{r.main}</td><td>{r.background}</td></tr>)}</tbody>
                         </table>
                       </div>
 
@@ -169,7 +177,7 @@ export default function ToolsClient() {
                           <p className="mb-1 font-medium">Месяцы</p>
                           <table>
                             <thead>
-                              <tr><th className="pr-1 text-left">М</th><th className="pr-1 text-left">M</th><th className="text-left">B</th></tr>
+                              <tr><th className="pr-1 text-left">Месяц</th><th className="pr-1 text-left">M</th><th className="text-left">B</th></tr>
                             </thead>
                             <tbody>
                               {months.headers.map((month, i) => (
@@ -203,10 +211,6 @@ export default function ToolsClient() {
               </>
             )}
           </div>
-
-          {isDateValid && (
-            <button onClick={() => { setBirthDate(""); setActive("help"); }} className="mt-3 w-full rounded-2xl border border-white/20 bg-white/5 p-2.5 text-sm">Сбросить дату</button>
-          )}
         </CalculatorCard>
       </div>
     </main>
