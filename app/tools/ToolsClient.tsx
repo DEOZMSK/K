@@ -175,13 +175,18 @@ export default function ToolsClient() {
                 <input
                   id="birthDate"
                   name="birthDate"
-                  type="text"
+                  type="tel"
                   placeholder="07.09.1994"
-                  autoComplete="off"
+                  autoComplete="new-password"
                   autoCorrect="off"
                   autoCapitalize="off"
                   spellCheck={false}
                   inputMode="numeric"
+                  enterKeyHint="done"
+                  data-form-type="other"
+                  data-lpignore="true"
+                  data-1p-ignore="true"
+                  pattern="[0-9.]*"
                   value={birthDate}
                   onChange={(e) => setBirthDate(e.target.value)}
                   className="mx-auto mt-2 h-9 w-full max-w-[230px] rounded-xl border border-white/20 bg-[rgba(6,18,48,0.82)] px-3 text-center text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-8px_20px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.03)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
