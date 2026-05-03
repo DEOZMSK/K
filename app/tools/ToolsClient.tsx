@@ -99,9 +99,9 @@ export default function ToolsClient() {
               placeholder="07.09.1994"
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
-              className="mt-2 w-full rounded-xl border border-white/20 bg-slate-900 px-3 py-3 text-base"
+              className="mx-auto mt-2 h-12 w-full max-w-[360px] rounded-2xl border border-[#cfad73]/45 bg-slate-900/90 px-4 text-base text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.09),inset_0_-8px_20px_rgba(0,0,0,0.22)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
             />
-            {!isDateValid && birthDate.trim() && <p className="mt-2 text-rose-300">{karma.warning}</p>}
+            {!isDateValid && birthDate.trim() && <p className="mx-auto mt-2 w-full max-w-[360px] text-rose-300">{karma.warning}</p>}
 
             {isDateValid && (
               <>
