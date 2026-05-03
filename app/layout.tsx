@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Manrope, Unbounded } from "next/font/google";
 import "./globals.css";
@@ -193,6 +193,10 @@ export const metadata: Metadata = {
   other: {
     "ai-snippet": snippetDescription
   }
+};
+
+export const viewport: Viewport = {
+  themeColor: "#C89B3C"
 };
 
 export default function RootLayout({
