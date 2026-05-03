@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Cormorant_Garamond } from "next/font/google";
 import { parseBirthDate, parseIsoBirthDate, reduceToDigit, sumDigits } from "./calculators/shared";
 import {
@@ -28,6 +28,9 @@ export default function ToolsClient() {
   const [birthDate, setBirthDate] = useState("");
   const [active, setActive] = useState<Action>("help");
   const [periodMode, setPeriodMode] = useState<PeriodMode>("±5");
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [inputOverlayTop, setInputOverlayTop] = useState<number | null>(null);
+  const inputWrapperRef = useRef<HTMLDivElement | null>(null);
 
   const karma = useMemo(() => calculateKarma({ birthDate }), [birthDate]);
   const ahamkara = useMemo(() => calculateAhamkara({ birthDate }), [birthDate]);
@@ -40,6 +43,22 @@ export default function ToolsClient() {
 
   const isDateValid = karma.valid;
   const secondScreenTopZoneClass = "pt-[max(96px,calc(env(safe-area-inset-top)+72px))] sm:pt-[max(108px,calc(env(safe-area-inset-top)+78px))]";
+
+  const updateInputOverlayPosition = () => {
+    if (!isInputFocused || !inputWrapperRef.current) return;
+
+    const viewport = window.visualViewport;
+    const wrapperHeight = inputWrapperRef.current.offsetHeight || 40;
+
+    if (viewport) {
+      const centeredTop = viewport.offsetTop + viewport.height / 2 - wrapperHeight / 2;
+      setInputOverlayTop(Math.max(viewport.offsetTop + 8, centeredTop));
+      return;
+    }
+
+    const fallbackTop = window.scrollY + window.innerHeight / 2 - wrapperHeight / 2;
+    setInputOverlayTop(Math.max(window.scrollY + 8, fallbackTop));
+  };
 
   const handleReset = () => {
     setBirthDate("");
@@ -87,6 +106,25 @@ export default function ToolsClient() {
       totals,
     };
   }, [birthDate]);
+
+  useEffect(() => {
+    if (!isInputFocused) {
+      setInputOverlayTop(null);
+      return;
+    }
+
+    updateInputOverlayPosition();
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+
+    viewport.addEventListener("resize", updateInputOverlayPosition);
+    viewport.addEventListener("scroll", updateInputOverlayPosition);
+
+    return () => {
+      viewport.removeEventListener("resize", updateInputOverlayPosition);
+      viewport.removeEventListener("scroll", updateInputOverlayPosition);
+    };
+  }, [isInputFocused]);
 
   const renderMeaning = (title: string, num: number, text?: string, link?: string) => (
     <div className="space-y-3 text-slate-100">
@@ -162,36 +200,35 @@ export default function ToolsClient() {
         <CalculatorCard title="">
           <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col justify-center"}>
             {!isDateValid && (
-              <section className="flex h-[100svh] min-h-[100svh] flex-col overflow-hidden box-border">
-                <header className="flex h-[132px] shrink-0 flex-col items-center justify-center gap-2 pt-[max(env(safe-area-inset-top),8px)]">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full border border-amber-200/70 bg-[radial-gradient(circle_at_30%_30%,rgba(255,245,214,0.95),rgba(216,164,79,0.65))] text-xl text-[#2f1c07] shadow-[0_8px_24px_rgba(236,186,93,0.25)]" aria-hidden>
-                    ✦
-                  </div>
-                  <p className="text-[clamp(22px,6vw,30px)] leading-none tracking-[0.06em] text-[#f6e7c8] drop-shadow-[0_3px_14px_rgba(238,182,73,0.25)]">JyotishGPT</p>
-                </header>
-
-                <div className="mx-auto w-[88%] max-w-[360px] text-center text-[#f7f2e9]/92 [line-height:1.3] drop-shadow-[0_2px_12px_rgba(255,229,182,0.16)]">
-                  <p className={`${cormorantGaramond.className} text-[clamp(20px,5vw,30px)]`}>Если вы родились после полуночи и до 02:00 ночи — попробуйте посмотреть обе даты 🌙</p>
-                  <p className={`${cormorantGaramond.className} mt-2 text-[clamp(20px,5vw,30px)]`}>Например:</p>
-                  <p className={`${cormorantGaramond.className} mt-1 text-[clamp(20px,5vw,30px)]`}>07.09.1994 в 01:30</p>
-                  <p className={`${cormorantGaramond.className} text-[clamp(20px,5vw,30px)]`}>→ попробуйте и 07.09.1994, и 06.09.1994.</p>
-                  <p className={`${cormorantGaramond.className} mt-2 text-[clamp(20px,5vw,30px)]`}>Иногда работает одна дата.</p>
-                  <p className={`${cormorantGaramond.className} text-[clamp(20px,5vw,30px)]`}>Иногда — обе.</p>
-                  <p className={`${cormorantGaramond.className} text-[clamp(20px,5vw,30px)]`}>А иногда разница ощущается очень сильно.</p>
+              <section className="flex h-[100svh] min-h-[100svh] flex-col overflow-hidden box-border justify-center">
+                <div className="mx-auto mb-4 w-full max-w-[320px] px-2 text-center text-[19px] leading-[1.18] text-[#f7f2e9]/92 drop-shadow-[0_2px_12px_rgba(255,229,182,0.16)] sm:mb-5 sm:max-w-[360px] sm:text-[21px]">
+                  <p className={cormorantGaramond.className}>Если вы родились после полуночи и до 02:00 ночи — попробуйте посмотреть обе даты 🌙</p>
+                  <p className={`${cormorantGaramond.className} mt-2`}>Например:</p>
+                  <p className={`${cormorantGaramond.className} mt-1`}>07.09.1994 в 01:30</p>
+                  <p className={`${cormorantGaramond.className}`}>→ попробуйте и 07.09.1994, и 06.09.1994.</p>
+                  <p className={`${cormorantGaramond.className} mt-2`}>Иногда работает одна дата.</p>
+                  <p className={cormorantGaramond.className}>Иногда — обе.</p>
+                  <p className={cormorantGaramond.className}>А иногда разница ощущается очень сильно.</p>
                 </div>
-
-                <div className="mt-auto shrink-0 px-2 pb-[calc(env(safe-area-inset-bottom)+12px)] pt-3">
+                <div
+                  ref={inputWrapperRef}
+                  className={isInputFocused ? "fixed left-1/2 z-[120] w-[calc(100%-24px)] max-w-[230px] -translate-x-1/2" : "mx-auto mt-2 w-full max-w-[230px]"}
+                  style={isInputFocused && inputOverlayTop !== null ? { top: `${inputOverlayTop}px` } : undefined}
+                >
                   <input
                     id="birthDate"
                     type="text"
-                    inputMode="numeric"
-                    autoComplete="bday"
                     placeholder="07.09.1994"
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
-                    className="mx-auto block h-10 w-full max-w-[240px] rounded-xl border border-white/20 bg-[rgba(6,18,48,0.82)] px-3 text-center text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-8px_20px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.03)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
+                    onFocus={() => {
+                      setIsInputFocused(true);
+                      requestAnimationFrame(updateInputOverlayPosition);
+                    }}
+                    onBlur={() => setIsInputFocused(false)}
+                    className="h-9 w-full rounded-xl border border-white/20 bg-[rgba(6,18,48,0.82)] px-3 text-center text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-8px_20px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.03)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
                   />
-                  {birthDate.trim() && <p className="mx-auto mt-2 w-full max-w-[240px] text-center text-rose-300">{karma.warning}</p>}
+                  {birthDate.trim() && <p className="mt-2 text-center text-rose-300">{karma.warning}</p>}
                 </div>
               </section>
             )}
