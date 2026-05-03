@@ -98,14 +98,20 @@ export default function ToolsClient() {
     <main className="min-h-[100svh] h-[100dvh] overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
+          {!isDateValid && (
+            <div className="mx-auto mb-4 mt-1 w-full max-w-[320px] text-center font-serif text-[14px] leading-relaxed text-[#f7efe3]/90 drop-shadow-[0_0_10px_rgba(255,236,200,0.2)] sm:mb-5 sm:text-[15px]">
+              <p>Если вы родились после полуночи и до 02:00 ночи — попробуйте посмотреть обе даты 🌙</p>
+              <p className="mt-2 text-[#f7efe3]/85">Например:</p>
+              <p className="text-[#f7efe3]/85">07.09.1994 в 01:30</p>
+              <p className="text-[#f7efe3]/85">→ попробуйте и 07.09.1994, и 06.09.1994.</p>
+              <p className="mt-2 text-[#f7efe3]/85">Иногда работает одна дата.</p>
+              <p className="text-[#f7efe3]/85">Иногда — обе.</p>
+              <p className="text-[#f7efe3]/85">А иногда разница ощущается очень сильно.</p>
+            </div>
+          )}
           <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col justify-center"}>
             {!isDateValid && (
               <>
-                <p className="mx-auto mb-2 mt-2 w-full max-w-[260px] text-center text-xs leading-relaxed text-white/85 sm:text-[13px]">
-                  Важно: с 00:00 до 02:00 считается предыдущая дата.
-                  <br />
-                  Пример: родились 07.09.1994 в 01:30 → вводите 06.09.1994.
-                </p>
                 <input
                   id="birthDate"
                   type="text"
