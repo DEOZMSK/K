@@ -18,6 +18,7 @@ import type { PeriodMode } from "./types";
 type Action = "karma" | "ahamkara" | "dharma" | "expression" | "vyavadhana" | "varna" | "periods" | "help";
 
 export default function ToolsClient() {
+  const monthShortLabels = ["Янв.", "Фев.", "Мар.", "Апр.", "Май.", "Июн.", "Июл.", "Авг.", "Сен.", "Окт.", "Ноя.", "Дек."];
   const [birthDate, setBirthDate] = useState("");
   const [active, setActive] = useState<Action>("help");
   const [periodMode, setPeriodMode] = useState<PeriodMode>("±5");
@@ -34,7 +35,7 @@ export default function ToolsClient() {
   const isDateValid = karma.valid;
 
   const activeButtonClass = (name: Action) =>
-    `rounded-xl p-3 text-slate-900 transition-colors ${active === name ? "bg-indigo-300" : "bg-slate-300"}`;
+    `min-w-0 rounded-2xl border px-2 py-2 text-xs font-medium leading-tight transition-all sm:text-sm ${active === name ? "border-white/35 bg-white/20 text-white" : "border-white/15 bg-white/5 text-slate-200 hover:bg-white/10"}`;
 
   const varnaDetails = useMemo(() => {
     const parsed = parseBirthDate(birthDate) ?? parseIsoBirthDate(birthDate);
@@ -81,131 +82,121 @@ export default function ToolsClient() {
       <p className="text-slate-200">{text}</p>
       {link && (
         <a className="inline-block rounded-xl bg-indigo-500 px-4 py-2 font-medium" href={link} target="_blank" rel="noreferrer">
-          📖 Открыть разбор в Telegram
+          Открыть разбор в Telegram
         </a>
       )}
     </div>
   );
 
   return (
-    <main className="page-glow page-glow-indigo min-h-screen bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900 px-4 py-6 text-white">
-      <div className="mx-auto w-full max-w-md">
-        <CalculatorCard title="🔮 Бесплатный расчёт/прогноз">
-          <label className="text-sm text-slate-200" htmlFor="birthDate">Дата рождения</label>
-          <input
-            id="birthDate"
-            type="text"
-            placeholder="07.09.1994"
-            value={birthDate}
-            onChange={(e) => setBirthDate(e.target.value)}
-            className="mt-2 w-full rounded-xl border border-white/20 bg-slate-900 px-3 py-3 text-base"
-          />
-          {!isDateValid && birthDate.trim() && <p className="mt-2 text-rose-300">{karma.warning}</p>}
-          {isDateValid && <p className="mt-2 rounded-lg bg-emerald-950/50 p-2 text-emerald-300">✅ Дата принята</p>}
+    <main className="page-glow page-glow-indigo h-dvh overflow-hidden bg-gradient-to-b from-black via-[#070b12] to-[#111827] px-3 py-3 text-white">
+      <div className="mx-auto flex h-full w-full max-w-md">
+        <CalculatorCard title="">
+          <div className={isDateValid ? "pt-12" : "flex h-full flex-col justify-center"}>
+            <input
+              id="birthDate"
+              type="text"
+              placeholder="07.09.1994"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              className="mt-2 w-full rounded-xl border border-white/20 bg-slate-900 px-3 py-3 text-base"
+            />
+            {!isDateValid && birthDate.trim() && <p className="mt-2 text-rose-300">{karma.warning}</p>}
 
-          {isDateValid && (
-            <>
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                <button onClick={() => setActive("karma")} className={activeButtonClass("karma")}>♾ Карма</button>
-                <button onClick={() => setActive("ahamkara")} className={activeButtonClass("ahamkara")}>🌟 Ахамкара</button>
-                <button onClick={() => setActive("dharma")} className={activeButtonClass("dharma")}>🔥 Дхарма</button>
-                <button onClick={() => setActive("expression")} className={activeButtonClass("expression")}>⚡ Экспрессия</button>
-                <button onClick={() => setActive("vyavadhana")} className={activeButtonClass("vyavadhana")}>🚧 Вьявадана</button>
-                <button onClick={() => setActive("varna")} className={activeButtonClass("varna")}>Варны</button>
-                <button onClick={() => setActive("periods")} className={activeButtonClass("periods")}>🗓 Периоды</button>
-                <button onClick={() => setActive("help")} className={activeButtonClass("help")}>ℹ️ Справка</button>
+            {isDateValid && (
+              <>
+              <div className="mt-3 grid grid-cols-2 gap-1.5">
+                <button onClick={() => setActive("karma")} className={activeButtonClass("karma")}>Карма</button>
+                <button onClick={() => setActive("ahamkara")} className={activeButtonClass("ahamkara")}>Ахамкара</button>
+                <button onClick={() => setActive("dharma")} className={activeButtonClass("dharma")}>Дхарма</button>
+                <button onClick={() => setActive("expression")} className={activeButtonClass("expression")}>Экспрессия</button>
+                <button onClick={() => setActive("vyavadhana")} className={activeButtonClass("vyavadhana")}>Вьявадана</button>
+                <button onClick={() => setActive("varna")} className={activeButtonClass("varna")}>Варна</button>
+                <button onClick={() => setActive("periods")} className={activeButtonClass("periods")}>Периоды</button>
+                <button onClick={() => setActive("help")} className={activeButtonClass("help")}>Справка</button>
               </div>
 
-              <div className="mt-4 rounded-xl bg-slate-950/80 p-4">
-                {active === "karma" && renderMeaning("♾ Карма", Number(karma.value), karma.meaning?.text, karma.meaning?.url)}
-                {active === "ahamkara" && renderMeaning("🌟 Ахамкара", Number(ahamkara.value), ahamkara.meaning?.text, ahamkara.meaning?.url)}
-                {active === "dharma" && renderMeaning("🔥 Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
-                {active === "expression" && renderMeaning("⚡ Экспрессия", Number(expression.value), expression.meaning?.text, expression.meaning?.url)}
-                {active === "vyavadhana" && renderMeaning("🚧 Вьявадана", Number(vyavadhana.value), vyavadhana.meaning?.text, vyavadhana.meaning?.url)}
+              <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/10 bg-black/45 p-3 text-sm">
+                {active === "karma" && renderMeaning("Карма", Number(karma.value), karma.meaning?.text, karma.meaning?.url)}
+                {active === "ahamkara" && renderMeaning("Ахамкара", Number(ahamkara.value), ahamkara.meaning?.text, ahamkara.meaning?.url)}
+                {active === "dharma" && renderMeaning("Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
+                {active === "expression" && renderMeaning("Экспрессия", Number(expression.value), expression.meaning?.text, expression.meaning?.url)}
+                {active === "vyavadhana" && renderMeaning("Вьявадана", Number(vyavadhana.value), vyavadhana.meaning?.text, vyavadhana.meaning?.url)}
                 {active === "varna" && varnaDetails && (
                   <div className="space-y-3 text-slate-100">
                     <p>Варны: {String(varna.value)}</p>
-                    <div className="space-y-1">
-                      <p>{varnaDetails.formattedDate}:</p>
-                      {varnaDetails.rows.map((row, i) => (
-                        <p key={`varna-row-${i}`}>{row.digit} ({row.percent}%) {row.label}</p>
-                      ))}
-                    </div>
-                    <div className="space-y-1">
-                      <p>Итого:</p>
-                      <p>Кшатрий — {varnaDetails.totals.Кшатрий}%</p>
-                      <p>Брахман — {varnaDetails.totals.Брахман}%</p>
-                      <p>Вайшья — {varnaDetails.totals.Вайшья}%</p>
-                      <p>Шудра — {varnaDetails.totals.Шудра}%</p>
-                    </div>
-                    <p className="text-sm text-slate-300">Проценты показывают распределение варн по дате рождения. Это не трактовка и не выводы о характере.</p>
-                    <p className="text-sm text-slate-300">Если хочешь понять, как эта конфигурация проявляется в жизни, работе и отношениях — напиши мне <a className="underline" href="https://t.me/BAPHbl" target="_blank" rel="noreferrer">лично</a>.</p>
-                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Брахман</a>
-                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кшатрий</a>
-                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Вайшья</a>
-                      <a className="rounded-lg bg-slate-300 px-3 py-2 text-slate-900" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Шудра</a>
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      <div className="space-y-1">
+                        <p>{varnaDetails.formattedDate}:</p>
+                        {varnaDetails.rows.map((row, i) => (
+                          <p key={`varna-row-${i}`}>{row.digit} ({row.percent}%) {row.label}</p>
+                        ))}
+                      </div>
+                      <div className="space-y-2">
+                        <p>Итого:</p>
+                        <div className="flex items-center justify-between gap-2"><span>Кшатрий — {varnaDetails.totals.Кшатрий}%</span><a className="rounded-md bg-slate-300 px-2 py-1 text-[11px] text-slate-900" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кнопка</a></div>
+                        <div className="flex items-center justify-between gap-2"><span>Брахман — {varnaDetails.totals.Брахман}%</span><a className="rounded-md bg-slate-300 px-2 py-1 text-[11px] text-slate-900" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Кнопка</a></div>
+                        <div className="flex items-center justify-between gap-2"><span>Вайшья — {varnaDetails.totals.Вайшья}%</span><a className="rounded-md bg-slate-300 px-2 py-1 text-[11px] text-slate-900" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Кнопка</a></div>
+                        <div className="flex items-center justify-between gap-2"><span>Шудра — {varnaDetails.totals.Шудра}%</span><a className="rounded-md bg-slate-300 px-2 py-1 text-[11px] text-slate-900" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Кнопка</a></div>
+                      </div>
                     </div>
                   </div>
                 )}
                 {active === "periods" && periods.valid && (
-                  <div>
+                  <div className="space-y-3">
                     <div className="mb-3 flex flex-wrap gap-2">
                       <button onClick={() => setPeriodMode("-10")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">−10 лет</button>
                       <button onClick={() => setPeriodMode("+10")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">+10 лет</button>
                       <button onClick={() => setPeriodMode("±5")} className="rounded-lg bg-slate-300 px-3 py-1 text-slate-900">±5 лет</button>
                     </div>
                     <p className="mb-2">Период: {periods.rangeLabel}</p>
-                    <div className="overflow-x-auto text-sm">
-                      <table>
-                        <thead><tr><th className="pr-3">Год</th><th className="pr-3">День</th><th className="pr-3">Суффикс</th><th className="pr-3">Main</th><th>Background</th></tr></thead>
-                        <tbody>{periods.rows.map((r) => <tr key={r.year}><td>{r.year}</td><td>{r.weekday}</td><td>{r.yearSuffix}</td><td>{r.main}</td><td>{r.background}</td></tr>)}</tbody>
-                      </table>
-                    </div>
-
-                    {months.valid && (
-                      <div className="mt-4 overflow-x-auto text-sm">
-                        <p className="mb-2 font-medium">📆 Месяцы</p>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th className="pr-3">Месяц</th>
-                              {months.headers.map((h) => <th className="pr-2" key={h}>{h}</th>)}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="pr-3">Экспрессия</td>
-                              {months.expressionRow.map((v, i) => <td className="pr-2" key={`e-${i}`}>{v}</td>)}
-                            </tr>
-                            <tr>
-                              <td className="pr-3">Карма</td>
-                              {months.karmaRow.map((v, i) => <td className="pr-2" key={`k-${i}`}>{v}</td>)}
-                            </tr>
-                          </tbody>
-                        </table>
+                    <div className="space-y-2 overflow-x-auto text-sm">
+                      <div className="min-w-max">
+                        <p className="mb-1 text-xs text-slate-300">Годы</p>
+                        <div className="grid grid-flow-col gap-2">
+                          {periods.rows.map((r) => (
+                            <div key={r.year} className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs">
+                              <p className="font-semibold">{r.year}</p>
+                              <p>{r.main}</p>
+                              <p>{r.background}</p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    )}
+                      {months.valid && (
+                        <div className="min-w-max">
+                          <p className="mb-1 text-xs text-slate-300">Месяцы</p>
+                          <div className="grid grid-flow-col gap-2">
+                            {months.headers.map((month, i) => (
+                              <div key={month} className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs">
+                                <p className="font-semibold">{monthShortLabels[i] ?? month}</p>
+                                <p>{months.expressionRow[i]}</p>
+                                <p>{months.karmaRow[i]}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
                 {active === "help" && (
                   <div className="space-y-3">
-                    <p>Выберите расчёт. В справке — быстрые ссылки и объяснения.</p>
+                    <p>Ссылки на посты в моём Telegram-канале: там подробнее разобраны названия, которые вы видите на кнопках.</p>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">♾ Карма</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/98?src=bot" target="_blank" rel="noreferrer">🌟 Ахамкара</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/99?src=bot" target="_blank" rel="noreferrer">🔥 Дхарма</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/dharma" target="_blank" rel="noreferrer">⚡ Экспрессия</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/viavadana" target="_blank" rel="noreferrer">🚧 Вьявадана — обсудить</a>
-                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/period" target="_blank" rel="noreferrer">🗓 Периоды</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">Карма</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/98?src=bot" target="_blank" rel="noreferrer">Ахамкара</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://t.me/JyotishGPT/99?src=bot" target="_blank" rel="noreferrer">Дхарма</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/dharma" target="_blank" rel="noreferrer">Экспрессия</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/viavadana" target="_blank" rel="noreferrer">Вьявадана — обсудить</a>
+                      <a className="rounded-lg bg-slate-800 px-3 py-2 text-slate-100" href="https://teletype.in/@jyotishgpt/period" target="_blank" rel="noreferrer">Периоды</a>
                     </div>
                   </div>
                 )}
               </div>
-            </>
-          )}
-
-          <button onClick={() => { setBirthDate(""); setActive("help"); }} className="mt-4 w-full rounded-xl border border-white/20 p-3">Сбросить дату</button>
+              </>
+            )}
+          </div>
         </CalculatorCard>
       </div>
     </main>

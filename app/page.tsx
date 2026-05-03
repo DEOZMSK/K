@@ -142,7 +142,7 @@ export default function HomePage() {
                   {hero.ctaLabel}
                 </CTAButton>
                 <CTAButton href="/tools" variant="secondary" className="px-8 py-3.5 text-base">
-                  🔮 Мини‑приложение
+                  Мини‑приложение
                 </CTAButton>
 
                 {hero.note && (
