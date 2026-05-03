@@ -33,6 +33,7 @@ export default function ToolsClient() {
   const months = useMemo(() => calculateMonths({ birthDate }), [birthDate]);
 
   const isDateValid = karma.valid;
+  const secondScreenTopZoneClass = "pt-[max(128px,calc(env(safe-area-inset-top)+104px))] sm:pt-[max(140px,calc(env(safe-area-inset-top)+110px))]";
 
   const handleReset = () => {
     setBirthDate("");
@@ -94,10 +95,10 @@ export default function ToolsClient() {
   );
 
   return (
-    <main className="h-dvh overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-white">
+    <main className="min-h-[100svh] h-[100dvh] overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
-          <div className={isDateValid ? "pt-24" : "flex h-full flex-col justify-center"}>
+          <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col justify-center"}>
             {!isDateValid && (
               <>
                 <input
@@ -117,11 +118,11 @@ export default function ToolsClient() {
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="mx-auto mb-4 flex h-8 items-center justify-center rounded-full border border-amber-300/50 bg-black/35 px-5 text-xs font-medium text-amber-100 shadow-[0_0_18px_rgba(245,158,11,0.14)] backdrop-blur-sm active:scale-[0.98]"
+                  className="mx-auto mb-5 flex h-8 items-center justify-center rounded-full border border-amber-300/50 bg-black/35 px-5 text-xs font-medium text-amber-100 shadow-[0_0_18px_rgba(245,158,11,0.14)] backdrop-blur-sm active:scale-[0.98]"
                 >
                   Сброс
                 </button>
-              <div className="mt-3 grid grid-cols-2 gap-1.5">
+              <div className="grid grid-cols-2 gap-1.5">
                 <button onClick={() => setActive("karma")} className={activeButtonClass("karma")}>Карма</button>
                 <button onClick={() => setActive("ahamkara")} className={activeButtonClass("ahamkara")}>Ахамкара</button>
                 <button onClick={() => setActive("dharma")} className={activeButtonClass("dharma")}>Дхарма</button>
