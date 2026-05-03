@@ -161,27 +161,31 @@ export default function ToolsClient() {
     <main className="min-h-[100svh] h-[100dvh] overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
-          <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col justify-center"}>
+          <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full min-h-0 flex-col"}>
             {!isDateValid && (
               <>
-                <div className="mx-auto mb-4 w-full max-w-[320px] px-2 text-center text-[19px] leading-[1.18] text-[#f7f2e9]/92 drop-shadow-[0_2px_12px_rgba(255,229,182,0.16)] sm:mb-5 sm:max-w-[360px] sm:text-[21px]">
-                  <p className={cormorantGaramond.className}>Если вы родились после полуночи и до 02:00 ночи — попробуйте посмотреть обе даты 🌙</p>
-                  <p className={`${cormorantGaramond.className} mt-2`}>Например:</p>
-                  <p className={`${cormorantGaramond.className} mt-1`}>07.09.1994 в 01:30</p>
-                  <p className={`${cormorantGaramond.className}`}>→ попробуйте и 07.09.1994, и 06.09.1994.</p>
-                  <p className={`${cormorantGaramond.className} mt-2`}>Иногда работает одна дата.</p>
-                  <p className={cormorantGaramond.className}>Иногда — обе.</p>
-                  <p className={cormorantGaramond.className}>А иногда разница ощущается очень сильно.</p>
+                <div className="min-h-0 flex-1 overflow-y-auto px-1">
+                  <div className="mx-auto w-full max-w-[320px] px-2 pt-2 text-center text-[19px] leading-[1.18] text-[#f7f2e9]/92 drop-shadow-[0_2px_12px_rgba(255,229,182,0.16)] sm:max-w-[360px] sm:text-[21px]">
+                    <p className={cormorantGaramond.className}>Если вы родились после полуночи и до 02:00 ночи — попробуйте посмотреть обе даты 🌙</p>
+                    <p className={`${cormorantGaramond.className} mt-2`}>Например:</p>
+                    <p className={`${cormorantGaramond.className} mt-1`}>07.09.1994 в 01:30</p>
+                    <p className={`${cormorantGaramond.className}`}>→ попробуйте и 07.09.1994, и 06.09.1994.</p>
+                    <p className={`${cormorantGaramond.className} mt-2`}>Иногда работает одна дата.</p>
+                    <p className={cormorantGaramond.className}>Иногда — обе.</p>
+                    <p className={cormorantGaramond.className}>А иногда разница ощущается очень сильно.</p>
+                  </div>
                 </div>
-                <input
-                  id="birthDate"
-                  type="text"
-                  placeholder="07.09.1994"
-                  value={birthDate}
-                  onChange={(e) => setBirthDate(e.target.value)}
-                  className="mx-auto mt-2 h-9 w-full max-w-[230px] rounded-xl border border-white/20 bg-[rgba(6,18,48,0.82)] px-3 text-center text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-8px_20px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.03)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
-                />
-                {birthDate.trim() && <p className="mx-auto mt-2 w-full max-w-[230px] text-center text-rose-300">{karma.warning}</p>}
+                <div className="sticky bottom-0 z-10 mx-auto w-full max-w-[250px] bg-gradient-to-t from-black/70 via-black/35 to-transparent px-2 pb-[max(10px,env(safe-area-inset-bottom))] pt-3 backdrop-blur-[1px]">
+                  <input
+                    id="birthDate"
+                    type="text"
+                    placeholder="07.09.1994"
+                    value={birthDate}
+                    onChange={(e) => setBirthDate(e.target.value)}
+                    className="mx-auto h-9 w-full rounded-xl border border-white/20 bg-[rgba(6,18,48,0.82)] px-3 text-center text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-8px_20px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.03)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
+                  />
+                  {birthDate.trim() && <p className="mt-2 text-center text-rose-300">{karma.warning}</p>}
+                </div>
               </>
             )}
 
