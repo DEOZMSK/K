@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Cormorant_Garamond } from "next/font/google";
 import { parseBirthDate, parseIsoBirthDate, reduceToDigit, sumDigits } from "./calculators/shared";
 import {
@@ -28,6 +28,7 @@ export default function ToolsClient() {
   const [birthDate, setBirthDate] = useState("");
   const [active, setActive] = useState<Action>("help");
   const [periodMode, setPeriodMode] = useState<PeriodMode>("±5");
+  const [keyboardInset, setKeyboardInset] = useState(0);
 
   const karma = useMemo(() => calculateKarma({ birthDate }), [birthDate]);
   const ahamkara = useMemo(() => calculateAhamkara({ birthDate }), [birthDate]);
@@ -39,6 +40,29 @@ export default function ToolsClient() {
   const months = useMemo(() => calculateMonths({ birthDate }), [birthDate]);
 
   const isDateValid = karma.valid;
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.visualViewport) {
+      return;
+    }
+
+    const viewport = window.visualViewport;
+
+    const updateKeyboardInset = () => {
+      const inset = Math.max(0, Math.round(window.innerHeight - viewport.height - viewport.offsetTop));
+      setKeyboardInset(inset > 120 ? inset : 0);
+    };
+
+    updateKeyboardInset();
+    viewport.addEventListener("resize", updateKeyboardInset);
+    viewport.addEventListener("scroll", updateKeyboardInset);
+
+    return () => {
+      viewport.removeEventListener("resize", updateKeyboardInset);
+      viewport.removeEventListener("scroll", updateKeyboardInset);
+    };
+  }, []);
+
   const secondScreenTopZoneClass = "pt-[max(96px,calc(env(safe-area-inset-top)+72px))] sm:pt-[max(108px,calc(env(safe-area-inset-top)+78px))]";
 
   const handleReset = () => {
@@ -160,7 +184,7 @@ export default function ToolsClient() {
     <main className="min-h-[100svh] h-[100svh] overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
-          <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col justify-center"}>
+          <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col justify-center overflow-y-auto"}>
             {!isDateValid && (
               <>
                 <div className="mx-auto mb-4 w-full max-w-[320px] px-2 text-center text-[19px] leading-[1.18] text-[#f7f2e9]/92 drop-shadow-[0_2px_12px_rgba(255,229,182,0.16)] sm:mb-5 sm:max-w-[360px] sm:text-[21px]">
@@ -172,6 +196,10 @@ export default function ToolsClient() {
                   <p className={cormorantGaramond.className}>Иногда — обе.</p>
                   <p className={cormorantGaramond.className}>А иногда разница ощущается очень сильно.</p>
                 </div>
+                <div
+                  className="mt-2"
+                  style={{ paddingBottom: keyboardInset ? `calc(${keyboardInset}px + env(safe-area-inset-bottom) + 8px)` : undefined }}
+                >
                 <input
                   id="birthDate"
                   type="text"
@@ -181,6 +209,7 @@ export default function ToolsClient() {
                   className="mx-auto mt-2 h-9 w-full max-w-[230px] rounded-xl border border-white/20 bg-[rgba(6,18,48,0.82)] px-3 text-center text-[15px] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),inset_0_-8px_20px_rgba(0,0,0,0.18),0_0_0_1px_rgba(255,255,255,0.03)] outline-none placeholder:text-slate-400 focus:border-[#e2be81] focus:ring-2 focus:ring-[#cfad73]/20"
                 />
                 {birthDate.trim() && <p className="mx-auto mt-2 w-full max-w-[230px] text-center text-rose-300">{karma.warning}</p>}
+                </div>
               </>
             )}
 
