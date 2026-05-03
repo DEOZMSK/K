@@ -109,7 +109,7 @@ export default function ToolsClient() {
 
     const image = (
       <img
-        src={`/karma/karma${safeNum}.jpg`}
+        src={`/Karma/karma${safeNum}.jpg`}
         alt={`Карма ${safeNum}`}
         className="block h-auto w-full max-w-full rounded-[20px] border border-white/15 object-contain shadow-[0_12px_30px_rgba(0,0,0,0.35)]"
       />
