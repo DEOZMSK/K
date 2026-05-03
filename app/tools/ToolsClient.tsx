@@ -39,7 +39,7 @@ export default function ToolsClient() {
   const months = useMemo(() => calculateMonths({ birthDate }), [birthDate]);
 
   const isDateValid = karma.valid;
-  const secondScreenTopZoneClass = "pt-[max(128px,calc(env(safe-area-inset-top)+104px))] sm:pt-[max(140px,calc(env(safe-area-inset-top)+110px))]";
+  const secondScreenTopZoneClass = "pt-[max(96px,calc(env(safe-area-inset-top)+72px))] sm:pt-[max(108px,calc(env(safe-area-inset-top)+78px))]";
 
   const handleReset = () => {
     setBirthDate("");
@@ -283,6 +283,15 @@ export default function ToolsClient() {
                   </div>
                 )}
               </div>
+
+              {active !== "help" && (
+                <a
+                  className="mx-auto mt-4 flex h-8 w-full max-w-[140px] items-center justify-center rounded-full border border-amber-300/50 bg-black/35 px-5 text-xs font-medium text-amber-100 shadow-[0_0_18px_rgba(245,158,11,0.14)] backdrop-blur-sm active:scale-[0.98]"
+                  href="tel:+79919797119"
+                >
+                  Связаться
+                </a>
+              )}
               </>
             )}
           </div>
