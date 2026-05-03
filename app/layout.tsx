@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Manrope, Unbounded } from "next/font/google";
 import "./globals.css";
 import { CookieConsent } from "./components/CookieConsent";
+import { RegisterServiceWorker } from "./components/RegisterServiceWorker";
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -177,6 +178,7 @@ export const metadata: Metadata = {
     }
   },
   category: "ведическая AI-нумерология",
+  manifest: "/manifest.webmanifest",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -205,6 +207,7 @@ export default function RootLayout({
           {JSON.stringify(structuredData)}
         </Script>
         <CookieConsent />
+        <RegisterServiceWorker />
         {children}
       </body>
     </html>
