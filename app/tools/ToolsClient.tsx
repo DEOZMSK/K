@@ -161,21 +161,23 @@ export default function ToolsClient() {
     <main className="min-h-[100svh] h-[100dvh] overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-white">
       <div className="mx-auto flex h-full w-full max-w-md">
         <CalculatorCard title="">
-          <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full min-h-0 flex-col"}>
+          <div className={isDateValid ? secondScreenTopZoneClass : "h-full min-h-0"}>
             {!isDateValid && (
-              <>
-                <div className="min-h-0 flex-1 overflow-y-auto px-1">
-                  <div className="mx-auto w-full max-w-[320px] px-2 pt-2 text-center text-[19px] leading-[1.18] text-[#f7f2e9]/92 drop-shadow-[0_2px_12px_rgba(255,229,182,0.16)] sm:max-w-[360px] sm:text-[21px]">
-                    <p className={cormorantGaramond.className}>Если вы родились после полуночи и до 02:00 ночи — попробуйте посмотреть обе даты 🌙</p>
-                    <p className={`${cormorantGaramond.className} mt-2`}>Например:</p>
-                    <p className={`${cormorantGaramond.className} mt-1`}>07.09.1994 в 01:30</p>
-                    <p className={`${cormorantGaramond.className}`}>→ попробуйте и 07.09.1994, и 06.09.1994.</p>
-                    <p className={`${cormorantGaramond.className} mt-2`}>Иногда работает одна дата.</p>
-                    <p className={cormorantGaramond.className}>Иногда — обе.</p>
-                    <p className={cormorantGaramond.className}>А иногда разница ощущается очень сильно.</p>
+              <div className="grid h-full min-h-0 grid-rows-[1fr_auto]">
+                <div className="min-h-0 overflow-y-auto">
+                  <div className="mx-auto flex min-h-full w-full max-w-[320px] items-center px-2 py-3 text-center text-[19px] leading-[1.18] text-[#f7f2e9]/92 drop-shadow-[0_2px_12px_rgba(255,229,182,0.16)] sm:max-w-[360px] sm:text-[21px]">
+                    <div className="w-full">
+                      <p className={cormorantGaramond.className}>Если вы родились после полуночи и до 02:00 ночи — попробуйте посмотреть обе даты 🌙</p>
+                      <p className={`${cormorantGaramond.className} mt-2`}>Например:</p>
+                      <p className={`${cormorantGaramond.className} mt-1`}>07.09.1994 в 01:30</p>
+                      <p className={`${cormorantGaramond.className}`}>→ попробуйте и 07.09.1994, и 06.09.1994.</p>
+                      <p className={`${cormorantGaramond.className} mt-2`}>Иногда работает одна дата.</p>
+                      <p className={cormorantGaramond.className}>Иногда — обе.</p>
+                      <p className={cormorantGaramond.className}>А иногда разница ощущается очень сильно.</p>
+                    </div>
                   </div>
                 </div>
-                <div className="sticky bottom-0 z-10 mx-auto w-full max-w-[250px] bg-gradient-to-t from-black/70 via-black/35 to-transparent px-2 pb-[max(10px,env(safe-area-inset-bottom))] pt-3 backdrop-blur-[1px]">
+                <div className="mx-auto w-full max-w-[250px] px-2 pb-[max(10px,env(safe-area-inset-bottom))] pt-2">
                   <input
                     id="birthDate"
                     type="text"
@@ -186,7 +188,7 @@ export default function ToolsClient() {
                   />
                   {birthDate.trim() && <p className="mt-2 text-center text-rose-300">{karma.warning}</p>}
                 </div>
-              </>
+              </div>
             )}
 
             {isDateValid && (
