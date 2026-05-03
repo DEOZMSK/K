@@ -39,7 +39,7 @@ export default function ToolsClient() {
   const months = useMemo(() => calculateMonths({ birthDate }), [birthDate]);
 
   const isDateValid = karma.valid;
-  const secondScreenTopZoneClass = "pt-[max(128px,calc(env(safe-area-inset-top)+104px))] sm:pt-[max(140px,calc(env(safe-area-inset-top)+110px))]";
+  const secondScreenTopZoneClass = "pt-[max(108px,calc(env(safe-area-inset-top)+84px))] sm:pt-[max(120px,calc(env(safe-area-inset-top)+90px))]";
 
   const handleReset = () => {
     setBirthDate("");
