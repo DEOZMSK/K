@@ -101,6 +101,34 @@ export default function ToolsClient() {
   );
 
 
+
+  const renderImageResult = (title: string, folder: string, prefix: string, num: number, link?: string, fallbackText?: string) => {
+    const safeNum = Number.isInteger(num) && num >= 1 && num <= 9 ? num : null;
+    if (!safeNum) {
+      return renderMeaning(title, num, fallbackText, link);
+    }
+
+    const image = (
+      <img
+        src={`/${folder}/${prefix}${safeNum}.jpg`}
+        alt={`${title} ${safeNum}`}
+        className="block h-auto w-full max-w-full rounded-[20px] border border-white/15 object-contain shadow-[0_12px_30px_rgba(0,0,0,0.35)]"
+      />
+    );
+
+    return (
+      <div className="mx-auto w-full max-w-[360px]">
+        {link ? (
+          <a href={link} target="_blank" rel="noreferrer" aria-label={`Открыть разбор ${title} ${safeNum} в Telegram`}>
+            {image}
+          </a>
+        ) : (
+          image
+        )}
+      </div>
+    );
+  };
+
   const renderKarmaResult = (num: number, link?: string) => {
     const safeNum = Number.isInteger(num) && num >= 1 && num <= 9 ? num : null;
     if (!safeNum) {
@@ -178,9 +206,9 @@ export default function ToolsClient() {
 
               <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/[0.12] bg-black/45 p-3 text-sm backdrop-blur-[6px]">
                 {active === "karma" && renderKarmaResult(Number(karma.value), karma.meaning?.url)}
-                {active === "ahamkara" && renderMeaning("Ахамкара", Number(ahamkara.value), ahamkara.meaning?.text, ahamkara.meaning?.url)}
+                {active === "ahamkara" && renderImageResult("Ахамкара", "ego", "ego", Number(ahamkara.value), ahamkara.meaning?.url, ahamkara.meaning?.text)}
                 {active === "dharma" && renderMeaning("Дхарма", Number(dharma.value), dharma.meaning?.text, dharma.meaning?.url)}
-                {active === "expression" && renderMeaning("Экспрессия", Number(expression.value), expression.meaning?.text, expression.meaning?.url)}
+                {active === "expression" && renderImageResult("Экспрессия", "exp", "exp", Number(expression.value), expression.meaning?.url, expression.meaning?.text)}
                 {active === "vyavadhana" && renderMeaning("Вьявадана", Number(vyavadhana.value), vyavadhana.meaning?.text, vyavadhana.meaning?.url)}
                 {active === "varna" && varnaDetails && (
                   <div className="space-y-3 text-slate-100">
