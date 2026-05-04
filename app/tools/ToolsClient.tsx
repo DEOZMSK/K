@@ -153,8 +153,8 @@ export default function ToolsClient() {
   return (
     <main className="min-h-[100svh] h-[100dvh] overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-slate-900">
       <div className="mx-auto flex h-full w-full max-w-md">
-        <CalculatorCard title="">
-          <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col justify-center"}>
+        <CalculatorCard title="" backgroundVariant={isDateValid ? "clean" : "hint"}>
+          <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col"}>
             {!isDateValid && (
               <>
                 <input
@@ -163,7 +163,7 @@ export default function ToolsClient() {
                   placeholder="07.09.1994"
                   value={birthDate}
                   onChange={(e) => setBirthDate(e.target.value)}
-                  className="mx-auto mt-2 h-10 w-full max-w-[230px] rounded-xl border border-slate-900/20 bg-white/92 px-3 text-center text-[15px] font-medium text-slate-900 shadow-[0_8px_26px_rgba(120,53,15,0.12)] outline-none placeholder:text-slate-500 focus:border-amber-700 focus:ring-2 focus:ring-amber-300/60"
+                  className="mx-auto mt-auto mb-5 h-10 w-full max-w-[230px] rounded-xl border border-slate-900/20 bg-white/92 px-3 text-center text-[15px] font-medium text-slate-900 shadow-[0_8px_26px_rgba(120,53,15,0.12)] outline-none placeholder:text-slate-500 focus:border-amber-700 focus:ring-2 focus:ring-amber-300/60"
                 />
                 {birthDate.trim() && <p className="mx-auto mt-2 w-full max-w-[230px] text-center text-rose-700">{karma.warning}</p>}
               </>
