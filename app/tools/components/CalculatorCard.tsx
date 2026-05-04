@@ -16,7 +16,7 @@ export function CalculatorCard({ title, description, backgroundImage, children }
       style={{
         backgroundImage: `linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(246,239,226,0.08)_55%,rgba(236,225,206,0.1)_100%),url(${backgroundImage})`,
         backgroundSize: "cover",
-        backgroundPosition: "top center",
+        backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
       }}
     >
