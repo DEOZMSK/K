@@ -33,6 +33,8 @@ export default function ToolsClient() {
   const months = useMemo(() => calculateMonths({ birthDate }), [birthDate]);
 
   const isDateValid = karma.valid;
+  const pageBackground = isDateValid ? "/bg-tools2.webp" : "/bg-tools.webp";
+  const cardBackground = isDateValid ? "/bg-tools3.webp" : "/bg-tools2.webp";
   const secondScreenTopZoneClass = "pt-[max(96px,calc(env(safe-area-inset-top)+72px))] sm:pt-[max(108px,calc(env(safe-area-inset-top)+78px))]";
 
   const handleReset = () => {
@@ -151,9 +153,12 @@ export default function ToolsClient() {
   };
 
   return (
-    <main className="min-h-[100svh] h-[100dvh] overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-slate-900">
+    <main
+      className="min-h-[100svh] h-[100dvh] overflow-hidden bg-cover bg-top bg-no-repeat px-3 py-3 text-slate-900"
+      style={{ backgroundImage: `url(${pageBackground})` }}
+    >
       <div className="mx-auto flex h-full w-full max-w-md">
-        <CalculatorCard title="" variant={isDateValid ? "work" : "start"}>
+        <CalculatorCard title="" backgroundImage={cardBackground}>
           <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col"}>
             {!isDateValid && (
               <>

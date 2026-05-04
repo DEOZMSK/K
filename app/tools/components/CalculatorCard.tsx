@@ -5,17 +5,16 @@ import { ReactNode } from "react";
 type Props = {
   title: string;
   description?: string;
-  variant?: "start" | "work";
+  backgroundImage: string;
   children: ReactNode;
 };
 
-export function CalculatorCard({ title, description, variant = "work", children }: Props) {
-  const backgroundUrl = variant === "start" ? "/bg-tools2.webp" : "/bg-tools3.webp";
+export function CalculatorCard({ title, description, backgroundImage, children }: Props) {
   return (
     <section
       className="flex h-full w-full flex-col rounded-3xl border border-slate-900/20 p-3 shadow-2xl shadow-amber-950/20"
       style={{
-        backgroundImage: `linear-gradient(180deg,rgba(255,255,255,0.18)_0%,rgba(246,239,226,0.2)_55%,rgba(236,225,206,0.24)_100%),url(${backgroundUrl})`,
+        backgroundImage: `linear-gradient(180deg,rgba(255,255,255,0.18)_0%,rgba(246,239,226,0.2)_55%,rgba(236,225,206,0.24)_100%),url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "top center",
         backgroundRepeat: "no-repeat",
