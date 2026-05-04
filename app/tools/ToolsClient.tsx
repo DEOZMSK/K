@@ -153,7 +153,7 @@ export default function ToolsClient() {
   return (
     <main className="min-h-[100svh] h-[100dvh] overflow-hidden bg-[url('/bg-tools.webp')] bg-cover bg-top bg-no-repeat px-3 py-3 text-slate-900">
       <div className="mx-auto flex h-full w-full max-w-md">
-        <CalculatorCard title="" backgroundVariant={isDateValid ? "clean" : "hint"}>
+        <CalculatorCard title="" variant={isDateValid ? "work" : "start"}>
           <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col"}>
             {!isDateValid && (
               <>
@@ -189,7 +189,7 @@ export default function ToolsClient() {
                 <button onClick={() => setActive("help")} className={activeButtonClass("help")}>Справка</button>
               </div>
 
-              <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-slate-900/15 bg-white/88 p-3 text-sm text-slate-900 shadow-[0_14px_30px_rgba(120,53,15,0.16)] backdrop-blur-[2px]">
+              <div className="mt-3 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-slate-900/15 bg-white/72 p-3 text-sm text-slate-900 shadow-[0_14px_30px_rgba(120,53,15,0.16)] backdrop-blur-[2px]">
                 {active === "karma" && renderKarmaResult(Number(karma.value), karma.meaning?.url)}
                 {active === "ahamkara" && renderImageResult("Ахамкара", "ego", "ego", Number(ahamkara.value), ahamkara.meaning?.url, ahamkara.meaning?.text)}
                 {active === "dharma" && renderImageResult("Дхарма", "dh", "dh", Number(dharma.value), dharma.meaning?.url, dharma.meaning?.text)}
