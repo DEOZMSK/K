@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { parseBirthDate, parseIsoBirthDate, reduceToDigit, sumDigits } from "./calculators/shared";
 import {
   calculateAhamkara,
@@ -19,6 +20,8 @@ type Action = "karma" | "ahamkara" | "dharma" | "expression" | "vyavadhana" | "v
 
 export default function ToolsClient() {
   const monthShortLabels = ["Янв.", "Фев.", "Мар.", "Апр.", "Май.", "Июн.", "Июл.", "Авг.", "Сен.", "Окт.", "Ноя.", "Дек."];
+  const searchParams = useSearchParams();
+  const debugBg = searchParams.get("debugBg") === "1";
   const [birthDate, setBirthDate] = useState("");
   const [active, setActive] = useState<Action>("help");
   const [periodMode, setPeriodMode] = useState<PeriodMode>("±5");
@@ -36,6 +39,7 @@ export default function ToolsClient() {
   const pageBackground = "/bg-tools.webp";
   const cardBackground = isDateValid ? "/bg-tools3.webp" : "/bg-tools2.webp";
   const secondScreenTopZoneClass = "pt-[max(96px,calc(env(safe-area-inset-top)+72px))] sm:pt-[max(108px,calc(env(safe-area-inset-top)+78px))]";
+  const cardBackgroundLabel = cardBackground.replace("/", "");
 
   const handleReset = () => {
     setBirthDate("");
@@ -153,12 +157,29 @@ export default function ToolsClient() {
   };
 
   return (
-    <main
-      className="min-h-[100svh] h-[100dvh] overflow-hidden bg-cover bg-top bg-no-repeat px-3 py-3 text-slate-900"
+    <>
+      {debugBg && (
+        <div className="pointer-events-none fixed left-2 right-2 top-2 z-50 rounded-xl border border-slate-900/25 bg-white/92 p-2 text-[11px] text-slate-900 shadow-lg backdrop-blur-sm">
+          <p><b>DEBUG BG</b></p>
+          <p>isDateValid = {String(isDateValid)}</p>
+          <p>main background = {pageBackground}</p>
+          <p>card background = {cardBackground}</p>
+          <div className="mt-2 grid grid-cols-3 gap-2">
+            {["bg-tools.webp", "bg-tools2.webp", "bg-tools3.webp"].map((name) => (
+              <div key={name} className="rounded border border-slate-400/60 bg-white/80 p-1">
+                <img src={`/${name}`} alt={name} className="h-14 w-full rounded object-cover" />
+                <p className="mt-1 truncate text-[9px]">{name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <main
+      className={`min-h-[100svh] h-[100dvh] overflow-hidden bg-cover bg-top bg-no-repeat px-3 py-3 text-slate-900 ${debugBg ? "outline outline-2 outline-red-500" : ""}`}
       style={{ backgroundImage: `url(${pageBackground})` }}
     >
       <div className="mx-auto flex h-full w-full max-w-md">
-        <CalculatorCard title="" backgroundImage={cardBackground}>
+        <CalculatorCard title="" backgroundImage={cardBackground} debugBg={debugBg} debugCardBgLabel={cardBackgroundLabel}>
           <div className={isDateValid ? secondScreenTopZoneClass : "flex h-full flex-col"}>
             {!isDateValid && (
               <>
@@ -288,5 +309,6 @@ export default function ToolsClient() {
         </CalculatorCard>
       </div>
     </main>
+    </>
   );
 }
