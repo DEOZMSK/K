@@ -33,7 +33,7 @@ export default function ToolsClient() {
   const months = useMemo(() => calculateMonths({ birthDate }), [birthDate]);
 
   const isDateValid = karma.valid;
-  const pageBackground = isDateValid ? "/bg-tools2.webp" : "/bg-tools.webp";
+  const pageBackground = "/bg-tools.webp";
   const cardBackground = isDateValid ? "/bg-tools3.webp" : "/bg-tools2.webp";
   const secondScreenTopZoneClass = "pt-[max(96px,calc(env(safe-area-inset-top)+72px))] sm:pt-[max(108px,calc(env(safe-area-inset-top)+78px))]";
 
