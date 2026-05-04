@@ -14,7 +14,7 @@ export function CalculatorCard({ title, description, backgroundImage, children }
     <section
       className="flex h-full w-full flex-col rounded-3xl border border-slate-900/20 p-3 shadow-2xl shadow-amber-950/20"
       style={{
-        backgroundImage: `linear-gradient(180deg,rgba(255,255,255,0.18)_0%,rgba(246,239,226,0.2)_55%,rgba(236,225,206,0.24)_100%),url(${backgroundImage})`,
+        backgroundImage: `linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(246,239,226,0.08)_55%,rgba(236,225,206,0.1)_100%),url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "top center",
         backgroundRepeat: "no-repeat",
