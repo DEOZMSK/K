@@ -260,7 +260,7 @@ export default function ToolsClient() {
                 )}
                 {active === "help" && (
                   <div className="space-y-3">
-                    <p>Ссылки на посты в моём Telegram-канале: там подробнее разобраны названия, которые вы видите на кнопках.</p>
+                    <p>Ссылки на посты в моём Telegram-канале.</p>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                       <a className="rounded-lg bg-amber-800 px-3 py-2 text-sm leading-snug text-amber-50 whitespace-normal" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">Карма — пинки за прошлое, как есть</a>
                       <a className="rounded-lg bg-amber-800 px-3 py-2 text-sm leading-snug text-amber-50 whitespace-normal" href="https://t.me/JyotishGPT/98?src=bot" target="_blank" rel="noreferrer">Ахамкара — как видят посторонние, тебя</a>
@@ -270,6 +270,14 @@ export default function ToolsClient() {
                       <a className="rounded-lg bg-amber-800 px-3 py-2 text-sm leading-snug text-amber-50 whitespace-normal" href="https://t.me/JyotishGPT/97" target="_blank" rel="noreferrer">Варна — какой ты априори, порода</a>
                       <a className="rounded-lg bg-amber-800 px-3 py-2 text-sm leading-snug text-amber-50 whitespace-normal sm:col-span-2" href="https://teletype.in/@jyotishgpt/period" target="_blank" rel="noreferrer">Периоды — сам не поймёшь, пиши..</a>
                     </div>
+                    <a
+                      className="mt-4 flex w-full items-center justify-center rounded-2xl border border-amber-900/35 bg-gradient-to-r from-amber-900 to-amber-700 px-4 py-3 text-center text-sm font-semibold leading-snug text-amber-50 shadow-[0_12px_26px_rgba(120,53,15,0.24)] transition active:scale-[0.98]"
+                      href="https://t.me/artemiy_ksoros_bot?start=pay_fast_review"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Понять, как это применить к себе
+                    </a>
                   </div>
                 )}
               </div>
