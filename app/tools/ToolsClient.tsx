@@ -212,10 +212,10 @@ export default function ToolsClient() {
                       </div>
                       <div className="space-y-2">
                         <p>Итого:</p>
-                        <div className="flex items-center justify-between gap-2"><span>Кшатрий — {varnaDetails.totals.Кшатрий}%</span><a className="rounded-md bg-amber-800 px-2 py-1 text-[11px] text-amber-50" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кнопка</a></div>
-                        <div className="flex items-center justify-between gap-2"><span>Брахман — {varnaDetails.totals.Брахман}%</span><a className="rounded-md bg-amber-800 px-2 py-1 text-[11px] text-amber-50" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Кнопка</a></div>
-                        <div className="flex items-center justify-between gap-2"><span>Вайшья — {varnaDetails.totals.Вайшья}%</span><a className="rounded-md bg-amber-800 px-2 py-1 text-[11px] text-amber-50" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Кнопка</a></div>
-                        <div className="flex items-center justify-between gap-2"><span>Шудра — {varnaDetails.totals.Шудра}%</span><a className="rounded-md bg-amber-800 px-2 py-1 text-[11px] text-amber-50" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Кнопка</a></div>
+                        <div className="flex items-center justify-between gap-2"><span>Кшатрий — {varnaDetails.totals.Кшатрий}%</span><a className="rounded-md bg-amber-800 px-2 py-1 text-[11px] text-amber-50" href="https://t.me/JyotishGPT/178" target="_blank" rel="noreferrer">Кшатрий</a></div>
+                        <div className="flex items-center justify-between gap-2"><span>Брахман — {varnaDetails.totals.Брахман}%</span><a className="rounded-md bg-amber-800 px-2 py-1 text-[11px] text-amber-50" href="https://t.me/JyotishGPT/177" target="_blank" rel="noreferrer">Брахман</a></div>
+                        <div className="flex items-center justify-between gap-2"><span>Вайшья — {varnaDetails.totals.Вайшья}%</span><a className="rounded-md bg-amber-800 px-2 py-1 text-[11px] text-amber-50" href="https://t.me/JyotishGPT/179" target="_blank" rel="noreferrer">Вайшья</a></div>
+                        <div className="flex items-center justify-between gap-2"><span>Шудра — {varnaDetails.totals.Шудра}%</span><a className="rounded-md bg-amber-800 px-2 py-1 text-[11px] text-amber-50" href="https://t.me/JyotishGPT/180" target="_blank" rel="noreferrer">Шудра</a></div>
                       </div>
                     </div>
                   </div>
