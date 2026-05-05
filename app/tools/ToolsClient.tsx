@@ -260,7 +260,7 @@ export default function ToolsClient() {
                 )}
                 {active === "help" && (
                   <div className="space-y-3">
-                    <p>Ссылки на посты в моём Telegram-канале: там подробнее разобраны названия, которые вы видите на кнопках.</p>
+                    <p>Ссылки на посты в моём Telegram-канале.</p>
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                       <a className="rounded-lg bg-amber-800 px-3 py-2 text-sm leading-snug text-amber-50 whitespace-normal" href="https://t.me/JyotishGPT/52?src=bot" target="_blank" rel="noreferrer">Карма — пинки за прошлое, как есть</a>
                       <a className="rounded-lg bg-amber-800 px-3 py-2 text-sm leading-snug text-amber-50 whitespace-normal" href="https://t.me/JyotishGPT/98?src=bot" target="_blank" rel="noreferrer">Ахамкара — как видят посторонние, тебя</a>
